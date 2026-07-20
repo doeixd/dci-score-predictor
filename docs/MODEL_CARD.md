@@ -80,14 +80,21 @@ Measured on held-out 2026 events, identity-agnostic serving path:
 ### Accuracy by degradation tier
 
 Each tier is what the model saw when history is truncated to that depth; the
-tier is reported per corps in `readiness.corps[].tier`.
+tier is reported per corps in `readiness.corps[].tier`. MAE columns are the
+**measured** 2026 backtest figures (recap points; predicted − actual) from
+`tools/backtest-tiers.ts` over 27 resolved 2026 events (2026-07-01..2026-07-19,
+197 corps observations, 0 skips). Full methodology, per-division breakdown, and
+caveats are in [`TIER_ACCURACY.md`](./TIER_ACCURACY.md). Two configs are shown:
+the zero-config default (no recal) and the shipped self-calibration (recal fit
+from a 14-day trailing pool of the SDK's own prior predictions).
 
-| tier | code | condition | expectation |
-|---|---|---|---|
-| `established` | T0 | > 2 prior shows, confident field-pace | parity with production v10.5 |
-| `partial` | T1 | ≥ 3 prior shows, thin field-pace | live, lower-confidence; recal tapered |
-| `sparse` | T2 | 1–2 prior shows | `sparse` bias bucket; most trajectory features at defaults; wider error |
-| `cold_start` | T3 | 0 prior shows (debut) | `debut` bias bucket; curve-anchored baseline; widest error |
+| tier | code | condition | n | MAE (no recal) | MAE (recal) | notes |
+|---|---|---|---|---|---|---|
+| `established` | T0 | > 2 prior shows, confident field-pace | 105 | 2.44 | 1.27 | recal removes the early/finals under-projection |
+| `partial` | T1 | ≥ 3 prior shows, thin field-pace | 13 | 0.85 | 0.74 | tightest tier, but thin n |
+| `sparse` | T2 | 1–2 prior shows | 57 | 1.82 | 1.27 | `sparse` bias bucket; most trajectory features at defaults |
+| `cold_start` | T3 | 0 prior shows (debut) | 22 | 5.48 | 4.89 | `debut` bias bucket; curve-anchored; widest error |
+| overall | — | — | 197 | 2.49 | 1.64 | recal roughly halves overall MAE |
 
 ## Limitations
 
