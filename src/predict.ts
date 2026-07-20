@@ -172,7 +172,18 @@ export class DciValidationError extends Error {
 
 // ── Asset loading (packaged) ──
 
-const packageRoot = () => path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+// Layout-independent root resolution: walk up until the shipped `assets` dir is
+// found (correct in both the src tree and the bundled/installed dist layout).
+const packageRoot = () => {
+  let dir = path.dirname(fileURLToPath(import.meta.url));
+  for (let i = 0; i < 6; i++) {
+    if (fs.existsSync(path.join(dir, 'assets'))) return dir;
+    const parent = path.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  return path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+};
 const readJson = <T>(rel: string): T =>
   JSON.parse(fs.readFileSync(path.join(packageRoot(), rel), 'utf-8')) as T;
 
@@ -293,6 +304,34 @@ const validate = (
 
   return { cleanShows, dropped, warnings };
 };
+
+export interface ValidationReport {
+  ok: boolean;
+  showsAccepted: number;
+  scoreRowsAccepted: number;
+  droppedRows: DroppedRow[];
+  warnings: Caveat[];
+}
+
+/**
+ * Run ONLY the Appendix B.4 input-consistency checks (no model load, no
+ * prediction). Leakage and out-of-season target dates throw a
+ * {@link DciValidationError}; row-level problems are reported as dropped rows
+ * (strict:false, default) or throw (strict:true). Handy for a pre-flight check.
+ */
+export function validateInput(input: PredictInput, options: { strict?: boolean } = {}): ValidationReport {
+  const shows = input.history ?? input.shows ?? [];
+  const { cleanShows, dropped, warnings } = validate(input.seasonInfo, shows, input.target, options.strict ?? false);
+  let scoreRows = 0;
+  for (const show of cleanShows) scoreRows += show.results.length;
+  return {
+    ok: dropped.length === 0,
+    showsAccepted: cleanShows.length,
+    scoreRowsAccepted: scoreRows,
+    droppedRows: dropped,
+    warnings,
+  };
+}
 
 // ── Tier + coverage mapping ──
 

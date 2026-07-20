@@ -50,8 +50,10 @@ export type {
 } from './features/types.js';
 export {
   predict,
+  validateInput,
   DciValidationError,
   SDK_MODEL_DIR,
+  type ValidationReport,
   type PredictInput,
   type PredictOptions,
   type PredictedShowResult,

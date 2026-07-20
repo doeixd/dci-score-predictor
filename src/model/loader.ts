@@ -9,7 +9,23 @@ import type * as tf from '@tensorflow/tfjs';
 import { loadEnsembleMember, type EnsembleMember, type MemberArtifacts } from './inference.js';
 import type { TargetStats } from './contract.js';
 
-const packageRoot = () => path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+// Resolve the package root by walking up from this module until we find the
+// shipped `assets/models` dir. This is layout-independent: in the source tree
+// this module lives at src/model/, but tsup bundles it into dist/index.js — a
+// fixed number of `..` hops would be right in one layout and wrong in the other
+// (the #1 thing that breaks between repo and installed package). Walking up is
+// correct in both.
+const packageRoot = (): string => {
+  let dir = path.dirname(fileURLToPath(import.meta.url));
+  for (let i = 0; i < 6; i++) {
+    if (fs.existsSync(path.join(dir, 'assets', 'models'))) return dir;
+    const parent = path.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  // Fallback to the historical two-hops-from-src layout.
+  return path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+};
 export const defaultModelsDir = () => path.join(packageRoot(), 'assets', 'models');
 export const defaultBiasCalibrationPath = () =>
   path.join(packageRoot(), 'assets', 'calibration', 'biasCalibration.json');

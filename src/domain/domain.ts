@@ -6,8 +6,22 @@ import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CAPTIONS, type Caption as CaptionKey } from '../model/contract.js';
 
-const registriesDir = () =>
-  path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'assets', 'registries');
+// Layout-independent: walk up from this module until we find assets/registries.
+// The source tree has this at src/domain/, but tsup bundles it into dist/ — a
+// fixed number of `..` hops is right in one layout and wrong in the other (it
+// landed in node_modules/ from an installed tarball). Walking up is correct in
+// both. See src/model/loader.ts for the same rationale.
+const registriesDir = () => {
+  let dir = path.dirname(fileURLToPath(import.meta.url));
+  for (let i = 0; i < 6; i++) {
+    const candidate = path.join(dir, 'assets', 'registries');
+    if (fs.existsSync(candidate)) return candidate;
+    const parent = path.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  return path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'assets', 'registries');
+};
 
 export const Division = {
   WorldClass: 'World Class',
