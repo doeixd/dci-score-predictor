@@ -112,6 +112,10 @@ export interface InputAudit {
   droppedRows: DroppedRow[];
   /** Divisions inferred from the registry (simple API only). */
   normalizations: NameNormalization[];
+  /** History shows that supplied a judge panel (§3.2 cross-field check). */
+  showsWithPanels: number;
+  /** Whether the target event supplied a judge panel. */
+  targetHasPanel: boolean;
 }
 
 export interface Caveat {
@@ -199,11 +203,77 @@ export const _clearEnsembleCache = (): void => void ensembleCache.clear();
 
 const TOTAL_TOLERANCE = 0.05;
 
+// The 8 canonical caption keys a judge panel may reference (Appendix B.4).
+const CAPTION_SET = new Set<string>(CAPTIONS);
+
+interface PanelStats {
+  showsWithPanels: number;
+  targetHasPanel: boolean;
+}
+
 interface ValidationResult {
   cleanShows: ShowInput[];
   dropped: DroppedRow[];
   warnings: Caveat[];
+  panelStats: PanelStats;
 }
+
+/**
+ * Cross-field score-sheet ⇄ judge-panel consistency (PLAN §3.2). Non-blocking:
+ * prod tolerates unknown panels and masks judge context at serving, so mismatches
+ * are surfaced as caveats, never drops. Returns true if a panel was supplied.
+ *   - malformed caption keys (not one of the 8)                → 'warn' (names the show)
+ *   - captions scored but with no judge assignment (or v.v.)   → 'info'
+ */
+const validatePanel = (
+  showLabel: string,
+  judges: Partial<Record<Caption, string[]>> | undefined,
+  scoredCaptions: Set<Caption> | null,
+  caveats: Caveat[]
+): boolean => {
+  if (!judges) return false;
+  const entries = Object.entries(judges) as Array<[string, string[] | undefined]>;
+  if (entries.length === 0) return false;
+
+  // Malformed caption keys → warn, naming the show.
+  const malformed = entries.map(([k]) => k).filter((k) => !CAPTION_SET.has(k));
+  if (malformed.length)
+    caveats.push({
+      severity: 'warn',
+      message: `${showLabel}: judge panel has caption key${malformed.length === 1 ? '' : 's'} not among the 8 (${malformed.join(', ')}) — ignored.`,
+    });
+
+  // Captions with a real (non-empty) judge assignment.
+  const assigned = new Set<Caption>();
+  for (const [k, v] of entries)
+    if (CAPTION_SET.has(k) && Array.isArray(v) && v.filter(Boolean).length > 0) assigned.add(k as Caption);
+
+  if (scoredCaptions) {
+    const scoredNoJudge = [...scoredCaptions].filter((c) => !assigned.has(c));
+    if (scoredNoJudge.length)
+      caveats.push({
+        severity: 'info',
+        message: `${showLabel}: ${scoredNoJudge.length} scored caption${scoredNoJudge.length === 1 ? '' : 's'} without a declared judge (${scoredNoJudge.join(', ')}) — panel unknown, judge context is masked anyway.`,
+      });
+    const judgedNotScored = [...assigned].filter((c) => !scoredCaptions.has(c));
+    if (judgedNotScored.length)
+      caveats.push({
+        severity: 'info',
+        message: `${showLabel}: judge assigned for caption${judgedNotScored.length === 1 ? '' : 's'} not present in scores (${judgedNotScored.join(', ')}).`,
+      });
+  } else {
+    // No scores to cross-check (e.g. the target): flag well-formed keys with empty assignment.
+    const emptyAssign = entries
+      .filter(([k, v]) => CAPTION_SET.has(k) && !(Array.isArray(v) && v.filter(Boolean).length > 0))
+      .map(([k]) => k);
+    if (emptyAssign.length)
+      caveats.push({
+        severity: 'info',
+        message: `${showLabel}: judge panel lists caption${emptyAssign.length === 1 ? '' : 's'} with no judge (${emptyAssign.join(', ')}).`,
+      });
+  }
+  return true;
+};
 
 const validate = (
   seasonInfo: SeasonInfo,
@@ -287,7 +357,21 @@ const validate = (
     if (keptResults.length) cleanShows.push({ ...show, results: keptResults });
   }
 
-  return { cleanShows, dropped, warnings };
+  // Cross-field score-sheet ⇄ judge-panel validation (§3.2). Runs on the supplied
+  // shows (so panels on fully-dropped shows still get key-checked); non-blocking.
+  let showsWithPanels = 0;
+  for (const show of shows) {
+    const scored = new Set<Caption>();
+    for (const r of show.results)
+      for (const cap of CAPTIONS) {
+        const v = r.captions[cap];
+        if (v != null && Number.isFinite(v)) scored.add(cap);
+      }
+    if (validatePanel(show.slug, show.judges, scored.size ? scored : null, warnings)) showsWithPanels++;
+  }
+  const targetHasPanel = validatePanel(`target ${target.slug}`, target.judges, null, warnings);
+
+  return { cleanShows, dropped, warnings, panelStats: { showsWithPanels, targetHasPanel } };
 };
 
 export interface ValidationReport {
@@ -353,7 +437,7 @@ export async function predict(input: PredictInput, options: PredictOptions = {})
   const { seasonInfo, target } = input;
 
   // 1) Validate (B.4) → clean SeasonData for the builder.
-  const { cleanShows, dropped, warnings } = validate(seasonInfo, shows, target, strict);
+  const { cleanShows, dropped, warnings, panelStats } = validate(seasonInfo, shows, target, strict);
   const seasonData: SeasonData = { seasonInfo, shows: cleanShows, target };
 
   // 2) Build features.
@@ -477,6 +561,8 @@ export async function predict(input: PredictInput, options: PredictOptions = {})
     scoreRowsCounted: scoreRows,
     droppedRows: dropped,
     normalizations: [],
+    showsWithPanels: panelStats.showsWithPanels,
+    targetHasPanel: panelStats.targetHasPanel,
   };
 
   const result: PredictedShowResult = {

@@ -12,6 +12,7 @@ import {
   makeCorps,
   type Corps,
 } from '../domain/domain.js';
+import { CorpsNotFoundError } from '../domain/corps-namespace.js';
 import { CAPTIONS, captionDerivedTotal, type Caption } from '../model/contract.js';
 import type { DivisionName, ShowInput, TargetEventInput, PerformanceInput } from '../features/types.js';
 import {
@@ -55,15 +56,10 @@ export interface LooseInput {
   target: LooseTarget;
 }
 
-export class CorpsNotFoundError extends Error {
-  constructor(input: string, suggestions: string[]) {
-    super(
-      `unknown corps "${input}"${suggestions.length ? ` — did you mean: ${suggestions.join(', ')}?` : ''}. ` +
-        `Supply a division hint ({ corps, division: 'World Class' }) to add it as a new corps.`
-    );
-    this.name = 'CorpsNotFoundError';
-  }
-}
+// CorpsNotFoundError now lives in the domain layer (domain/corps-namespace.ts) so
+// the type-safe `Corps.lookup` and the simple API share one error. Re-exported
+// here for backwards compatibility with `dci-score-predictor/simple` consumers.
+export { CorpsNotFoundError };
 
 const WORLD = Division.WorldClass;
 const OPEN = Division.OpenClass;

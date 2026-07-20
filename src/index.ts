@@ -34,11 +34,13 @@ export {
   matchCaption,
   makeCorps,
   normalizeName,
-  type Corps,
   type Judge,
   type CaptionDef,
   type CorpsMatch,
 } from './domain/domain.js';
+// Type-safe corps namespace (PLAN §3.1): DCI.Corps.BlueDevils / .lookup / .named / .make / .Unknown.
+// `Corps` here carries both the namespace value and the Corps instance type.
+export { Corps, CorpsNotFoundError, type KnownCorpsName } from './domain/corps-namespace.js';
 export {
   loadEnsemble,
   loadBiasCalibration,

@@ -94,9 +94,10 @@ export {
   matchCaption,
   makeCorps,
   normalizeName,
-  type Corps,
   type Judge,
   type CaptionDef,
   type CorpsMatch,
 } from './domain/domain.js';
+// Type-safe corps namespace (PLAN §3.1) — resolves once init() has preloaded registries.
+export { Corps, CorpsNotFoundError, type KnownCorpsName } from './domain/corps-namespace.js';
 export { CAPTIONS, type Caption } from './model/contract.js';
