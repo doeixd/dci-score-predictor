@@ -1,87 +1,89 @@
 // Model asset loading. The package ships the 8-seed v10.4 field-pace ensemble in
-// assets/models/<seed>/{model.json,weights.bin,target-norm.json}. In Node we read
-// straight from the installed package; other platforms can construct
-// MemberArtifacts from fetched bytes and call loadEnsembleMember directly.
-import * as fs from 'node:fs';
-import * as path from 'node:path';
-import { fileURLToPath } from 'node:url';
+// assets/models/<seed>/{model.json,weights.bin,target-norm.json}. Loading goes
+// through the AssetProvider seam (src/assets/provider.ts): the Node provider
+// reads from the installed package; the fetch provider reads over HTTP, so the
+// same code loads the ensemble in a browser. No node:* import here.
 import type * as tf from '@tensorflow/tfjs';
 import { loadEnsembleMember, type EnsembleMember, type MemberArtifacts } from './inference.js';
 import type { TargetStats } from './contract.js';
+import {
+  getActiveProvider,
+  getJsonSync,
+  ensureNodeProvider,
+  concatArrayBuffers,
+  type AssetProvider,
+} from '../assets/provider.js';
 
-// Resolve the package root by walking up from this module until we find the
-// shipped `assets/models` dir. This is layout-independent: in the source tree
-// this module lives at src/model/, but tsup bundles it into dist/index.js — a
-// fixed number of `..` hops would be right in one layout and wrong in the other
-// (the #1 thing that breaks between repo and installed package). Walking up is
-// correct in both.
-const packageRoot = (): string => {
-  let dir = path.dirname(fileURLToPath(import.meta.url));
-  for (let i = 0; i < 6; i++) {
-    if (fs.existsSync(path.join(dir, 'assets', 'models'))) return dir;
-    const parent = path.dirname(dir);
-    if (parent === dir) break;
-    dir = parent;
-  }
-  // Fallback to the historical two-hops-from-src layout.
-  return path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-};
-export const defaultModelsDir = () => path.join(packageRoot(), 'assets', 'models');
-export const defaultBiasCalibrationPath = () =>
-  path.join(packageRoot(), 'assets', 'calibration', 'biasCalibration.json');
-export const defaultCurvesPath = () =>
-  path.join(packageRoot(), 'assets', 'curves', 'referenceCurvesV4.json');
+interface ModelManifest {
+  weightsManifest?: Array<{ paths?: string[]; weights?: tf.io.WeightsManifestEntry[] }>;
+  modelTopology?: unknown;
+  format?: string;
+  generatedBy?: string;
+  convertedBy?: string;
+}
 
-const readMemberArtifacts = (memberDir: string): MemberArtifacts => {
-  const manifest = JSON.parse(fs.readFileSync(path.join(memberDir, 'model.json'), 'utf-8'));
-  const stats = JSON.parse(
-    fs.readFileSync(path.join(memberDir, 'target-norm.json'), 'utf-8')
-  ) as TargetStats;
-  const weightData = Buffer.concat(
-    ((manifest.weightsManifest ?? []) as Array<{ paths?: string[] }>)
-      .flatMap((group) => group.paths ?? [])
-      .map((weightPath) => fs.readFileSync(path.resolve(memberDir, weightPath)))
-  );
+interface SeedsManifest {
+  seeds?: Array<{ name: string }>;
+}
+
+const readMemberArtifacts = async (
+  provider: AssetProvider,
+  seedName: string
+): Promise<MemberArtifacts> => {
+  const rel = (file: string) => `models/${seedName}/${file}`;
+  const manifest = (await provider.readJson(rel('model.json'))) as ModelManifest;
+  const stats = (await provider.readJson(rel('target-norm.json'))) as TargetStats;
+  const weightPaths = (manifest.weightsManifest ?? []).flatMap((group) => group.paths ?? []);
+  const buffers = await Promise.all(weightPaths.map((p) => provider.readBinary(rel(p))));
   return {
-    name: path.basename(memberDir),
+    name: seedName,
     modelTopology: manifest.modelTopology,
     format: manifest.format,
     generatedBy: manifest.generatedBy,
     convertedBy: manifest.convertedBy,
-    weightSpecs: ((manifest.weightsManifest ?? []) as Array<{ weights?: tf.io.WeightsManifestEntry[] }>)
-      .flatMap((group) => group.weights ?? []),
-    weightData: weightData.buffer.slice(
-      weightData.byteOffset,
-      weightData.byteOffset + weightData.byteLength
-    ) as ArrayBuffer,
+    weightSpecs: (manifest.weightsManifest ?? []).flatMap((group) => group.weights ?? []),
+    weightData: concatArrayBuffers(buffers),
     stats,
   };
 };
 
+/** Discover the seed directory names — prefer the shipped MANIFEST, else enumerate. */
+const listSeeds = async (provider: AssetProvider): Promise<string[]> => {
+  try {
+    const manifest = (await provider.readJson('models/MANIFEST.json')) as SeedsManifest;
+    const names = (manifest.seeds ?? []).map((s) => s.name).filter(Boolean);
+    if (names.length) return names.sort();
+  } catch {
+    // no manifest — fall through to enumeration (Node only)
+  }
+  if (provider.listModelSeeds) return provider.listModelSeeds();
+  throw new Error(
+    'cannot enumerate model seeds: models/MANIFEST.json is unavailable and the provider cannot list them.'
+  );
+};
+
 export interface LoadEnsembleOptions {
-  /** Directory holding one subdirectory per seed. Defaults to the packaged assets. */
-  modelsDir?: string;
+  /** Explicit asset provider (e.g. fetchAssets(baseUrl)). Defaults to the active provider. */
+  provider?: AssetProvider;
   /** Number of seeds to load (accuracy vs load-time/memory). Default: all. */
   members?: number;
 }
 
 export async function loadEnsemble(options: LoadEnsembleOptions = {}): Promise<EnsembleMember[]> {
-  const dir = options.modelsDir ?? defaultModelsDir();
-  const seedDirs = fs
-    .readdirSync(dir)
-    .map((entry) => path.join(dir, entry))
-    .filter((entry) => fs.existsSync(path.join(entry, 'model.json')))
-    .sort();
-  if (!seedDirs.length) throw new Error(`no model seed directories found under ${dir}`);
-  const selected = options.members ? seedDirs.slice(0, options.members) : seedDirs;
+  await ensureNodeProvider();
+  const provider = options.provider ?? getActiveProvider();
+  const seedNames = await listSeeds(provider);
+  if (!seedNames.length) throw new Error('no model seed directories found');
+  const selected = options.members ? seedNames.slice(0, options.members) : seedNames;
   const members: EnsembleMember[] = [];
-  for (const seedDir of selected) members.push(await loadEnsembleMember(readMemberArtifacts(seedDir)));
+  for (const seedName of selected)
+    members.push(await loadEnsembleMember(await readMemberArtifacts(provider, seedName)));
   return members;
 }
 
-export const loadBiasCalibration = (filePath?: string): Record<string, number> => {
+export const loadBiasCalibration = (): Record<string, number> => {
   try {
-    return JSON.parse(fs.readFileSync(filePath ?? defaultBiasCalibrationPath(), 'utf-8'));
+    return getJsonSync<Record<string, number>>('calibration/biasCalibration.json');
   } catch {
     return {};
   }

@@ -1,27 +1,13 @@
 // Domain identities: corps, judges, captions, divisions — with smart matching
 // backed by the generated registries (assets/registries). Matching reproduces the
 // production normalization: lowercase, punctuation-strip, alias table.
-import * as fs from 'node:fs';
-import * as path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { CAPTIONS, type Caption as CaptionKey } from '../model/contract.js';
+import { getJsonSync } from '../assets/provider.js';
 
-// Layout-independent: walk up from this module until we find assets/registries.
-// The source tree has this at src/domain/, but tsup bundles it into dist/ — a
-// fixed number of `..` hops is right in one layout and wrong in the other (it
-// landed in node_modules/ from an installed tarball). Walking up is correct in
-// both. See src/model/loader.ts for the same rationale.
-const registriesDir = () => {
-  let dir = path.dirname(fileURLToPath(import.meta.url));
-  for (let i = 0; i < 6; i++) {
-    const candidate = path.join(dir, 'assets', 'registries');
-    if (fs.existsSync(candidate)) return candidate;
-    const parent = path.dirname(dir);
-    if (parent === dir) break;
-    dir = parent;
-  }
-  return path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'assets', 'registries');
-};
+// Registries are read through the asset-provider seam (getJsonSync): the Node
+// provider serves them from disk synchronously; in a browser, init() preloads
+// them into the cache first. No node:* import here, so this module bundles for
+// the browser. See src/assets/provider.ts.
 
 export const Division = {
   WorldClass: 'World Class',
@@ -101,13 +87,9 @@ interface JudgeRegistry {
 let corpsRegistryCache: CorpsRegistry | null = null;
 let judgeRegistryCache: JudgeRegistry | null = null;
 const corpsRegistry = (): CorpsRegistry =>
-  (corpsRegistryCache ??= JSON.parse(
-    fs.readFileSync(path.join(registriesDir(), 'corps.json'), 'utf-8')
-  ));
+  (corpsRegistryCache ??= getJsonSync<CorpsRegistry>('registries/corps.json'));
 const judgeRegistry = (): JudgeRegistry =>
-  (judgeRegistryCache ??= JSON.parse(
-    fs.readFileSync(path.join(registriesDir(), 'judges.json'), 'utf-8')
-  ));
+  (judgeRegistryCache ??= getJsonSync<JudgeRegistry>('registries/judges.json'));
 
 let corpsIndex: Map<string, Corps> | null = null;
 const buildCorpsIndex = (): Map<string, Corps> => {

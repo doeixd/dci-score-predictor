@@ -2,6 +2,9 @@
 // normalization (corps/caption via the domain matchers), division inference from
 // the registry, and a full audit of what was inferred — then delegates to the
 // same core predict path. One validation, one prediction path (PLAN §3.3).
+// Eager Node provider install so sync corps/caption matchers work on import.
+import { installNodeProvider } from '../assets/node-provider.js';
+installNodeProvider();
 import {
   Division,
   matchCorps,

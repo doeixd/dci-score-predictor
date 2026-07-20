@@ -389,7 +389,7 @@ We ship **two skills** in `skills/`:
    present the recap table with caveats. `allowed-tools: Bash(npx tsx *)`.
 
 Distribution: (a) `skills/` shipped in the npm tarball with README one-liner
-`npx skills add https://github.com/<org>/dci-score-predictor` ; (b) the repo
+`npx skills add https://github.com/doeixd/dci-score-predictor` ; (b) the repo
 doubles as a plugin marketplace (add `.claude-plugin/marketplace.json`) so
 `/plugin marketplace add` works too. Keep SKILL.md <150 lines, progressive
 disclosure for the reference material.

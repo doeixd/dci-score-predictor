@@ -4,6 +4,20 @@
 // diagnostics). The Promise API here is the default; see ./effect for the
 // Effect-native surface and ./simple for the loose-input API.
 
+// Eagerly install the Node fs-backed asset provider (sync reader + default async
+// provider) so the synchronous domain matchers work on import in Node. The
+// browser entry ('dci-score-predictor/browser') deliberately omits this. Called
+// as a function (not a bare import) so `sideEffects: false` can't tree-shake it.
+import { installNodeProvider } from './assets/node-provider.js';
+installNodeProvider();
+
+export {
+  init,
+  fetchAssets,
+  setAssetProvider,
+  type AssetProvider,
+  type InitOptions,
+} from './assets/provider.js';
 export {
   CAPTIONS,
   captionDerivedTotal,

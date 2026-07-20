@@ -9,6 +9,9 @@
 // `.check(Schema.isBetween(...) | Schema.isPattern(...))`; decoding is
 // `Schema.decodeUnknownEffect`; validation failures surface as `Schema.SchemaError`
 // (tag 'SchemaError'); tagged errors use `Data.TaggedError`.
+// Eager Node provider install (parity with the Promise entry); browser uses ./browser.
+import { installNodeProvider } from './assets/node-provider.js';
+installNodeProvider();
 import { Data, Effect, Schema } from 'effect';
 import {
   predict as corePredict,

@@ -11,7 +11,7 @@ import { TemporalState, type TemporalPerformance } from '../src/features/tempora
 import { CAPTIONS, type Caption } from '../src/model/contract.js';
 import type { CorpsHistoricalFallback } from '../src/features/types.js';
 
-const DB = process.argv[2] ?? '/root/corps-place/sdk/dci-relational.db';
+const DB = process.argv[2] ?? process.env.DCI_DB ?? 'dci-relational.db';
 const SEASONS = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2022, 2023, 2024, 2025];
 const outPath = path.resolve(import.meta.dirname, '..', 'assets', 'registries', 'featureContext.json');
 
@@ -59,7 +59,7 @@ const context = state.freeze(2025);
 
 // corps_historical_features_v6 fallback (diagnostics; lives in the prod DB, not
 // the serving-contract DB).
-const PROD_DB = process.argv[3] ?? '/root/corps-place/sdk/dci-relational.db';
+const PROD_DB = process.argv[3] ?? process.env.DCI_DB ?? 'dci-relational.db';
 const qProd = (sql: string): any[] =>
   JSON.parse(
     execFileSync('sqlite3', ['-json', '-readonly', PROD_DB, sql], {

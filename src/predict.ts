@@ -3,10 +3,8 @@
 // (cached tfjs ensemble) → recal (division offsets) → servePrediction (per corps)
 // → rank + diagnostics/readiness/caveats (PLAN §3.6). The Effect/Schema surface
 // layers on top of this later; here validation is hand-rolled per Appendix B.4.
-import * as fs from 'node:fs';
-import * as path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { CAPTIONS, captionDerivedTotal, type Caption, type HistoryBucket } from './model/contract.js';
+import { getJsonSync, ensureNodeProvider, type AssetProvider } from './assets/provider.js';
 import { buildFeatureRows, type ReferenceCurvesArtifact } from './features/build.js';
 import type {
   FeatureBuildDiagnostics,
@@ -44,8 +42,8 @@ export interface PredictInput {
 export interface PredictOptions {
   /** Number of ensemble seeds to load (accuracy vs load-time). Default: all 8. */
   members?: number;
-  /** Directory of model seed subdirs. Defaults to the packaged assets. */
-  modelsDir?: string;
+  /** Explicit asset provider (e.g. fetchAssets(baseUrl)) — required off-Node. */
+  provider?: AssetProvider;
   /** Attach per-corps interpretable attribution (§3.6 explain). Off by default. */
   explain?: boolean;
   /**
@@ -170,38 +168,25 @@ export class DciValidationError extends Error {
   }
 }
 
-// ── Asset loading (packaged) ──
+// ── Asset loading (through the provider seam) ──
 
-// Layout-independent root resolution: walk up until the shipped `assets` dir is
-// found (correct in both the src tree and the bundled/installed dist layout).
-const packageRoot = () => {
-  let dir = path.dirname(fileURLToPath(import.meta.url));
-  for (let i = 0; i < 6; i++) {
-    if (fs.existsSync(path.join(dir, 'assets'))) return dir;
-    const parent = path.dirname(dir);
-    if (parent === dir) break;
-    dir = parent;
-  }
-  return path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-};
-const readJson = <T>(rel: string): T =>
-  JSON.parse(fs.readFileSync(path.join(packageRoot(), rel), 'utf-8')) as T;
-
+// Read through getJsonSync: the Node provider serves these from disk; in a
+// browser, init()/the browser entry preloads them into the cache first.
 let featureContextCache: FeatureContext | null = null;
 const loadFeatureContext = (): FeatureContext =>
-  (featureContextCache ??= readJson<FeatureContext>('assets/registries/featureContext.json'));
+  (featureContextCache ??= getJsonSync<FeatureContext>('registries/featureContext.json'));
 
 let curvesCache: ReferenceCurvesArtifact | null = null;
 const loadReferenceCurves = (): ReferenceCurvesArtifact =>
-  (curvesCache ??= readJson<ReferenceCurvesArtifact>('assets/curves/referenceCurvesV4.json'));
+  (curvesCache ??= getJsonSync<ReferenceCurvesArtifact>('curves/referenceCurvesV4.json'));
 
 // Ensemble load is ~2s / 8 models — cache the promise across predict() calls.
 const ensembleCache = new Map<string, Promise<EnsembleMember[]>>();
 const getEnsemble = (options: PredictOptions): Promise<EnsembleMember[]> => {
-  const key = `${options.modelsDir ?? 'default'}|${options.members ?? 'all'}`;
+  const key = `${options.provider ? 'custom' : 'default'}|${options.members ?? 'all'}`;
   let cached = ensembleCache.get(key);
   if (!cached) {
-    cached = loadEnsemble({ modelsDir: options.modelsDir, members: options.members });
+    cached = loadEnsemble({ provider: options.provider, members: options.members });
     ensembleCache.set(key, cached);
   }
   return cached;
@@ -361,6 +346,8 @@ const featureCoverage = (diag: FeatureBuildDiagnostics): Record<string, 'present
 // ── Core predict ──
 
 export async function predict(input: PredictInput, options: PredictOptions = {}): Promise<PredictedShowResult> {
+  // Ensure an asset provider is active (Node auto-installs; browsers must init() first).
+  await ensureNodeProvider();
   const strict = options.strict ?? false;
   const shows = input.history ?? input.shows ?? [];
   const { seasonInfo, target } = input;

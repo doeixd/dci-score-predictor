@@ -10,7 +10,7 @@ import { CAPTIONS, type Caption } from '../src/model/contract.js';
 import type { SeasonData, ShowInput, PerformanceInput } from '../src/features/types.js';
 
 const targetSlug = process.argv[2] ?? '2026-dci-kentucky';
-const DB = process.argv[3] ?? '/root/corps-place/sdk/dci-relational.db';
+const DB = process.argv[3] ?? process.env.DCI_DB ?? 'dci-relational.db';
 const q = (sql: string): any[] =>
   JSON.parse(
     execFileSync('sqlite3', ['-json', '-readonly', DB, sql], {

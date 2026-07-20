@@ -60,6 +60,40 @@ const result = await predict(
 );
 ```
 
+## Browser usage
+
+The core entries import `node:fs`/`node:path` to read the packaged assets. For
+browsers (and other fetch-only runtimes) use the dedicated **`./browser`** entry,
+which loads every asset — registries, curves, calibration, and the tfjs model
+weights — over `fetch` from a `baseUrl` you host. There is no silent Node
+fallback: an `assets` option is required.
+
+```js
+import { predict } from 'dci-score-predictor/browser';
+
+const result = await predict(input, {
+  // Point at a static copy of the package's assets/ dir, or a CDN:
+  assets: { baseUrl: 'https://cdn.jsdelivr.net/npm/dci-score-predictor@latest/assets/' },
+  members: 4,        // load 4 of 8 seeds — lighter/faster, slightly wider error
+});
+```
+
+Host options for `baseUrl`:
+
+- **CDN** — `https://cdn.jsdelivr.net/npm/dci-score-predictor@latest/assets/`
+  (or unpkg). Zero setup; the browser fetches assets straight from npm.
+- **Self-host** — copy this package's `assets/` dir into your app's static dir
+  (e.g. served at `/assets/`) and pass `{ baseUrl: '/assets/' }`.
+
+Also exported from `./browser`: `init({ assets })` (preload registries + activate
+the provider once, so the synchronous `matchCorps`/`matchCaption`/`makeCorps`
+helpers work), `simplePredict` (loose-input API), `loadEnsemble`, `fetchAssets`,
+and the domain helpers.
+
+> **Download size.** The full 8-seed ensemble is ~32 MB of weights. It is fetched
+> once (cache it with a service worker / HTTP caching). Pass `members: N` to load
+> fewer seeds when bandwidth or memory matters — accuracy degrades gracefully.
+
 ## Diagnostics (every prediction carries these)
 
 ```jsonc
@@ -105,7 +139,7 @@ This package ships two Claude agent skills in `skills/`:
 from a JSON file). Install into a Claude project:
 
 ```sh
-npx skills add https://github.com/<org>/dci-score-predictor
+npx skills add https://github.com/doeixd/dci-score-predictor
 ```
 
 ## Smoke test

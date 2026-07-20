@@ -3,6 +3,15 @@
   "version": "0.0.0",
   "description": "Type-safe DCI drum corps score prediction — the v10.5 identity-agnostic ensemble model, self-contained, runs anywhere JS runs.",
   "license": "MIT",
+  "author": "Patrick Glenn",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doeixd/dci-score-predictor.git"
+  },
+  "homepage": "https://github.com/doeixd/dci-score-predictor#readme",
+  "bugs": {
+    "url": "https://github.com/doeixd/dci-score-predictor/issues"
+  },
   "type": "module",
   "sideEffects": false,
   "exports": {
@@ -20,6 +29,10 @@
       "types": "./dist/effect.d.ts",
       "import": "./dist/effect.js",
       "require": "./dist/effect.cjs"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js"
     },
     "./assets/*": "./assets/*"
   },

@@ -5,7 +5,7 @@ import { execFileSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-const DB = process.argv[2] ?? '/root/corps-place/sdk/dci-relational.db';
+const DB = process.argv[2] ?? process.env.DCI_DB ?? 'dci-relational.db';
 const outDir = path.resolve(import.meta.dirname, '..', 'assets', 'registries');
 fs.mkdirSync(outDir, { recursive: true });
 
