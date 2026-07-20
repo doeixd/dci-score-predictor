@@ -1,0 +1,29 @@
+{
+  "name": "dci-score-predictor",
+  "version": "0.0.0",
+  "description": "Type-safe DCI drum corps score prediction — the v10.5 identity-agnostic ensemble model, self-contained, runs anywhere JS runs.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./simple": {
+      "types": "./dist/simple.d.ts",
+      "import": "./dist/simple.js",
+      "require": "./dist/simple.cjs"
+    },
+    "./assets/*": "./assets/*"
+  },
+  "files": ["dist", "assets", "skills", "README.md"],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["dci", "drum-corps", "prediction", "effect", "tensorflow", "marching-arts"],
+  "engines": { "node": ">=20" }
+}
