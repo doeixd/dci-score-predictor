@@ -328,6 +328,33 @@ imputed without appearing in `readiness`.
 
 **Phase 4 — Agent skills** (see §5)
 
+**Phase 4.5 — End-to-end publish smoke test (release gate, every release)**
+The final gate before announcing any release is a full consumer-fidelity smoke
+test that exercises the ACTUAL published artifact, not the repo checkout:
+1. Publish to npm (first time: `npm publish --access public`; rehearsals can use
+   `npm pack` + a local registry like verdaccio, but the release gate runs
+   against the real registry).
+2. In a CLEAN throwaway directory (fresh `npm init -y`, no repo access, no
+   node_modules reuse): `npm install dci-score-predictor` from the registry.
+3. Run a scripted consumer that uses ONLY the public API:
+   a. simple API: predict a real 2026 event from pasted season history → verify
+      totals are within expected range of the recorded production predictions
+      for that event (fixture shipped in the smoke script, not the package);
+   b. rich API: same event via `SeasonHistory`/`ShowToPredict` classes;
+   c. diagnostics: assert readiness tiers, caveats, and inputAudit populate;
+   d. degraded input: truncate history and assert the tier changes + caveats
+      appear rather than a crash;
+   e. `members: 1` reduced-ensemble load (size-tier path).
+4. Verify packaging health in the same sandbox: ESM `import` AND CJS
+   `require`, `npx arethetypeswrong` on the tarball, assets resolve from the
+   installed package location (the loader's package-root resolution is the #1
+   thing that breaks between repo and installed layouts).
+5. Only after this passes: tag the release + publish the GitHub release with
+   the CDN weight artifacts.
+Automate as `test/smoke/` scripts so the gate is one command
+(`npm run smoke -- <version>`), and run it in CI against the packed tarball on
+every PR (registry publish step skipped) so layout regressions surface early.
+
 **Phase 5 — Nice-to-haves (post-1.0 candidates)**
 - `@tensorflow/tfjs-backend-wasm` opt-in + benchmark table.
 - Streaming/what-if API (`predictMany`, lineup perturbation).
