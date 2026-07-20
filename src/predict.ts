@@ -1,0 +1,482 @@
+// End-to-end predict orchestration (Promise API). Wires the tested layers:
+// validate (Appendix B.4 invariants) → buildFeatureRows (features) → loadEnsemble
+// (cached tfjs ensemble) → recal (division offsets) → servePrediction (per corps)
+// → rank + diagnostics/readiness/caveats (PLAN §3.6). The Effect/Schema surface
+// layers on top of this later; here validation is hand-rolled per Appendix B.4.
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { CAPTIONS, captionDerivedTotal, type Caption, type HistoryBucket } from './model/contract.js';
+import { buildFeatureRows, type ReferenceCurvesArtifact } from './features/build.js';
+import type {
+  FeatureBuildDiagnostics,
+  FeatureContext,
+  SeasonData,
+  SeasonInfo,
+  ShowInput,
+  TargetEventInput,
+} from './features/types.js';
+import { loadEnsemble, loadBiasCalibration } from './model/loader.js';
+import type { EnsembleMember } from './model/inference.js';
+import { servePrediction, type ServedPrediction } from './model/serve.js';
+import {
+  fitRecalOffsets,
+  PRODUCTION_RECAL_CONFIG,
+  type RecalConfig,
+  type RecalObservation,
+} from './recal/recal.js';
+
+export const SDK_MODEL_DIR = 'clean-v10-fieldpace-recal-sdk';
+
+// ── Public input/output shapes (plain objects; the schema layer comes later) ──
+
+export interface PredictInput {
+  seasonInfo: SeasonInfo;
+  /** Resolved (already-scored) shows strictly before the target date. */
+  history?: ShowInput[];
+  /** Alias for `history` when passing a full SeasonData-like object. */
+  shows?: ShowInput[];
+  target: TargetEventInput;
+  /** Resolved shows used to fit the per-division recal offset (leakage-safe). */
+  recalObservations?: RecalObservation[];
+}
+
+export interface PredictOptions {
+  /** Number of ensemble seeds to load (accuracy vs load-time). Default: all 8. */
+  members?: number;
+  /** Directory of model seed subdirs. Defaults to the packaged assets. */
+  modelsDir?: string;
+  /** Attach per-corps interpretable attribution (§3.6 explain). Off by default. */
+  explain?: boolean;
+  /**
+   * Row-level validation failures (caption-sum mismatch, out-of-range captions,
+   * duplicates, out-of-season dates) throw when true, or are downgraded to drops
+   * + warnings when false. Leakage (target date not after all history) always
+   * throws. Default: false.
+   */
+  strict?: boolean;
+  /** Precomputed per-division additive offsets — overrides recalObservations fitting. */
+  recalOffsets?: Record<string, number>;
+  /** Override shipped bias calibration (keyed `${division}|${bucket}`). */
+  biasCalibration?: Record<string, number>;
+  recalConfig?: RecalConfig;
+}
+
+export type ReadinessTier = 'established' | 'partial' | 'sparse' | 'cold_start';
+export type TierCode = 'T0' | 'T1' | 'T2' | 'T3';
+
+export interface CorpsReadiness {
+  corpsKey: string;
+  corps: string;
+  division: string;
+  tier: ReadinessTier;
+  tierCode: TierCode;
+  /** Prior scored shows for this corps (drives the tier). */
+  priorShows: number;
+  /** Non-pad steps of 15 (sequence fill: prior shows + inference target). */
+  sequenceFill: number;
+  /** Per feature group: present | defaulted | masked. */
+  featureCoverage: Record<string, 'present' | 'defaulted' | 'masked'>;
+  fieldPace: FeatureBuildDiagnostics['fieldPace'];
+}
+
+export interface DivisionRecalAudit {
+  division: string;
+  offset: number;
+  poolN: number;
+  thinTaper: number;
+  active: boolean;
+}
+
+export interface DroppedRow {
+  show: string;
+  corpsKey: string;
+  reason:
+    | 'caption_total_mismatch'
+    | 'caption_out_of_range'
+    | 'duplicate_corps_show'
+    | 'out_of_season_date'
+    | 'missing_captions';
+  detail?: string;
+}
+
+export interface NameNormalization {
+  input: string;
+  matched: string;
+  method: 'exact' | 'alias' | 'fuzzy' | 'made';
+  kind: 'corps' | 'judge' | 'caption';
+}
+
+export interface InputAudit {
+  showsCounted: number;
+  corpsCounted: number;
+  scoreRowsCounted: number;
+  droppedRows: DroppedRow[];
+  /** Divisions inferred from the registry (simple API only). */
+  normalizations: NameNormalization[];
+}
+
+export interface Caveat {
+  severity: 'info' | 'warn';
+  message: string;
+  corpsKey?: string;
+}
+
+export interface CorpsExplain {
+  corpsKey: string;
+  baselineRecap: number[];
+  trendSlopes: number[];
+  fieldPace: FeatureBuildDiagnostics['fieldPace'];
+  biasOffset: number;
+  recalOffset: number;
+  historyBucket: HistoryBucket;
+}
+
+export interface CorpsPrediction {
+  corps: string;
+  corpsKey: string;
+  division: string;
+  rank: number;
+  total: number;
+  GE: number;
+  Visual: number;
+  Music: number;
+  captions: Record<Caption, number>;
+  intervals: ServedPrediction['intervals'];
+}
+
+export interface ModelMetadata {
+  model_dir: string;
+  ensembleSize: number;
+  generated_at: string;
+}
+
+export interface PredictedShowResult {
+  predictions: CorpsPrediction[];
+  readiness: {
+    corps: CorpsReadiness[];
+    recal: DivisionRecalAudit[];
+  };
+  inputAudit: InputAudit;
+  caveats: Caveat[];
+  model_metadata: ModelMetadata;
+  explain?: CorpsExplain[];
+}
+
+export class DciValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'DciValidationError';
+  }
+}
+
+// ── Asset loading (packaged) ──
+
+const packageRoot = () => path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const readJson = <T>(rel: string): T =>
+  JSON.parse(fs.readFileSync(path.join(packageRoot(), rel), 'utf-8')) as T;
+
+let featureContextCache: FeatureContext | null = null;
+const loadFeatureContext = (): FeatureContext =>
+  (featureContextCache ??= readJson<FeatureContext>('assets/registries/featureContext.json'));
+
+let curvesCache: ReferenceCurvesArtifact | null = null;
+const loadReferenceCurves = (): ReferenceCurvesArtifact =>
+  (curvesCache ??= readJson<ReferenceCurvesArtifact>('assets/curves/referenceCurvesV4.json'));
+
+// Ensemble load is ~2s / 8 models — cache the promise across predict() calls.
+const ensembleCache = new Map<string, Promise<EnsembleMember[]>>();
+const getEnsemble = (options: PredictOptions): Promise<EnsembleMember[]> => {
+  const key = `${options.modelsDir ?? 'default'}|${options.members ?? 'all'}`;
+  let cached = ensembleCache.get(key);
+  if (!cached) {
+    cached = loadEnsemble({ modelsDir: options.modelsDir, members: options.members });
+    ensembleCache.set(key, cached);
+  }
+  return cached;
+};
+
+/** Test/embedder hook: drop cached ensembles (e.g. to reload a different dir). */
+export const _clearEnsembleCache = (): void => void ensembleCache.clear();
+
+// ── Validation (Appendix B.4) ──
+
+const TOTAL_TOLERANCE = 0.05;
+
+interface ValidationResult {
+  cleanShows: ShowInput[];
+  dropped: DroppedRow[];
+  warnings: Caveat[];
+}
+
+const validate = (
+  seasonInfo: SeasonInfo,
+  shows: ShowInput[],
+  target: TargetEventInput,
+  strict: boolean
+): ValidationResult => {
+  const dropped: DroppedRow[] = [];
+  const warnings: Caveat[] = [];
+  const fail = (row: DroppedRow) => {
+    if (strict) throw new DciValidationError(`row rejected (${row.reason}) ${row.show}/${row.corpsKey}${row.detail ? `: ${row.detail}` : ''}`);
+    dropped.push(row);
+  };
+
+  const start = seasonInfo.startDate;
+  const end = seasonInfo.endDate;
+  const targetDate = target.date;
+
+  // Hard leakage guard: target date must be strictly after every history date.
+  for (const show of shows) {
+    if (show.date >= targetDate)
+      throw new DciValidationError(
+        `leakage: history show ${show.slug} (${show.date}) is not strictly before target date ${targetDate}`
+      );
+  }
+  if (targetDate < start || targetDate > end)
+    throw new DciValidationError(`target date ${targetDate} is outside the season (${start}..${end})`);
+
+  const cleanShows: ShowInput[] = [];
+  for (const show of shows) {
+    const dateOk = show.date >= start && show.date <= end;
+    if (!dateOk) {
+      // Drop the whole show's rows (a single bad date for all rows).
+      for (const r of show.results)
+        fail({ show: show.slug, corpsKey: r.corpsKey, reason: 'out_of_season_date', detail: show.date });
+      if (!strict) continue;
+    }
+    const seen = new Set<string>();
+    const keptResults = [];
+    for (const r of show.results) {
+      // Duplicate (corps, show).
+      if (seen.has(r.corpsKey)) {
+        fail({ show: show.slug, corpsKey: r.corpsKey, reason: 'duplicate_corps_show' });
+        continue;
+      }
+      seen.add(r.corpsKey);
+
+      // Caption range + completeness.
+      let outOfRange: string | null = null;
+      let missing = false;
+      for (const cap of CAPTIONS) {
+        const v = r.captions[cap];
+        if (v == null || !Number.isFinite(v)) missing = true;
+        else if (v < 0 || v > 20) outOfRange = `${cap}=${v}`;
+      }
+      if (outOfRange) {
+        fail({ show: show.slug, corpsKey: r.corpsKey, reason: 'caption_out_of_range', detail: outOfRange });
+        continue;
+      }
+      if (missing) {
+        // Incomplete rows are silently dropped by the builder; record for audit but
+        // don't hard-throw (a partial sheet is a coverage gap, not a data error).
+        dropped.push({ show: show.slug, corpsKey: r.corpsKey, reason: 'missing_captions' });
+        continue;
+      }
+      // Caption-derived total consistency (only when a stated total is supplied).
+      if (r.total != null && Number.isFinite(r.total)) {
+        const derived = captionDerivedTotal(CAPTIONS.map((c) => r.captions[c]!));
+        if (Math.abs(derived - r.total) > TOTAL_TOLERANCE) {
+          fail({
+            show: show.slug,
+            corpsKey: r.corpsKey,
+            reason: 'caption_total_mismatch',
+            detail: `derived ${derived.toFixed(3)} vs stated ${r.total}`,
+          });
+          continue;
+        }
+      }
+      keptResults.push(r);
+    }
+    if (keptResults.length) cleanShows.push({ ...show, results: keptResults });
+  }
+
+  return { cleanShows, dropped, warnings };
+};
+
+// ── Tier + coverage mapping ──
+
+const FIELD_PACE_CONFIDENT = 1;
+const tierFor = (diag: FeatureBuildDiagnostics): { tier: ReadinessTier; code: TierCode } => {
+  const n = diag.priorShows;
+  if (n === 0) return { tier: 'cold_start', code: 'T3' };
+  if (n <= 2) return { tier: 'sparse', code: 'T2' };
+  return diag.fieldPace.confidence >= FIELD_PACE_CONFIDENT
+    ? { tier: 'established', code: 'T0' }
+    : { tier: 'partial', code: 'T1' };
+};
+
+const featureCoverage = (diag: FeatureBuildDiagnostics): Record<string, 'present' | 'defaulted' | 'masked'> => {
+  const defaulted = new Set(diag.defaultedBlocks);
+  const mark = (block: string): 'present' | 'defaulted' => (defaulted.has(block) ? 'defaulted' : 'present');
+  return {
+    trajectory: diag.seasonDebut ? 'defaulted' : mark('trajectory'),
+    prior_seasons: diag.knownPriorSeasons ? mark('prior_seasons') : 'defaulted',
+    subcaptions: diag.subcaptionCoverage > 0 ? mark('subcaptions') : 'defaulted',
+    performance_order: diag.performanceOrderKnown ? 'present' : 'defaulted',
+    judge_context: 'masked', // zeroed at serving (identity-agnostic) — no accuracy cost
+    field_pace: diag.fieldPace.confidence > 0 ? mark('field_pace') : 'defaulted',
+  };
+};
+
+// ── Core predict ──
+
+export async function predict(input: PredictInput, options: PredictOptions = {}): Promise<PredictedShowResult> {
+  const strict = options.strict ?? false;
+  const shows = input.history ?? input.shows ?? [];
+  const { seasonInfo, target } = input;
+
+  // 1) Validate (B.4) → clean SeasonData for the builder.
+  const { cleanShows, dropped, warnings } = validate(seasonInfo, shows, target, strict);
+  const seasonData: SeasonData = { seasonInfo, shows: cleanShows, target };
+
+  // 2) Build features.
+  const context = loadFeatureContext();
+  const curves = loadReferenceCurves();
+  const { rows, diagnostics } = buildFeatureRows(seasonData, context, curves);
+  const diagByKey = new Map(diagnostics.map((d) => [d.corpsKey, d]));
+  const nameByKey = new Map(target.lineup.map((e) => [e.corpsKey, e.corpsName ?? e.corpsKey]));
+
+  // 3) Ensemble (cached) + bias calibration.
+  const members = await getEnsemble(options);
+  const biasCalibration = options.biasCalibration ?? loadBiasCalibration();
+
+  // 4) Recal offsets: explicit override > fit from observations > inactive ({}).
+  const divisions = [...new Set(target.lineup.map((e) => e.division))];
+  const recalConfig = options.recalConfig ?? PRODUCTION_RECAL_CONFIG;
+  let recalOffsets: Record<string, number> = {};
+  const recalAudit: DivisionRecalAudit[] = [];
+  if (options.recalOffsets) {
+    recalOffsets = options.recalOffsets;
+    for (const division of divisions)
+      recalAudit.push({
+        division,
+        offset: recalOffsets[division] ?? 0,
+        poolN: -1,
+        thinTaper: 1,
+        active: (recalOffsets[division] ?? 0) !== 0,
+      });
+  } else if (input.recalObservations?.length) {
+    const fits = fitRecalOffsets(input.recalObservations, divisions, target.date, recalConfig);
+    for (const division of divisions) {
+      const fit = fits[division]!;
+      recalOffsets[division] = fit.offset;
+      recalAudit.push({ division, offset: fit.offset, poolN: fit.poolN, thinTaper: fit.thinTaper, active: fit.poolN > 0 });
+    }
+  } else {
+    for (const division of divisions)
+      recalAudit.push({ division, offset: 0, poolN: 0, thinTaper: 0, active: false });
+  }
+
+  // 5) Serve each row.
+  const served = rows.map((row) => {
+    const prediction = servePrediction(
+      members,
+      { sequence: row.sequence, staticFeatures: row.staticFeatures },
+      { division: row.division, biasCalibration, recalOffsets }
+    );
+    return { row, prediction };
+  });
+
+  // 6) Rank by total desc (per whole field — matches prod output ordering).
+  const ranked = served
+    .filter((s): s is { row: (typeof served)[number]['row']; prediction: ServedPrediction } => s.prediction != null)
+    .sort((a, b) => b.prediction.total - a.prediction.total);
+
+  const predictions: CorpsPrediction[] = ranked.map(({ row, prediction }, i) => ({
+    corps: nameByKey.get(row.corpsKey) ?? row.corpsName ?? row.corpsKey,
+    corpsKey: row.corpsKey,
+    division: row.division,
+    rank: i + 1,
+    total: prediction.total,
+    GE: prediction.GE,
+    Visual: prediction.Visual,
+    Music: prediction.Music,
+    captions: prediction.captions,
+    intervals: prediction.intervals,
+  }));
+
+  // 7) Readiness per corps.
+  const readinessCorps: CorpsReadiness[] = ranked.map(({ row, prediction }) => {
+    const diag = diagByKey.get(row.corpsKey);
+    const t = diag ? tierFor(diag) : { tier: 'cold_start' as ReadinessTier, code: 'T3' as TierCode };
+    return {
+      corpsKey: row.corpsKey,
+      corps: nameByKey.get(row.corpsKey) ?? row.corpsName ?? row.corpsKey,
+      division: row.division,
+      tier: t.tier,
+      tierCode: t.code,
+      priorShows: diag?.priorShows ?? 0,
+      sequenceFill: prediction.nonPadSteps,
+      featureCoverage: diag
+        ? featureCoverage(diag)
+        : { judge_context: 'masked' },
+      fieldPace: diag?.fieldPace ?? { observations: 0, corps: 0, dates: 0, confidence: 0 },
+    };
+  });
+
+  // 8) Caveats (ordered: warns before infos within each source; dropped rows first).
+  const caveats: Caveat[] = [...warnings];
+  if (dropped.length) {
+    const byReason = new Map<string, number>();
+    for (const d of dropped) byReason.set(d.reason, (byReason.get(d.reason) ?? 0) + 1);
+    for (const [reason, count] of byReason)
+      caveats.push({
+        severity: reason === 'missing_captions' ? 'info' : 'warn',
+        message: `${count} score row${count === 1 ? '' : 's'} dropped: ${reason.replace(/_/g, ' ')}`,
+      });
+  }
+  for (const r of readinessCorps) {
+    if (r.tier === 'cold_start')
+      caveats.push({ severity: 'warn', corpsKey: r.corpsKey, message: `${r.corps}: no prior shows supplied — 'debut' calibration bucket, curve-anchored (widest error).` });
+    else if (r.tier === 'sparse')
+      caveats.push({ severity: 'warn', corpsKey: r.corpsKey, message: `${r.corps}: only ${r.priorShows} prior show${r.priorShows === 1 ? '' : 's'} — 'sparse' calibration bucket, expect wider error.` });
+    if (r.fieldPace.confidence > 0 && r.fieldPace.confidence < 1)
+      caveats.push({ severity: 'info', corpsKey: r.corpsKey, message: `${r.corps}: thin field-pace pool (${r.fieldPace.corps} corps / ${r.fieldPace.dates} dates, confidence ${r.fieldPace.confidence.toFixed(2)}) — trajectory shrunk toward historical.` });
+  }
+  for (const audit of recalAudit) {
+    if (!audit.active && audit.poolN === 0)
+      caveats.push({ severity: 'info', message: `recal inactive for ${audit.division}: no resolved observations supplied — offset defaults to 0.` });
+    else if (audit.active && audit.thinTaper > 0 && audit.thinTaper < 1)
+      caveats.push({ severity: 'info', message: `recal pool for ${audit.division} is thin (n=${audit.poolN}) — offset damped to ${Math.round(audit.thinTaper * 100)}%.` });
+  }
+
+  // 9) Input audit.
+  const corpsKeys = new Set<string>();
+  let scoreRows = 0;
+  for (const show of cleanShows) for (const r of show.results) { corpsKeys.add(r.corpsKey); scoreRows++; }
+  const inputAudit: InputAudit = {
+    showsCounted: cleanShows.length,
+    corpsCounted: corpsKeys.size,
+    scoreRowsCounted: scoreRows,
+    droppedRows: dropped,
+    normalizations: [],
+  };
+
+  const result: PredictedShowResult = {
+    predictions,
+    readiness: { corps: readinessCorps, recal: recalAudit },
+    inputAudit,
+    caveats,
+    model_metadata: {
+      model_dir: SDK_MODEL_DIR,
+      ensembleSize: members.length,
+      generated_at: new Date().toISOString(),
+    },
+  };
+
+  // 10) Optional explain.
+  if (options.explain) {
+    result.explain = ranked.map(({ row, prediction }) => ({
+      corpsKey: row.corpsKey,
+      baselineRecap: prediction.baselineRecap,
+      trendSlopes: prediction.trendSlopes,
+      fieldPace: diagByKey.get(row.corpsKey)?.fieldPace ?? { observations: 0, corps: 0, dates: 0, confidence: 0 },
+      biasOffset: prediction.biasOffset,
+      recalOffset: prediction.recalOffset,
+      historyBucket: prediction.historyBucket,
+    }));
+  }
+
+  return result;
+}

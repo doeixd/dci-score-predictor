@@ -40,3 +40,30 @@ export {
   type RecalFit,
   type RecalObservation,
 } from './recal/recal.js';
+export type {
+  DivisionName,
+  SeasonInfo,
+  ShowInput,
+  PerformanceInput,
+  TargetEventInput,
+  SeasonData,
+} from './features/types.js';
+export {
+  predict,
+  DciValidationError,
+  SDK_MODEL_DIR,
+  type PredictInput,
+  type PredictOptions,
+  type PredictedShowResult,
+  type CorpsPrediction,
+  type CorpsReadiness,
+  type DivisionRecalAudit,
+  type InputAudit,
+  type DroppedRow,
+  type NameNormalization,
+  type Caveat,
+  type CorpsExplain,
+  type ModelMetadata,
+  type ReadinessTier,
+  type TierCode,
+} from './predict.js';

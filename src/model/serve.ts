@@ -42,6 +42,9 @@ export interface ServedPrediction {
   nonPadSteps: number;
   biasOffset: number;
   recalOffset: number;
+  /** Interpretable additive pieces (for `explain`); cheap by-products of serving. */
+  baselineRecap: number[];
+  trendSlopes: number[];
 }
 
 export const servePrediction = (
@@ -135,5 +138,7 @@ export const servePrediction = (
     nonPadSteps,
     biasOffset,
     recalOffset,
+    baselineRecap: baseline.map((v) => Number(v.toFixed(4))),
+    trendSlopes: trendSlopes.map((v) => Number(v.toFixed(4))),
   };
 };
