@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin.json",
+  "name": "dci-score-predictor",
+  "version": "0.0.0",
+  "description": "DCI drum corps score prediction — bundles the dci-score-predictor SDK skill (correct integration code) and the dci-predict task skill (run a prediction from season-history JSON and present a ranked recap with degradation caveats).",
+  "author": {
+    "name": "Patrick Glenn",
+    "url": "https://github.com/doeixd"
+  },
+  "homepage": "https://github.com/doeixd/dci-score-predictor",
+  "license": "MIT"
+}

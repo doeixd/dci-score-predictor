@@ -16,23 +16,40 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./simple": {
-      "types": "./dist/simple.d.ts",
-      "import": "./dist/simple.js",
-      "require": "./dist/simple.cjs"
+      "import": {
+        "types": "./dist/simple.d.ts",
+        "default": "./dist/simple.js"
+      },
+      "require": {
+        "types": "./dist/simple.d.cts",
+        "default": "./dist/simple.cjs"
+      }
     },
     "./effect": {
-      "types": "./dist/effect.d.ts",
-      "import": "./dist/effect.js",
-      "require": "./dist/effect.cjs"
+      "import": {
+        "types": "./dist/effect.d.ts",
+        "default": "./dist/effect.js"
+      },
+      "require": {
+        "types": "./dist/effect.d.cts",
+        "default": "./dist/effect.cjs"
+      }
     },
     "./browser": {
-      "types": "./dist/browser.d.ts",
-      "import": "./dist/browser.js"
+      "import": {
+        "types": "./dist/browser.d.ts",
+        "default": "./dist/browser.js"
+      }
     },
     "./assets/*": "./assets/*"
   },
@@ -43,7 +60,9 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "rm -rf dist && TSUP_TARGET=index tsup && TSUP_TARGET=simple tsup && TSUP_TARGET=effect tsup && TSUP_TARGET=browser tsup",
+    "smoke": "bash test/smoke/consumer-smoke.sh",
+    "attw": "attw --pack . --profile node16 --ignore-rules no-resolution",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
@@ -65,6 +84,7 @@
     "effect": "^4.0.0-beta.99"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.2",
     "@types/node": "^26.1.1",
     "effect": "^4.0.0-beta.99",
     "tsup": "^8.5.1",

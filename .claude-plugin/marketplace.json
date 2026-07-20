@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "dci-score-predictor",
+  "owner": {
+    "name": "Patrick Glenn",
+    "url": "https://github.com/doeixd"
+  },
+  "plugins": [
+    {
+      "name": "dci-score-predictor",
+      "source": "./",
+      "description": "DCI drum corps score prediction skills — write correct integration code against the dci-score-predictor SDK and run end-to-end predictions from season-history JSON."
+    }
+  ]
+}
