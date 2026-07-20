@@ -36,6 +36,11 @@ These facts drive every architectural choice:
    (leakage-safe: everything strictly before the target date). Byte-exact parity
    with the prod pipeline on frozen fixtures is the acceptance gate (we already
    have the `v9FeatureParity`-style test discipline for this).
+   **The complete audited feature inventory is Appendix A** (sequence dims,
+   static index map, scaling constants, masks) and **the serving math is
+   Appendix B** (field-pace formulas, trend slopes, ensemble pooling, bias cal,
+   recal). These appendices ARE the implementation spec — the TS port is written
+   against them, and every constant in them is asserted by the parity suite.
 
 4. **Shipped static assets** (all frozen, versioned in-package):
    - 8 tfjs seed models (32 MB) — `assets/models/`
@@ -216,15 +221,68 @@ one implementation, two entry points, per the standard pattern.
 
 ### 3.5 Graceful degradation contract (important, documented)
 
-Production has full multi-season history; SDK users may paste one show. The SDK
-must be honest, not silently worse:
-- **≥ full season history** → parity with production v10.5 output.
-- **Partial history** → trajectory/field-pace features computed from what exists;
-  `readiness` reports feature coverage; recal tapers by pool size (same
-  `MIN_POOL_N=20` taper as prod).
-- **Cold start (no history)** → prior-season reference-curve projection with an
-  explicit `caveat` (this mirrors prod's debut handling).
-Each tier gets a documented accuracy figure from backtests run BEFORE release.
+The pipeline audit (Appendix A §4) shows every feature group already has a
+production-defined neutral default — the SDK adopts those defaults VERBATIM
+(they are what the model saw in training, so they are the statistically correct
+imputation), and layers honest reporting on top. Per feature group:
+
+| Missing input | Production default (SDK adopts) | Surfaced as |
+|---|---|---|
+| No prior shows for a corps (debut) | sequence = 15 pad rows; trajectory zeros; `is_season_debut=1`; caption ranges fall back to division bucket then 0–20; recap baseline ← curve-anchor rank baseline | `readiness.corps[k].tier = 'cold_start'` + caveat |
+| No prior seasons for a corps | corps-history defaults (mean rank 15, score 70, `is_new=1`); caption fingerprint zeros + confidence 0 | `tier = 'no_prior_seasons'` |
+| No judge panel supplied | Elo neutral 1500 → 0; masked anyway at serving (indices 101–112) | info-level note (no accuracy cost — prod masks these too) |
+| No subcaption breakdowns | indices 137–168 zero (trained-in degradation) | info-level note + which shows lacked breakdowns |
+| No performance order | −1 sentinel (trained-in) | info-level note |
+| Thin field-pace pool | confidence → 0, slope falls back to historical (or 0 with no prior seasons) | `readiness.fieldPace = {observations, corps, dates, confidence}` |
+| Thin recal pool (n < 20) | shrink `n/(n+8)` × taper `n/20`, clamp ±1.5, → 0 at n=0 | `recal: {division, offset, pool_n, taper}` per division |
+| No reference-curve cell | nearest-cell fallback (div penalty 100 000, rank ×25, bucket ×1) → constant 15 | warning caveat (rare; shipped curves cover all divisions) |
+
+Accuracy tiers, each with a backtested MAE figure published in MODEL_CARD.md
+BEFORE release (measured by re-running our 2026 backtests with history
+artificially truncated to each tier):
+- **T0 full-season history** → parity with production v10.5.
+- **T1 partial season (≥3 prior shows/corps, ≥2 field dates)** — trajectory +
+  field-pace live but lower-confidence; recal tapered.
+- **T2 sparse (1–2 prior shows)** — bias-cal bucket `sparse`; most trajectory
+  features at defaults.
+- **T3 cold start (0 prior shows)** — bias-cal bucket `debut`; curve-anchored.
+The returned `readiness.tier` names the tier per corps and overall, and the docs
+state each tier's expected error so users can decide whether to trust the output.
+
+### 3.6 Diagnostics & input audit (new — prod doesn't have this)
+
+The audit found prod's payload `readiness` block is a stub (hardcoded zeros, no
+caveats/input_audit). The SDK builds the real thing, because open-source users
+won't have our operational context. Every `PredictedShowResult` carries:
+
+- **`inputAudit`** — what was received and how it was interpreted: shows/corps/
+  scores counted; name normalizations applied (`input → matched`, with match
+  method: exact | alias | fuzzy); rows dropped and why (caption-total mismatch
+  > 0.05, invalid rank, duplicate corps-show, out-of-season date); divisions
+  inferred from the registry vs supplied.
+- **`readiness`** — per-corps tier (§3.5), sequence fill (n of 15 steps),
+  feature-coverage map per group (present | defaulted | masked), field-pace
+  snapshot stats, recal pool stats per division.
+- **`caveats`** — ordered, human-readable, severity-tagged (`info | warn`):
+  e.g. "Blue Devils: only 2 prior shows supplied — 'sparse' calibration bucket,
+  expect ±X wider error", "recal pool for Open Class has 4 shows — offset damped
+  to 20%", "3 score rows dropped: caption sum ≠ total by >0.05".
+- **`consistency` (validation stage, before predict)** — the prod data-quality
+  invariants applied to user data with clear errors: per-row
+  `|Σcaptions − total| ≤ 0.05` (using the GE1+GE2+(VP+VA+CG)/2+(MB+MA+MP)/2
+  formula), caption scores ∈ [0, 20], ranks 1–25, dates inside `seasonInfo`,
+  target date strictly after all history dates (leakage guard — hard error, not
+  a caveat). `strict: false` downgrades row-level failures to drops+warnings.
+- **`explain` (optional, `predict({..., explain: true})`)** — per-corps feature
+  attribution lite: the computed baseline (caption EMA), curve residuals, trend
+  slopes, field-pace values, bias-cal bucket + offset, recal offset — i.e. the
+  interpretable additive pieces around the neural delta, so a user can see WHY a
+  number moved. Cheap to emit (all computed anyway); off by default to keep
+  payloads small.
+
+Design rule: **defaults are silent only when they cost nothing** (judge masking);
+anything that plausibly changes the number produces a caveat. Nothing is ever
+imputed without appearing in `readiness`.
 
 ---
 
@@ -234,8 +292,10 @@ Each tier gets a documented accuracy figure from backtests run BEFORE release.
 1. Registry generator (`tools/gen-registries.ts`): dump corps/aliases/judges/
    shows/captions from prod DB → `assets/registries/*.json` + generated
    `src/domain/generated.ts` literal types. Re-runnable; committed output.
-2. Port the feature builder to pure TS: sequence assembly, static 216 (with
-   masks), trend 8, field-pace temporal (from `SeasonHistory`, not the DB).
+2. Port the feature builder to pure TS against the Appendix A spec: sequence
+   assembly [15,101], static 216 (with masks), trend 8, field-pace temporal
+   (Appendix B.1) — all from `SeasonHistory`, not the DB. Every index range and
+   constant in Appendix A becomes a named constant with a unit test.
 3. Port inference: ensemble load → per-seed predict → target-norm denorm →
    pool → bias calibration → caption scaling. Reuse `v9SubcaptionInference.ts`
    (already tfjs) as the starting point; strip DB/serving coupling.
@@ -247,7 +307,11 @@ Each tier gets a documented accuracy figure from backtests run BEFORE release.
 **Phase 2 — API & schema layer**
 6. Schema classes, branded keys, smart matching, cross-field checks.
 7. Effect entry + Promise facade + simple API transformation.
-8. Error taxonomy + readiness/caveats surfaces.
+8. Diagnostics layer (§3.6): inputAudit, per-corps readiness tiers, severity-
+   tagged caveats, consistency validation (Appendix B.4), optional `explain`.
+   This is net-new (prod's readiness block is a stub) and a headline feature of
+   the SDK, not an afterthought — build it alongside the feature builder so
+   every default the builder applies registers a readiness entry at the source.
 
 **Phase 3 — Packaging & OSS release**
 9. tsup dual ESM/CJS build, `sideEffects:false`, `arethetypeswrong` check;
@@ -315,3 +379,131 @@ disclosure for the reference material.
 - **Effect v4 beta risk:** accepted per §2; retreat path documented.
 - **Registry freshness:** shipped registries are a snapshot; `Corps.make` covers
   anything new, and we re-cut registries each release.
+
+---
+
+## Appendix A — Feature inventory (implementation spec, audited from prod code)
+
+Source of truth: `buildMlSequencesV9Subcaption.ts` (clean-v10 contract,
+field-pace profile), `v10FeatureSchema.ts` (asserts 101/216/224),
+`v9FeatureModes.ts` (masks). One row = one (season, show, division, corps).
+
+### A.1 Sequence input [15, 101]
+
+One timestep = one prior scored performance by the same corps, same season,
+strictly date-before the target. Last 15 shows, **left-padded**; pad rows are
+all-zero except dim 3 (`padding`) = 1.
+
+| idx | feature | scaling / default |
+|---|---|---|
+| 0 | percent_through | /100 |
+| 1 | days since previous show | min(d,14)/14; **0.5 if first show** |
+| 2 | sequence position (showIdx+1) | /15 |
+| 3 | padding flag | 1 only on pad rows |
+| 4 | days since corps' season start | min(d,120)/120 |
+| 5 | observed fraction (showIdx+1)/pastCount | ratio |
+| 6 | remaining fraction | ratio |
+| 7–8 | day-of-year sin, cos | rad = doy/366·2π |
+| 9 | show-count progress | /40 |
+| 10 | total_score | (x−70)/30 |
+| 11 | rank | /25 |
+| 12 | rank delta vs prev show | /25 |
+| 13 | gap to leader | /25 |
+| 14 | gap to next rank up | /25 |
+| 15 | field percentile 1−(rank−1)/(fieldSize−1) | [0,1] |
+| 16 | total delta vs prev show | /25 |
+| 17–20 | performance order: in-class, in-class norm, overall, overall norm | **−1 = missing** |
+| 21–52 | per caption ×8 (GE1,GE2,VP,VA,CG,MB,MA,MP), stride 4 from offset 21: curve residual (raw pts), caption rank/fieldSize, score/20, score delta vs prev/20 | 0,0,0,0 if caption missing |
+| 53–59 | opponents at show: residual mean, residual std, rank mean/25, rank best/25, top-3-by-rank residuals (raw) | zeros if no opponent history |
+| 60–86 | opponents last-3: total mean (x−70)/30, slope/25, volatility/25; 8 caption means/20, 8 slopes/20, 8 vols/20 | zeros |
+| 87–90 | is_finals, is_semifinals, is_regional (slug substring), is_early_season (month < July) | binary |
+| 91–100 | field-relative: total z vs show avg/std; 8 caption diffs vs show averages; show std_total/10 | all 0 if no show aggregate |
+
+Training-only guard (must hold in SDK fixtures): the caption block (21–52) of
+the last valid step is zeroed when it is the target show.
+
+### A.2 Static input [216] = 212 base + 4 field-pace
+
+| idx | block | contents (scaling / defaults) |
+|---|---|---|
+| 0–24 | corps_history_summary | 0 prev_season_rank/25; 1 years_in_WC/20; 2 hist_mean_rank/25; 3 hist_rank_std/10; 4 hist_best_rank/25; 5 best_rank_recency/20; 6 made_finals_rate; 7 is_new; 8 pastShows/15; 9 rank EMA(α=0.3)/25; 10 mean-residual EMA; 11 residual OLS slope; 12 residual volatility; 13 (currentRank−hist_mean)/25; 14 days_since_season_start; 15 days_since_last_match (0.5 if none); 16 shows-remaining max(0,15−(k+1))/15; 17 field_size/25; 18–21 target perf order (−1 missing); 22 topCorpsPresent/12; 23 divisionStrength/25; 24 is_major_show |
+| 25–40 | caption_ranges | per caption prior min,max /20; fallback division×5%-bucket range, then 0/20 |
+| 41–57 | recent_residuals | last mean residual; 8 last per-caption residuals; 8 per-caption residual EMAs (α=0.3) — raw points vs reference curve |
+| 58–100 | target_opponents | residual mean/median/std/min/max/p25/p75/rank-weighted mean; rank mean/25, best/25; top-3 residuals; top-3 ranks/25; opponent last-3 total mean/slope/vol; 8 caption means/slopes/vols |
+| 101–112 | judge_elo | 8 per-caption avg judge Elo (x−1500)/200; panel mean/std/max/min. **Zeroed at serving by `maskV9JudgeContext`** |
+| 113–120 | corps_elo | per-caption corps Elo pre-show (x−1500)/200; default 1500→0 |
+| 121–128 | rank_baselines | reference-curve baseline (entering rank × pct bucket) per caption /20 |
+| 129–131 | division one-hot | world, open, all-age |
+| 132–136 | target date | month/12, day/31; premiere month/12, day/31; pastShows/40 |
+| 137–168 | subcaption_history | per caption: last Content, last Achievement, EMA Content, EMA Achievement, /10; **0 when absent** |
+| 169–178 | cold_start | is_season_debut; same-season count/40; days since same-season show /14 (1 if none); days since ANY scored show /365 (prev-season finals; 1 if none); last-season final score (x−70)/30 (default 70); last-season rank/25; is_first_scored_event_of_season; event week/12; day-of-season/120; percent_through/100 |
+| 179–211 | caption_fingerprint | per caption: prior-season mean residual /2; 3-yr recency-weighted (0.65^age) residual /2; growth (late≥75% − early≤35%) /2; volatility min(σ/2,2); + confidence min(1, priorEntries/24). **Zeros + conf 0 with no prior seasons** |
+| 212–215 | field_pace | field_level_vs_reference/10, shrunk_residual_slope/10, residual_ema/10, confidence (Appendix B.1) |
+
+Separate integer inputs (all forced to "unknown" at serving — identity-agnostic):
+`judge_indices[8]`=0, `corps_id`=0, `agnostic_show_id`=0.
+
+### A.3 Trend features (216 → 224)
+
+Appended at inference: per caption, OLS-free slope of last ≤3 strictly-prior
+recap scores: `(last − first)/(n−1)/0.1`; 0 if <2 shows. (Serving reconstructs
+these from the sequence's recap channel `step[21+c*4+2]×20`.) The same layer
+computes `globalBaseline` = per-caption EMA (α=0.3) of prior recaps — the
+delta-head baseline.
+
+### A.4 Targets & reconstruction
+
+Target vector [8 delta, 8 recap, 3 category, 1 total], z-normed per seed with
+stats in `target-norm.json`. Delta = recap − corps caption-EMA baseline.
+Reconstruction: caption = denorm(delta) + baseline; total =
+`GE1+GE2+(VP+VA+CG)/2+(MB+MA+MP)/2`; consistency invariant |Σ−total| ≤ 0.05.
+
+## Appendix B — Serving math (implementation spec)
+
+### B.1 Field-pace temporal (per season × division, strictly date-prior)
+
+Processed date-by-date; state updates only after ALL shows on a date resolve
+(no same-day leakage). Reference curve = as-of running mean keyed
+`division|rank_bucket|pct_bucket|caption`; missing-cell fallback = nearest cell
+(cross-division penalty 100 000, |Δrank|×25, |Δbucket|), else constant 15.
+Residual = total − referenceTotal. Then, over same-season same-division
+observations with rank ≤ 25 strictly before the target date:
+- `field_level_vs_reference` = mean residual of latest observation per corps
+- `rawSlope` = OLS slope of residual vs pct/100 (0 if <2 rows)
+- `historicalSlope` = mean per-season slope over earlier seasons (seasons with
+  ≥4 obs and ≥2 dates)
+- `confidence = min(1, corpsCount/12) × min(1, distinctDates/6)`
+- `shrunk_residual_slope = conf·rawSlope + (1−conf)·historicalSlope`
+- `residual_ema`: chronological, α=0.2 (`0.2·r + 0.8·ema`), seed = first r
+Empty pool → all zeros (natural cold-start default).
+
+### B.2 Inference & ensemble
+
+Mask non-pad steps via dim 3; zero pad steps. Append 8 trend features, apply
+`maskV9JudgeContext` (zero static 101–112), identity inputs to 0. Run all 8
+seeds; **pool = arithmetic mean** of per-caption p50 (and p10/p90). Intervals:
+`{low: mean(p10)−mean(p50), high: mean(p90)−mean(p50)}`. Baseline recap for
+denorm = last non-pad recap step ×20, else curve-anchor block (static 121–128)
+×20. `historyLen = nonPadSteps − 1`.
+
+### B.3 Bias calibration + recal
+
+`rawTotal = GE1+GE2+(VP+VA+CG)/2+(MB+MA+MP)/2`.
+1. Bias cal (shipped JSON) keyed `division|bucket`, bucket = debut (0 non-pad) |
+   sparse (≤2) | established (>2); offset ADDED to total; missing key → 0.
+2. Recal offset per division, fit from user-supplied resolved shows:
+   residuals = actual − pred, strictly date-before target, same division, within
+   14 days; if n ≥ 5 drop min & max; `off = clamp(±1.5, n/(n+8) · mean)`
+   (shrink uses untrimmed n); thin-pool taper `off ×= min(1, n/20)`.
+3. Captions rescaled proportionally: `scale = total/rawTotal` (1 if ≤0) so
+   GE/Visual/Music stay consistent with the recalibrated total.
+
+### B.4 Data-quality invariants applied to user input (from the prod contract)
+
+- caption-derived total within 0.05 of stated total (or total derived if absent)
+- no null/negative caption scores; caption ∈ [0,20]
+- ranks 1–25; percent_through ∈ [0,100]
+- all history strictly before target date (hard error)
+- duplicate (corps, show) rows rejected
+- judge captions ∈ {GE1,GE2,VP,VA,CG,MB,MA,MP} after normalization; unknown
+  judges allowed (masked anyway)
