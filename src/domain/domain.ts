@@ -53,7 +53,7 @@ export const Caption = Object.fromEntries(
     key,
     { key, ...CAPTION_LABELS[key], breakdown: ['Content', 'Achievement'] } satisfies CaptionDef,
   ])
-) as Record<CaptionKey, CaptionDef>;
+) as unknown as Record<CaptionKey, CaptionDef>;
 
 const CAPTION_NAME_LOOKUP: Record<string, CaptionKey> = {
   ge1: 'GE1', 'general effect 1': 'GE1', 'general effect1': 'GE1',

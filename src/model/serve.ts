@@ -77,11 +77,12 @@ export const servePrediction = (
   // block) only when that is all-zero (first-ever appearance).
   const maskArr = mask.map((v) => (v ? 1 : 0));
   const lastValid = maskArr.lastIndexOf(1);
-  const baseline = CAPTIONS.map((_, i) =>
+  const baseline: number[] = CAPTIONS.map((_, i) =>
     lastValid >= 0 ? (sequence[lastValid]?.[RECAP_OFFSET + i * CAPTION_STRIDE + 2] ?? 0) * CAPTION_SCALE : 0
   );
   if (baseline.every((v) => v === 0)) {
-    for (let i = 0; i < 8; i++) baseline[i] = (staticFeatures[RANK_BASELINE_START + i] ?? 0) * CAPTION_SCALE;
+    for (let i = 0; i < 8; i++)
+      (baseline as number[])[i] = (staticFeatures[RANK_BASELINE_START + i] ?? 0) * CAPTION_SCALE;
   }
   const nonPadSteps = mask.filter(Boolean).length;
   const historyLen = Math.max(0, nonPadSteps - 1);
