@@ -336,7 +336,7 @@ async function main() {
   lines.push(`\n=== Events evaluated: ${eventsEvaluated} | corps observations: ${corpsEvaluated} | skips: ${skips.length} ===`);
   for (const [name, pass] of [['NO RECAL', noRecal], ['WITH RECAL', withRecal]] as const) {
     lines.push(`\n--- ${name} — per tier (n | MAE | bias) ---`);
-    for (const { label, c } of tierRows(pass)) lines.push(`  ${label.padEnd(16)} ${fmt(c)}`);
+    for (const { label, c } of tierRows(pass)) lines.push(`  ${(label ?? '?').padEnd(16)} ${fmt(c)}`);
     lines.push(`  ${'overall'.padEnd(16)} ${fmt(pass.overall)}`);
     lines.push(`  per division:`);
     for (const d of DIVISIONS) lines.push(`    ${d.padEnd(14)} ${fmt(pass.byDivision.get(d) ?? mkCell())}`);
