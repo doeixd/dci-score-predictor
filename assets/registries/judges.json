@@ -1,0 +1,1307 @@
+{
+ "generated_from": "judge_assignments",
+ "judges": [
+  {
+   "id": "a-blalark-1",
+   "initials": "VA",
+   "captions": "CG,VA",
+   "assignments": 2
+  },
+  {
+   "id": "a-brown-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 12
+  },
+  {
+   "id": "a-combites-1",
+   "initials": "VP",
+   "captions": "VP,GE1,CG,GE2,VA",
+   "assignments": 37
+  },
+  {
+   "id": "a-cook-1",
+   "initials": "MB",
+   "captions": "MA,MB,GE2",
+   "assignments": 78
+  },
+  {
+   "id": "a-dalton-1",
+   "initials": "VP",
+   "captions": "VP,GE1,CG",
+   "assignments": 12
+  },
+  {
+   "id": "a-dunn-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 42
+  },
+  {
+   "id": "a-greene-1",
+   "initials": "VP",
+   "captions": "GE1,VA,VP,CG",
+   "assignments": 8
+  },
+  {
+   "id": "a-kristensen-1",
+   "initials": "MP",
+   "captions": "GE2,MP,MA,MB,GE1",
+   "assignments": 76
+  },
+  {
+   "id": "a-lo-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 47
+  },
+  {
+   "id": "a-snipes-1",
+   "initials": "MA",
+   "captions": "GE2,MA",
+   "assignments": 15
+  },
+  {
+   "id": "b-brahan-1",
+   "initials": "VP",
+   "captions": "GE1,CG,VP",
+   "assignments": 25
+  },
+  {
+   "id": "b-cappelluti-1",
+   "initials": "MP",
+   "captions": "GE2,MA,MP",
+   "assignments": 4
+  },
+  {
+   "id": "b-crisp-1",
+   "initials": "MB",
+   "captions": "MB,GE2,MA",
+   "assignments": 38
+  },
+  {
+   "id": "b-dacy-1",
+   "initials": "MB",
+   "captions": "MB,GE2",
+   "assignments": 11
+  },
+  {
+   "id": "b-fabrizio-1",
+   "initials": "VP",
+   "captions": "MA,MB,GE2,VP",
+   "assignments": 81
+  },
+  {
+   "id": "b-huneycutt-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 22
+  },
+  {
+   "id": "b-johnson-1",
+   "initials": "MB",
+   "captions": "MA,GE2,MB",
+   "assignments": 6
+  },
+  {
+   "id": "b-jones-1",
+   "initials": "VP",
+   "captions": "GE1,VP,VA",
+   "assignments": 63
+  },
+  {
+   "id": "b-kenny-1",
+   "initials": "GE 1",
+   "captions": "CG,GE1",
+   "assignments": 10
+  },
+  {
+   "id": "b-kuhn-1",
+   "initials": "VP",
+   "captions": "GE1,VA,VP,CG,MP",
+   "assignments": 63
+  },
+  {
+   "id": "b-mascaro-1",
+   "initials": "VP",
+   "captions": "VA,VP,GE1,MA",
+   "assignments": 69
+  },
+  {
+   "id": "b-spidel-1",
+   "initials": "VP",
+   "captions": "CG,GE1,VA,VP",
+   "assignments": 41
+  },
+  {
+   "id": "b-taylor-1",
+   "initials": "MB",
+   "captions": "MB,MA",
+   "assignments": 3
+  },
+  {
+   "id": "b-thomas-1",
+   "initials": "VP",
+   "captions": "VP,CG,GE1,VA",
+   "assignments": 24
+  },
+  {
+   "id": "b-williams-1",
+   "initials": "MP",
+   "captions": "MA,MP,GE2",
+   "assignments": 25
+  },
+  {
+   "id": "c-adderley-1",
+   "initials": "VA",
+   "captions": "VA,GE1",
+   "assignments": 6
+  },
+  {
+   "id": "c-armbruster-1",
+   "initials": "MB",
+   "captions": "MA,GE2,MB",
+   "assignments": 54
+  },
+  {
+   "id": "c-church-1",
+   "initials": "VP",
+   "captions": "VA,GE1,VP,GE2,CG",
+   "assignments": 41
+  },
+  {
+   "id": "c-clayton-fisher-1",
+   "initials": "VP",
+   "captions": "GE1,CG,VA,VP",
+   "assignments": 31
+  },
+  {
+   "id": "c-costanza-1",
+   "initials": "VP",
+   "captions": "GE1,CG,VA,VP,GE2",
+   "assignments": 67
+  },
+  {
+   "id": "c-crotts-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 6
+  },
+  {
+   "id": "c-diefenbach-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 5
+  },
+  {
+   "id": "c-dillon-1",
+   "initials": "VP",
+   "captions": "CG,VP,GE1,VA",
+   "assignments": 80
+  },
+  {
+   "id": "c-dunn-1",
+   "initials": "MP",
+   "captions": "MA,MP",
+   "assignments": 2
+  },
+  {
+   "id": "c-hestin-1",
+   "initials": "MP",
+   "captions": "GE1,GE2,MP,MA",
+   "assignments": 24
+  },
+  {
+   "id": "c-marra-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 39
+  },
+  {
+   "id": "c-moss-1",
+   "initials": "VP",
+   "captions": "VP,VA,GE1,CG,GE2,MA",
+   "assignments": 95
+  },
+  {
+   "id": "c-nelson-1",
+   "initials": "VP",
+   "captions": "VP,CG,VA,GE1",
+   "assignments": 112
+  },
+  {
+   "id": "c-phillips-1",
+   "initials": "MB",
+   "captions": "MB,GE2,MA",
+   "assignments": 69
+  },
+  {
+   "id": "c-poole-1",
+   "initials": "MP",
+   "captions": "MA,MP,GE2",
+   "assignments": 25
+  },
+  {
+   "id": "c-quamme-1",
+   "initials": "VP",
+   "captions": "VP,CG,VA,GE1",
+   "assignments": 22
+  },
+  {
+   "id": "c-raichle-1",
+   "initials": "VP",
+   "captions": "VA,CG,GE2,GE1,VP",
+   "assignments": 54
+  },
+  {
+   "id": "c-rapacki-1",
+   "initials": "MP",
+   "captions": "GE2,MP,MA",
+   "assignments": 32
+  },
+  {
+   "id": "c-romanowski-1",
+   "initials": "MP",
+   "captions": "MA,MP,GE2,MB",
+   "assignments": 76
+  },
+  {
+   "id": "c-rothe-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2,GE1",
+   "assignments": 80
+  },
+  {
+   "id": "c-williams-1",
+   "initials": "VA",
+   "captions": "GE1,VA,CG",
+   "assignments": 6
+  },
+  {
+   "id": "d-argul-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 44
+  },
+  {
+   "id": "d-aydelott-1",
+   "initials": "MB",
+   "captions": "GE2,MB,MA",
+   "assignments": 19
+  },
+  {
+   "id": "d-bryan-1",
+   "initials": "MP",
+   "captions": "MA,MP,GE2",
+   "assignments": 31
+  },
+  {
+   "id": "d-burke-1",
+   "initials": "VA",
+   "captions": "CG,VA,GE1",
+   "assignments": 3
+  },
+  {
+   "id": "d-carbone-1",
+   "initials": "MP",
+   "captions": "GE2,MP,MA",
+   "assignments": 85
+  },
+  {
+   "id": "d-davis-1",
+   "initials": "VP",
+   "captions": "MB,GE2,MA,VP",
+   "assignments": 81
+  },
+  {
+   "id": "d-deems-1",
+   "initials": "VP",
+   "captions": "VP,VA,GE1,CG",
+   "assignments": 90
+  },
+  {
+   "id": "d-henderson-1",
+   "initials": "VP",
+   "captions": "CG,VP",
+   "assignments": 9
+  },
+  {
+   "id": "d-mactaggart-1",
+   "initials": "MB",
+   "captions": "MB",
+   "assignments": 2
+  },
+  {
+   "id": "d-mcgrath-1",
+   "initials": "MB",
+   "captions": "MA,MB,GE2",
+   "assignments": 9
+  },
+  {
+   "id": "d-niebauer-1",
+   "initials": "VA",
+   "captions": "VA,GE1,CG",
+   "assignments": 36
+  },
+  {
+   "id": "d-orser-1",
+   "initials": "MB",
+   "captions": "MA,MB,GE2",
+   "assignments": 32
+  },
+  {
+   "id": "d-padilla-1",
+   "initials": "VP",
+   "captions": "VP,VA,CG,GE1",
+   "assignments": 44
+  },
+  {
+   "id": "d-shaffer-1",
+   "initials": "GE 2",
+   "captions": "GE2",
+   "assignments": 1
+  },
+  {
+   "id": "d-solomonson-1",
+   "initials": "VP",
+   "captions": "VP,VA",
+   "assignments": 13
+  },
+  {
+   "id": "d-starnes-1",
+   "initials": "MA",
+   "captions": "MA,GE2",
+   "assignments": 4
+  },
+  {
+   "id": "d-thomas-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 27
+  },
+  {
+   "id": "d-torchia-1",
+   "initials": "VA",
+   "captions": "CG,VA,GE1,GE2",
+   "assignments": 93
+  },
+  {
+   "id": "e-argenziano-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 19
+  },
+  {
+   "id": "e-beens-1",
+   "initials": "VA",
+   "captions": "VA,CG",
+   "assignments": 6
+  },
+  {
+   "id": "e-martinez-1",
+   "initials": "VP",
+   "captions": "GE1,VP,VA,CG",
+   "assignments": 37
+  },
+  {
+   "id": "e-warren-1",
+   "initials": "VP",
+   "captions": "VP,VA,GE1",
+   "assignments": 13
+  },
+  {
+   "id": "f-miller-1",
+   "initials": "VA",
+   "captions": "VA,CG,GE1",
+   "assignments": 41
+  },
+  {
+   "id": "f-morris-1",
+   "initials": "VP",
+   "captions": "VP,GE1,VA",
+   "assignments": 36
+  },
+  {
+   "id": "g-boulden-1",
+   "initials": "MB",
+   "captions": "MB,GE2,MA",
+   "assignments": 39
+  },
+  {
+   "id": "g-czapinski-1",
+   "initials": "VA",
+   "captions": "VA",
+   "assignments": 1
+  },
+  {
+   "id": "g-fugett-1",
+   "initials": "MP",
+   "captions": "MP,GE2,MA",
+   "assignments": 100
+  },
+  {
+   "id": "g-howarth-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 63
+  },
+  {
+   "id": "g-llacer-1",
+   "initials": "VP",
+   "captions": "GE1,VA,VP,CG",
+   "assignments": 24
+  },
+  {
+   "id": "g-markham-1",
+   "initials": "MB",
+   "captions": "MA,GE2,MB,GE1",
+   "assignments": 34
+  },
+  {
+   "id": "g-miller-1",
+   "initials": "MB",
+   "captions": "MA,GE2,MB",
+   "assignments": 43
+  },
+  {
+   "id": "g-oliviero-1",
+   "initials": "VP",
+   "captions": "CG,GE1,VA,VP,GE2",
+   "assignments": 80
+  },
+  {
+   "id": "g-schallert-1",
+   "initials": "MB",
+   "captions": "MA,MB,GE2",
+   "assignments": 5
+  },
+  {
+   "id": "g-williams-1",
+   "initials": "MB",
+   "captions": "MA,MB",
+   "assignments": 4
+  },
+  {
+   "id": "h-bassett-1",
+   "initials": "VP",
+   "captions": "VP,CG",
+   "assignments": 16
+  },
+  {
+   "id": "h-gil-1",
+   "initials": "MP",
+   "captions": null,
+   "assignments": 1
+  },
+  {
+   "id": "h-nguyen-1",
+   "initials": "VP",
+   "captions": "VP,CG,GE1",
+   "assignments": 81
+  },
+  {
+   "id": "i-delgado-1",
+   "initials": "VA",
+   "captions": "VA",
+   "assignments": 3
+  },
+  {
+   "id": "i-jenkins-1",
+   "initials": "VP",
+   "captions": "GE1,CG,VP",
+   "assignments": 12
+  },
+  {
+   "id": "j-allison-dma-1",
+   "initials": "MA",
+   "captions": "GE2,MA",
+   "assignments": 8
+  },
+  {
+   "id": "j-ausdemore-1",
+   "initials": "MP",
+   "captions": "MP,MA",
+   "assignments": 50
+  },
+  {
+   "id": "j-barton-1",
+   "initials": "VP",
+   "captions": "CG,VP",
+   "assignments": 14
+  },
+  {
+   "id": "j-bell-1",
+   "initials": "MB",
+   "captions": "GE2,MA,MB,GE1",
+   "assignments": 71
+  },
+  {
+   "id": "j-bierschenk-1",
+   "initials": "VP",
+   "captions": "VP",
+   "assignments": 5
+  },
+  {
+   "id": "j-brooks-1",
+   "initials": "MP",
+   "captions": "MP",
+   "assignments": 42
+  },
+  {
+   "id": "j-campbell-1",
+   "initials": "VP",
+   "captions": "CG,GE1,VP",
+   "assignments": 19
+  },
+  {
+   "id": "j-carlisle-1",
+   "initials": "VP",
+   "captions": "VA,GE1,VP,CG",
+   "assignments": 32
+  },
+  {
+   "id": "j-corradino-1",
+   "initials": "VA",
+   "captions": "VA,CG,GE1",
+   "assignments": 6
+  },
+  {
+   "id": "j-davila-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 57
+  },
+  {
+   "id": "j-denton-1",
+   "initials": "MB",
+   "captions": "GE2,MA,MB",
+   "assignments": 54
+  },
+  {
+   "id": "j-gilley-1",
+   "initials": "VP",
+   "captions": "CG,VP,GE1,VA",
+   "assignments": 90
+  },
+  {
+   "id": "j-harper-1",
+   "initials": "MB",
+   "captions": "MA,GE2,MB",
+   "assignments": 80
+  },
+  {
+   "id": "j-howell-1",
+   "initials": "VP",
+   "captions": "CG,GE1,VP,VA,GE2",
+   "assignments": 107
+  },
+  {
+   "id": "j-kennedy-1",
+   "initials": "MP",
+   "captions": "MA,GE2,MP,GE1",
+   "assignments": 93
+  },
+  {
+   "id": "j-loyde-1",
+   "initials": "MB",
+   "captions": "MA,MB,GE2",
+   "assignments": 16
+  },
+  {
+   "id": "j-mills-1",
+   "initials": "MB",
+   "captions": "MA,MB,GE2",
+   "assignments": 34
+  },
+  {
+   "id": "j-missing-1",
+   "initials": "VP",
+   "captions": "VP,MP,CG,MB,MA,GE2",
+   "assignments": 55
+  },
+  {
+   "id": "j-mitchell-1",
+   "initials": "MB",
+   "captions": "MB,GE2,MA",
+   "assignments": 10
+  },
+  {
+   "id": "j-myers-1",
+   "initials": "MP",
+   "captions": "MP",
+   "assignments": 7
+  },
+  {
+   "id": "j-orefice-1",
+   "initials": "VP",
+   "captions": "VP,CG,GE1,VA",
+   "assignments": 101
+  },
+  {
+   "id": "j-oswald-1",
+   "initials": "VP",
+   "captions": "CG,VP",
+   "assignments": 8
+  },
+  {
+   "id": "j-pipitone-1",
+   "initials": "MP",
+   "captions": "MP,MA",
+   "assignments": 16
+  },
+  {
+   "id": "j-prosperie-1",
+   "initials": "MP",
+   "captions": "MP,MA",
+   "assignments": 54
+  },
+  {
+   "id": "j-pursifull-1",
+   "initials": "VP",
+   "captions": "VA,CG,VP,GE1",
+   "assignments": 30
+  },
+  {
+   "id": "j-queen-1",
+   "initials": "MP",
+   "captions": "MP,MA",
+   "assignments": 14
+  },
+  {
+   "id": "j-rhodes-1",
+   "initials": "MA",
+   "captions": "GE2,MA",
+   "assignments": 39
+  },
+  {
+   "id": "j-rinehart-1",
+   "initials": "MB",
+   "captions": "MB,MA",
+   "assignments": 6
+  },
+  {
+   "id": "j-sterrett-1",
+   "initials": "VP",
+   "captions": "VA,VP,CG",
+   "assignments": 7
+  },
+  {
+   "id": "j-sturgeon-1",
+   "initials": "VP",
+   "captions": "VA,VP,GE1,CG",
+   "assignments": 98
+  },
+  {
+   "id": "j-tate-1",
+   "initials": "VP",
+   "captions": "VA,VP,GE1",
+   "assignments": 23
+  },
+  {
+   "id": "j-webb-1",
+   "initials": "VP",
+   "captions": "MA,GE2,MP,VP",
+   "assignments": 61
+  },
+  {
+   "id": "j-wilson-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 60
+  },
+  {
+   "id": "k-baker-1",
+   "initials": "VP",
+   "captions": "VP,CG,GE1,VA",
+   "assignments": 104
+  },
+  {
+   "id": "k-burja-1",
+   "initials": "MP",
+   "captions": "MP",
+   "assignments": 5
+  },
+  {
+   "id": "k-giese-1",
+   "initials": "VP",
+   "captions": "VA,VP,GE1,CG",
+   "assignments": 70
+  },
+  {
+   "id": "k-kuhn-1",
+   "initials": "VP",
+   "captions": "VA,VP,CG",
+   "assignments": 36
+  },
+  {
+   "id": "k-lejeune-1",
+   "initials": "VP",
+   "captions": "GE1,VP,GE2",
+   "assignments": 11
+  },
+  {
+   "id": "k-miller-1",
+   "initials": "VP",
+   "captions": "GE1,CG,VP,VA",
+   "assignments": 105
+  },
+  {
+   "id": "k-shuttlesworth-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 17
+  },
+  {
+   "id": "k-turner-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2,GE1",
+   "assignments": 75
+  },
+  {
+   "id": "k-weirich-1",
+   "initials": "VP",
+   "captions": "MB,MA,GE2,VP",
+   "assignments": 44
+  },
+  {
+   "id": "k-young-1",
+   "initials": "MB",
+   "captions": "MA,GE2,MB",
+   "assignments": 29
+  },
+  {
+   "id": "l-appel-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 14
+  },
+  {
+   "id": "l-carlson-1",
+   "initials": "VA",
+   "captions": "CG,GE1,VA",
+   "assignments": 42
+  },
+  {
+   "id": "l-eubanks-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 11
+  },
+  {
+   "id": "m-anderson-1",
+   "initials": "VP",
+   "captions": "GE1,VA,CG,VP,GE2",
+   "assignments": 42
+  },
+  {
+   "id": "m-bowers-1",
+   "initials": "VP",
+   "captions": "CG,VP,GE1,VA",
+   "assignments": 42
+  },
+  {
+   "id": "m-brown-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 11
+  },
+  {
+   "id": "m-calima-1",
+   "initials": "MB",
+   "captions": "GE2,MB,MA",
+   "assignments": 13
+  },
+  {
+   "id": "m-carlberg-1",
+   "initials": "CG",
+   "captions": "CG",
+   "assignments": 3
+  },
+  {
+   "id": "m-czapinksi-1",
+   "initials": "VP",
+   "captions": "GE1,CG,VA,VP",
+   "assignments": 38
+  },
+  {
+   "id": "m-davis-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 88
+  },
+  {
+   "id": "m-gray-1",
+   "initials": "VA",
+   "captions": "CG,VA,GE1",
+   "assignments": 46
+  },
+  {
+   "id": "m-griffin-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 87
+  },
+  {
+   "id": "m-hart-1",
+   "initials": "VP",
+   "captions": "GE1,VP,VA",
+   "assignments": 8
+  },
+  {
+   "id": "m-heather-1",
+   "initials": "VP",
+   "captions": "VA,VP,GE1",
+   "assignments": 5
+  },
+  {
+   "id": "m-hoskins-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 77
+  },
+  {
+   "id": "m-howard-1",
+   "initials": "MA",
+   "captions": "GE2,MA",
+   "assignments": 17
+  },
+  {
+   "id": "m-kelly-1",
+   "initials": "VA",
+   "captions": "GE1,VA,CG",
+   "assignments": 58
+  },
+  {
+   "id": "m-leitzke-1",
+   "initials": "MP",
+   "captions": "MP,GE2,MA",
+   "assignments": 85
+  },
+  {
+   "id": "m-lentz-1",
+   "initials": "VP",
+   "captions": "VA,CG,VP,GE1",
+   "assignments": 26
+  },
+  {
+   "id": "m-mast-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 31
+  },
+  {
+   "id": "m-mccourt-1",
+   "initials": "VP",
+   "captions": "GE1,VA,CG,VP",
+   "assignments": 22
+  },
+  {
+   "id": "m-mcgahey-1",
+   "initials": "MB",
+   "captions": "MB,GE2,MA,GE1",
+   "assignments": 55
+  },
+  {
+   "id": "m-mullinix-1",
+   "initials": "MP",
+   "captions": "MP,GE2,MA",
+   "assignments": 26
+  },
+  {
+   "id": "m-o-neill-1",
+   "initials": "VP",
+   "captions": "VP,VA,GE1",
+   "assignments": 10
+  },
+  {
+   "id": "m-rubino-1",
+   "initials": "MB",
+   "captions": "GE2,MB,MA",
+   "assignments": 38
+  },
+  {
+   "id": "m-stone-1",
+   "initials": "VP",
+   "captions": "CG,GE1,VA,VP,GE2",
+   "assignments": 88
+  },
+  {
+   "id": "m-tarr-1",
+   "initials": "VP",
+   "captions": "VP,VA,GE1,CG",
+   "assignments": 33
+  },
+  {
+   "id": "m-teal-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 33
+  },
+  {
+   "id": "m-thompson-1",
+   "initials": "VP",
+   "captions": "VP,CG,GE1,VA",
+   "assignments": 84
+  },
+  {
+   "id": "m-turner-1",
+   "initials": "VP",
+   "captions": "VP,CG,GE1,VA",
+   "assignments": 108
+  },
+  {
+   "id": "m-waymire-1",
+   "initials": "VP",
+   "captions": "MB,GE2,MA,VP",
+   "assignments": 52
+  },
+  {
+   "id": "n-jones-1",
+   "initials": "MB",
+   "captions": "GE2,MB,MA",
+   "assignments": 103
+  },
+  {
+   "id": "n-konouchi-1",
+   "initials": "MB",
+   "captions": "MB,MA",
+   "assignments": 4
+  },
+  {
+   "id": "n-waters-1",
+   "initials": "MP",
+   "captions": "MP,GE2,MA",
+   "assignments": 6
+  },
+  {
+   "id": "p-furnari-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 55
+  },
+  {
+   "id": "p-haines-1",
+   "initials": "VP",
+   "captions": "GE2,MB,MA,VP",
+   "assignments": 61
+  },
+  {
+   "id": "p-hinman-1",
+   "initials": "MB",
+   "captions": "MA,MB,GE2,GE1",
+   "assignments": 22
+  },
+  {
+   "id": "p-madden-1",
+   "initials": "VP",
+   "captions": "VA,GE1,VP,CG",
+   "assignments": 55
+  },
+  {
+   "id": "p-mcgarr-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 86
+  },
+  {
+   "id": "p-pitts-1",
+   "initials": "MP",
+   "captions": "MP",
+   "assignments": 2
+  },
+  {
+   "id": "p-smith-1",
+   "initials": "MP",
+   "captions": "GE2,MA,MP",
+   "assignments": 11
+  },
+  {
+   "id": "r-badua-1",
+   "initials": "MB",
+   "captions": "MB,MA",
+   "assignments": 5
+  },
+  {
+   "id": "r-bailey-1",
+   "initials": "GE 1",
+   "captions": "GE1,CG",
+   "assignments": 8
+  },
+  {
+   "id": "r-comfort-1",
+   "initials": "VP",
+   "captions": "VP,VA,GE1,CG",
+   "assignments": 30
+  },
+  {
+   "id": "r-ellis-1",
+   "initials": "MB",
+   "captions": "MA,MB",
+   "assignments": 6
+  },
+  {
+   "id": "r-greenwell-1",
+   "initials": "MB",
+   "captions": "GE2,MA,MB,GE1",
+   "assignments": 68
+  },
+  {
+   "id": "r-isoda-1",
+   "initials": "MB",
+   "captions": "GE2,MA,MB",
+   "assignments": 43
+  },
+  {
+   "id": "r-jett-1",
+   "initials": "VP",
+   "captions": "GE1,VP,VA,CG",
+   "assignments": 10
+  },
+  {
+   "id": "r-kemp-1",
+   "initials": "VA",
+   "captions": "GE1,CG,VA",
+   "assignments": 75
+  },
+  {
+   "id": "r-overvliet-1",
+   "initials": "VP",
+   "captions": "VP,VA,CG",
+   "assignments": 18
+  },
+  {
+   "id": "r-rios-1",
+   "initials": "MB",
+   "captions": "MA,MB,GE2",
+   "assignments": 51
+  },
+  {
+   "id": "r-rodriguez-1",
+   "initials": "MP",
+   "captions": "MP,MA",
+   "assignments": 10
+  },
+  {
+   "id": "r-rumpf-1",
+   "initials": "MA",
+   "captions": "MA,GE2",
+   "assignments": 3
+  },
+  {
+   "id": "r-ryles-1",
+   "initials": "VP",
+   "captions": "GE1,VP,VA",
+   "assignments": 6
+  },
+  {
+   "id": "r-saucedo-1",
+   "initials": "MB",
+   "captions": "GE2,MA,MB",
+   "assignments": 27
+  },
+  {
+   "id": "r-solomon-1",
+   "initials": "VP",
+   "captions": "VP,CG,VA,GE1",
+   "assignments": 108
+  },
+  {
+   "id": "s-adamo-1",
+   "initials": "VP",
+   "captions": "VA,CG,GE1,VP",
+   "assignments": 86
+  },
+  {
+   "id": "s-alia-1",
+   "initials": "VP",
+   "captions": "VA,GE1,VP",
+   "assignments": 14
+  },
+  {
+   "id": "s-bertelle-1",
+   "initials": "VA",
+   "captions": "VA,GE1,CG",
+   "assignments": 21
+  },
+  {
+   "id": "s-calhoun-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE2",
+   "assignments": 36
+  },
+  {
+   "id": "s-chumley-1",
+   "initials": "VP",
+   "captions": "GE1,CG,VA,VP",
+   "assignments": 31
+  },
+  {
+   "id": "s-clark-1",
+   "initials": "VP",
+   "captions": "VP,CG",
+   "assignments": 10
+  },
+  {
+   "id": "s-halquist-1",
+   "initials": "MB",
+   "captions": "GE2,MB,MA",
+   "assignments": 38
+  },
+  {
+   "id": "s-page-1",
+   "initials": "VP",
+   "captions": "MB,GE2,MA,VP",
+   "assignments": 80
+  },
+  {
+   "id": "s-pizani-1",
+   "initials": "VP",
+   "captions": "VA,VP,GE1",
+   "assignments": 3
+  },
+  {
+   "id": "s-smith-1",
+   "initials": "MB",
+   "captions": "MB,MA",
+   "assignments": 2
+  },
+  {
+   "id": "s-sybilski-1",
+   "initials": "VP",
+   "captions": "GE1,VP,VA",
+   "assignments": 12
+  },
+  {
+   "id": "t-cole-1",
+   "initials": "VP",
+   "captions": "VP,VA",
+   "assignments": 8
+  },
+  {
+   "id": "t-dempsey-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 13
+  },
+  {
+   "id": "t-fox-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2,GE1",
+   "assignments": 74
+  },
+  {
+   "id": "t-hall-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 39
+  },
+  {
+   "id": "t-hudnall-1",
+   "initials": "VP",
+   "captions": "VA,CG,VP,GE1",
+   "assignments": 16
+  },
+  {
+   "id": "t-johnston-1",
+   "initials": "MB",
+   "captions": "MB,MA,GE1",
+   "assignments": 12
+  },
+  {
+   "id": "t-landess-1",
+   "initials": "VP",
+   "captions": "VP,CG",
+   "assignments": 27
+  },
+  {
+   "id": "t-mengel-1",
+   "initials": "MP",
+   "captions": "MP,MA,GE2",
+   "assignments": 29
+  },
+  {
+   "id": "t-moddison-1",
+   "initials": "MB",
+   "captions": "MA,MB,GE2",
+   "assignments": 15
+  },
+  {
+   "id": "t-ochran-1",
+   "initials": "VP",
+   "captions": "VA,GE1,CG,VP",
+   "assignments": 83
+  },
+  {
+   "id": "t-pierce-1",
+   "initials": "VP",
+   "captions": "CG,GE1,VA,VP",
+   "assignments": 32
+  },
+  {
+   "id": "t-sanders-1",
+   "initials": "MP",
+   "captions": "MP",
+   "assignments": 6
+  },
+  {
+   "id": "t-slaughter-1",
+   "initials": "VP",
+   "captions": "VA,VP,GE1",
+   "assignments": 39
+  },
+  {
+   "id": "t-wemhoff-1",
+   "initials": "VP",
+   "captions": "GE1,VA,GE2,CG,VP",
+   "assignments": 69
+  },
+  {
+   "id": "t-west-1",
+   "initials": "MB",
+   "captions": "MA,GE2,MB",
+   "assignments": 18
+  },
+  {
+   "id": "t-wingate-1",
+   "initials": "VP",
+   "captions": "GE1,VA,CG,VP",
+   "assignments": 44
+  },
+  {
+   "id": "t-zimbelman-1",
+   "initials": "MA",
+   "captions": "MA,GE2",
+   "assignments": 5
+  },
+  {
+   "id": "w-chumley-1",
+   "initials": "VP",
+   "captions": "VP,VA,CG,GE1,GE2",
+   "assignments": 103
+  },
+  {
+   "id": "w-dillon-1",
+   "initials": "MB",
+   "captions": "GE2,MA,MB,GE1",
+   "assignments": 110
+  },
+  {
+   "id": "w-rickart-1",
+   "initials": "VP",
+   "captions": "CG,GE1,VP",
+   "assignments": 39
+  },
+  {
+   "id": "w-whaley-1",
+   "initials": "MB",
+   "captions": "MB,GE2,MA",
+   "assignments": 32
+  },
+  {
+   "id": "w-woodworth-1",
+   "initials": "MB",
+   "captions": "MB",
+   "assignments": 2
+  }
+ ]
+}

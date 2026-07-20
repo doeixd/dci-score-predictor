@@ -1,0 +1,3482 @@
+{
+ "generated_from": "corps_scores/corps_aliases",
+ "corps": [
+  {
+   "key": "001j000000iwwslaal",
+   "name": "7th Regiment",
+   "division": "Open Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "aj-grover-gold",
+   "name": "AJ Grover (Gold)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "abigail-olsen-troopers",
+   "name": "Abigail Olsen (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "aileen-gordon-pioneer",
+   "name": "Aileen Gordon (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "alex-plum-madison-scouts",
+   "name": "Alex Plum (Madison Scouts)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "alexane-gelinas-les-stentors",
+   "name": "Alexane Gelinas (Les Stentors)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "alexis-alonso-blue-devils-b",
+   "name": "Alexis Alonso (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "all-styles-have-an-equal-chance-for-success-music-city",
+   "name": "All Styles Have An Equal Chance For Success (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwwsmaal",
+   "name": "Alliance",
+   "division": "All Age Class",
+   "seasons": 2,
+   "last_season": "2016"
+  },
+  {
+   "key": "ally-farrand-pioneer",
+   "name": "Ally Farrand (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "alyssa-hazel-raiders",
+   "name": "Alyssa Hazel (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "amanda-steinhauer-blue-devils",
+   "name": "Amanda Steinhauer (Blue Devils)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "andrew-berry-santa-clara-vanguard",
+   "name": "Andrew Berry (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "andrew-busch-the-diplomats",
+   "name": "Andrew Busch (The Diplomats)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "andrew-francis-spirit-of-atlanta",
+   "name": "Andrew Francis (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "andrew-gottfried-pacific-crest",
+   "name": "Andrew Gottfried (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "andrew-macmurray-river-city-rhythm",
+   "name": "Andrew MacMurray (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "andrew-savage-oregon-crusaders",
+   "name": "Andrew Savage (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "angelica-bare-pioneer",
+   "name": "Angelica Bare (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "angelica-lanthier-pioneer",
+   "name": "Angelica Lanthier (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "armando-garcia-gold",
+   "name": "Armando Garcia (Gold)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "arsenal",
+   "name": "Arsenal",
+   "division": "Open Class",
+   "seasons": 3,
+   "last_season": "2026"
+  },
+  {
+   "key": "arturo-barajas-impulse",
+   "name": "Arturo Barajas (Impulse)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "ashlyn-jones-pioneer",
+   "name": "Ashlyn Jones (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000iwwsnaal",
+   "name": "Atlanta CV",
+   "division": "All Age Class",
+   "seasons": 11,
+   "last_season": "2026"
+  },
+  {
+   "key": "aunna-marzen-santa-clara-vanguard",
+   "name": "Aunna Marzen (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "austin-byers-santa-clara-vanguard",
+   "name": "Austin Byers (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "austin-crawley-pioneer",
+   "name": "Austin Crawley (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "bd-horns-blue-devils",
+   "name": "BD Horns (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "bailee-moore-troopers",
+   "name": "Bailee Moore (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "bailey-yang-blue-devils-b",
+   "name": "Bailey Yang (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "bailey-yohner-blue-devils",
+   "name": "Bailey Yohner (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "bailey-yohner-pacific-crest",
+   "name": "Bailey Yohner (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "bee-trinh-golden-empire",
+   "name": "Bee Trinh (Golden Empire)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "beijing-57-high-school",
+   "name": "Beijing 57 High School",
+   "division": "International Class",
+   "seasons": 1,
+   "last_season": "2025"
+  },
+  {
+   "key": "ben-ayers-blue-devils",
+   "name": "Ben Ayers (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "ben-calongcagong-the-diplomats",
+   "name": "Ben Calongcagong (The Diplomats)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "ben-carter-river-city-rhythm",
+   "name": "Ben Carter (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "bianca-dulong-pacific-crest",
+   "name": "Bianca Dulong (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "billy-slater-the-company",
+   "name": "Billy Slater (The Company)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000i6i9saav",
+   "name": "Blue Devils",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000i6jmbaaf",
+   "name": "Blue Devils B",
+   "division": "Open Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "blue-devils-b-brass-quintet-blue-devils-b",
+   "name": "Blue Devils B Brass Quintet (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "blue-devils-b-mallet-ensemble-blue-devils-b",
+   "name": "Blue Devils B Mallet Ensemble (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "blue-devils-b-marimba-duo-blue-devils-b",
+   "name": "Blue Devils B Marimba Duo (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "blue-devils-b-percussion-ensemble-blue-devils-b",
+   "name": "Blue Devils B Percussion Ensemble (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000i6kalaa3",
+   "name": "Blue Devils C",
+   "division": "Open Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "blue-devils-euph-trio-blue-devils",
+   "name": "Blue Devils Euph Trio (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "blue-devils-euphonium-quartet-blue-devils",
+   "name": "Blue Devils Euphonium Quartet (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "blue-devils-mixed-blue-devils",
+   "name": "Blue Devils Mixed (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "blue-devils-mixed-ensemble-blue-devils",
+   "name": "Blue Devils Mixed Ensemble (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "blue-devils-percussion-ensemble-blue-devils",
+   "name": "Blue Devils Percussion Ensemble (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "blue-devils-rhythm-section-blue-devils",
+   "name": "Blue Devils Rhythm Section (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "blue-devils-trombone-ensemble-blue-devils",
+   "name": "Blue Devils Trombone Ensemble (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwwsoaal",
+   "name": "Blue Knights",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000iwwspaal",
+   "name": "Blue Saints",
+   "division": "Open Class",
+   "seasons": 3,
+   "last_season": "2015"
+  },
+  {
+   "key": "001j000000iwwsqaal",
+   "name": "Blue Stars",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "blue-stars-aux-ensemble-blue-stars",
+   "name": "Blue Stars Aux Ensemble (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "blue-stars-auxiliary-ensemble-blue-stars",
+   "name": "Blue Stars Auxiliary Ensemble (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "blue-stars-brass-ensemble-blue-stars",
+   "name": "Blue Stars Brass Ensemble (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "blue-stars-flag-ensemble-blue-stars",
+   "name": "Blue Stars Flag Ensemble (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwwsraal",
+   "name": "Bluecoats",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000iwwssaal",
+   "name": "Boston Crusaders",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "braden-rigling-blue-devils-b",
+   "name": "Braden Rigling (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "brandon-olander-blue-devils",
+   "name": "Brandon Olander (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "brass-duet-blue-devils",
+   "name": "Brass Duet (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "brennan-pierce-louisiana-stars",
+   "name": "Brennan Pierce (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwwstaal",
+   "name": "Bridgemen Alumni",
+   "division": "Exhibition Class",
+   "seasons": 1,
+   "last_season": "2013"
+  },
+  {
+   "key": "brittany-jung-troopers",
+   "name": "Brittany Jung (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "bryce-faulk-mandarins",
+   "name": "Bryce Faulk (Mandarins)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "bryce-gardner-santa-clara-vanguard",
+   "name": "Bryce Gardner (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "bushwackers-drum-corps",
+   "name": "Bushwackers",
+   "division": "All-Age - World Class",
+   "seasons": 4,
+   "last_season": "2026"
+  },
+  {
+   "key": "0010a00001iprmyaah",
+   "name": "Cadets 2",
+   "division": "All Age Class",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "calgary-round-up-band",
+   "name": "Calgary Round-Up Band",
+   "division": "Open Class",
+   "seasons": 1,
+   "last_season": "2025"
+  },
+  {
+   "key": "001j000000jtq2zaad",
+   "name": "Calgary Stampede Showband",
+   "division": "International Class",
+   "seasons": 3,
+   "last_season": "2025"
+  },
+  {
+   "key": "calgary-stetson-show-band",
+   "name": "Calgary Stetson Showband",
+   "division": "SoundSport",
+   "seasons": 1,
+   "last_season": "2025"
+  },
+  {
+   "key": "calvin-jones-pioneer",
+   "name": "Calvin Jones (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "cameron-cavender-santa-clara-vanguard",
+   "name": "Cameron Cavender (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "cameron-gandara-pacific-crest",
+   "name": "Cameron Gandara (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "camilo-diaz-gold",
+   "name": "Camilo Diaz (Gold)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "carl-asuncion-pioneer",
+   "name": "Carl Asuncion (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "carlos-alicea-music-city",
+   "name": "Carlos Alicea (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "carlos-quinones-music-city",
+   "name": "Carlos Quinones (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "carly-miller-blue-devils-b",
+   "name": "Carly Miller (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000iwx91aad",
+   "name": "Carolina Crown",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000iwx92aad",
+   "name": "Carolina Gold",
+   "division": "All Age Class",
+   "seasons": 7,
+   "last_season": "2019"
+  },
+  {
+   "key": "caroline-ramirez-pioneer",
+   "name": "Caroline Ramirez (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "carter-smith-blue-devils",
+   "name": "Carter Smith (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "catherine-howland-music-city",
+   "name": "Catherine Howland (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "catherine-kloesel-gold",
+   "name": "Catherine Kloesel (Gold)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "chance-paul-spirit-of-atlanta",
+   "name": "Chance Paul (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "chelyan-smith-madison-scouts",
+   "name": "Chelyan Smith (Madison Scouts)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "chien-kuo",
+   "name": "Chien Kuo",
+   "division": "International Class",
+   "seasons": 1,
+   "last_season": "2015"
+  },
+  {
+   "key": "chloe-ziegler-pioneer",
+   "name": "Chloe Ziegler (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "0010a00001gzbgoaax",
+   "name": "Chops",
+   "division": "SoundSport Medalist Division",
+   "seasons": 2,
+   "last_season": "2022"
+  },
+  {
+   "key": "christian-amezquita-impulse",
+   "name": "Christian Amezquita (Impulse)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "christian-capps-pioneer",
+   "name": "Christian Capps (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "christian-noto-louisiana-stars",
+   "name": "Christian Noto (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwx94aad",
+   "name": "Cincinnati Tradition",
+   "division": "All Age Class",
+   "seasons": 11,
+   "last_season": "2025"
+  },
+  {
+   "key": "city-sound",
+   "name": "City Sound",
+   "division": "Open Class",
+   "seasons": 2,
+   "last_season": "2014"
+  },
+  {
+   "key": "001j000000iwx96aad",
+   "name": "Coastal Surge",
+   "division": "Open Class",
+   "seasons": 2,
+   "last_season": "2014"
+  },
+  {
+   "key": "coleman-moore-spartans",
+   "name": "Coleman Moore (Spartans)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "001j000000iwx97aad",
+   "name": "Colt Cadets",
+   "division": "Open Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "colten-denning-louisiana-stars",
+   "name": "Colten Denning (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000iwx98aad",
+   "name": "Colts",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "colts-cymbal-ensemble-colts",
+   "name": "Colts Cymbal Ensemble (Colts)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwx99aad",
+   "name": "Columbians",
+   "division": "Open Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000hiripaaz",
+   "name": "Columbus Saints",
+   "division": "All Age Class",
+   "seasons": 5,
+   "last_season": "2025"
+  },
+  {
+   "key": "0015b00002eebx5aaf",
+   "name": "Connecticut Hurricanes",
+   "division": "All-Age - World Class",
+   "seasons": 5,
+   "last_season": "2026"
+  },
+  {
+   "key": "connor-aksama-seattle-cascades",
+   "name": "Connor Aksama (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "connor-johnson-legends",
+   "name": "Connor Johnson (Legends)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "connor-mcmillan-spirit-of-atlanta",
+   "name": "Connor McMillan (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "conquest-drum-bugle-corps",
+   "name": "Conquest",
+   "division": "SoundSport",
+   "seasons": 1,
+   "last_season": "2022"
+  },
+  {
+   "key": "corbin-peters-pioneer",
+   "name": "Corbin Peters (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "corcoran-the-company",
+   "name": "Corcoran (The Company)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "corrine-starks-pioneer",
+   "name": "Corrine Starks (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwx9aaat",
+   "name": "Crossmen",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000iwx9baat",
+   "name": "Crusaders Senior",
+   "division": "Exhibition Class",
+   "seasons": 2,
+   "last_season": "2015"
+  },
+  {
+   "key": "damian-masterson-mandarins",
+   "name": "Damian Masterson (Mandarins)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "damien-masterson-mandarins",
+   "name": "Damien Masterson (Mandarins)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "dana-ochs-blue-stars",
+   "name": "Dana Ochs (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "daniel-irwin-seattle-cascades",
+   "name": "Daniel Irwin (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "daniel-ramirez-pioneer",
+   "name": "Daniel Ramirez (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "david-green-blue-stars",
+   "name": "David Green (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "david-green-oregon-crusaders",
+   "name": "David Green (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "david-seanor-spirit-of-atlanta",
+   "name": "David Seanor (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "david-stienwell-pioneer",
+   "name": "David Stienwell (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "david-ware-raiders",
+   "name": "David Ware (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "davis-smith-blue-devils",
+   "name": "Davis Smith (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000iwx9caat",
+   "name": "Defenders",
+   "division": "Exhibition Class",
+   "seasons": 2,
+   "last_season": "2015"
+  },
+  {
+   "key": "delta-bass-river-city-rhythm",
+   "name": "Delta Bass (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "demetrio-castillo-louisiana-stars",
+   "name": "Demetrio Castillo (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "derek-haag-pioneer",
+   "name": "Derek Haag (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "derrick-small-shadow",
+   "name": "Derrick Small (Shadow)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "dylan-haeffner-blue-stars",
+   "name": "Dylan Haeffner (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "dylan-sullivan-golden-empire",
+   "name": "Dylan Sullivan (Golden Empire)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "0015b000028qtqbaae",
+   "name": "Eclipse",
+   "division": "SoundSport",
+   "seasons": 2,
+   "last_season": "2026"
+  },
+  {
+   "key": "eli-fuller-spirit-of-atlanta",
+   "name": "Eli Fuller (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "elijah-jones-blue-devils",
+   "name": "Elijah Jones (Blue Devils)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "elijah-jones-blue-stars",
+   "name": "Elijah Jones (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "ellie-hayton-the-company",
+   "name": "Ellie Hayton (The Company)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "emily-wolfersberger-the-battalion",
+   "name": "Emily Wolfersberger (The Battalion)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "emma-halseth-gold",
+   "name": "Emma Halseth (Gold)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "emma-van-zuyle-blue-devils-b",
+   "name": "Emma Van Zuyle (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "encorps",
+   "name": "Encorps",
+   "division": "Open Class",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "erica-grotz-pioneer",
+   "name": "Erica Grotz (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "0010a000019s6ceaay",
+   "name": "Erie Thunderbirds",
+   "division": "All Age Class",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000iwx9daat",
+   "name": "Eruption",
+   "division": "Open Class",
+   "seasons": 2,
+   "last_season": "2015"
+  },
+  {
+   "key": "ethan-archer-louisiana-stars",
+   "name": "Ethan Archer (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "ethan-laib-shadow",
+   "name": "Ethan Laib (Shadow)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "eyoel-abera-santa-clara-vanguard",
+   "name": "Eyoel Abera (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "fake-news-oregon-crusaders",
+   "name": "Fake News (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "francis-abastillas-mandarins",
+   "name": "Francis Abastillas (Mandarins)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "frank-peacock-blue-devils-b",
+   "name": "Frank Peacock (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000gbtqyaac",
+   "name": "Fusion Core",
+   "division": "All-Age - Open Class",
+   "seasons": 3,
+   "last_season": "2025"
+  },
+  {
+   "key": "0015b00002bxwbjaap",
+   "name": "Gems",
+   "division": "SoundSport",
+   "seasons": 3,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000iwx9oaad",
+   "name": "Genesis",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "gita-surosowan-banten",
+   "name": "Gita Surosowan Banten",
+   "division": "International Class",
+   "seasons": 1,
+   "last_season": "2015"
+  },
+  {
+   "key": "gloria-garner-pioneer",
+   "name": "Gloria Garner (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000iwx9paad",
+   "name": "Gold",
+   "division": "Open Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000iwx9qaad",
+   "name": "Golden Empire",
+   "division": "Open Class",
+   "seasons": 11,
+   "last_season": "2026"
+  },
+  {
+   "key": "golden-empire-vocal-ensemble-golden-empire",
+   "name": "Golden Empire Vocal Ensemble (Golden Empire)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "001j000000iwx9raad",
+   "name": "Govenaires",
+   "division": "All Age Class",
+   "seasons": 11,
+   "last_season": "2026"
+  },
+  {
+   "key": "grant-johnson-mandarins",
+   "name": "Grant Johnson (Mandarins)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "grayton-hodge-blue-devils",
+   "name": "Grayton Hodge (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "0010a00001cxz0gaab",
+   "name": "Green Beret",
+   "division": "SoundSport Medalist Division",
+   "seasons": 2,
+   "last_season": "2023"
+  },
+  {
+   "key": "greyson-flores-blue-stars",
+   "name": "Greyson Flores (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000iwx9saad",
+   "name": "Guardians",
+   "division": "Open Class",
+   "seasons": 9,
+   "last_season": "2024"
+  },
+  {
+   "key": "hannah-mccullough-the-diplomats",
+   "name": "Hannah McCullough (The Diplomats)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "hannah-megil-raiders",
+   "name": "Hannah Megil (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "hannah-megill-raiders",
+   "name": "Hannah Megill (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "0015b00001mpuwcaak",
+   "name": "Hawthorne Caballeros",
+   "division": "All-Age - World Class",
+   "seasons": 5,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000iwx9taad",
+   "name": "Heat Wave",
+   "division": "Open Class",
+   "seasons": 8,
+   "last_season": "2025"
+  },
+  {
+   "key": "high-school-affiliated-to-bit",
+   "name": "High School Affiliated to BIT",
+   "division": "Open Class",
+   "seasons": 1,
+   "last_season": "2025"
+  },
+  {
+   "key": "ian-mcneill-troopers",
+   "name": "Ian McNeill (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "impact-drum-bugle-corps",
+   "name": "Impact",
+   "division": "SoundSport Medalist Division",
+   "seasons": 1,
+   "last_season": "2023"
+  },
+  {
+   "key": "001j000000iwx9uaad",
+   "name": "Impulse",
+   "division": "Open Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000iwx9vaad",
+   "name": "Incognito",
+   "division": "Open Class",
+   "seasons": 6,
+   "last_season": "2019"
+  },
+  {
+   "key": "isabelle-garrett-seattle-cascades",
+   "name": "Isabelle Garrett (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "isaiah-mcguire-oregon-crusaders",
+   "name": "Isaiah McGuire (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "ivan-cordova-blue-devils",
+   "name": "Ivan Cordova (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "jk-madison-scouts",
+   "name": "JK (Madison Scouts)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "jackie-hirn-pioneer",
+   "name": "Jackie Hirn (Pioneer)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "jacob-hord-troopers",
+   "name": "Jacob Hord (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "jacob-kessler-blue-stars",
+   "name": "Jacob Kessler (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "jacob-lythgoe-blue-devils",
+   "name": "Jacob Lythgoe (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "jade-saul-pioneer",
+   "name": "Jade Saul (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "jake-liggett-river-city-rhythm",
+   "name": "Jake Liggett (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "jake-murillo-blue-stars",
+   "name": "Jake Murillo (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "jake-murillo-louisiana-stars",
+   "name": "Jake Murillo (Louisiana Stars )",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "james-swiger-spartans",
+   "name": "James Swiger (Spartans)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "jason-nguyen-louisiana-stars",
+   "name": "Jason Nguyen (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "jasper-bailie-seattle-cascades",
+   "name": "Jasper Bailie (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "jeff-prosperie-louisiana-stars",
+   "name": "Jeff Prosperie (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "jerred-clardy-seattle-cascades",
+   "name": "Jerred Clardy (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwx9waad",
+   "name": "Jersey Surf",
+   "division": "World Class",
+   "seasons": 10,
+   "last_season": "2024"
+  },
+  {
+   "key": "john-brannon-blue-devils",
+   "name": "John Brannon (Blue Devils)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "john-fuller-louisiana-stars",
+   "name": "John Fuller (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "john-marks-seattle-cascades",
+   "name": "John Marks (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "john-wayne-duke-spirit-of-atlanta",
+   "name": "John Wayne Duke (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "jon-popper-seattle-cascades",
+   "name": "Jon Popper (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "jonathan-williams-oregon-crusaders",
+   "name": "Jonathan Williams (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "jordan-ballard-pioneer",
+   "name": "Jordan Ballard (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "joseph-lansinger-legends",
+   "name": "Joseph Lansinger (Legends)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "joseph-siprut-mandarins",
+   "name": "Joseph Siprut (Mandarins)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "josh-hirner-santa-clara-vanguard",
+   "name": "Josh Hirner (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "josh-koester-blue-stars",
+   "name": "Josh Koester (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "josh-koester-mandarins",
+   "name": "Josh Koester (Mandarins)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "joshua-chinchilla-impulse",
+   "name": "Joshua Chinchilla (Impulse)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "joshua-gilliam-spirit-of-atlanta",
+   "name": "Joshua Gilliam (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "joshua-melnick-river-city-rhythm",
+   "name": "Joshua Melnick (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "joshua-taylor-wilson-troopers",
+   "name": "Joshua Taylor-Wilson (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "josiah-wallace-santa-clara-vanguard",
+   "name": "Josiah Wallace (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "juan-diego-hernandez-golden-empire",
+   "name": "Juan Diego Hernandez (Golden Empire)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "juandiego-hernandez-golden-empire",
+   "name": "JuanDiego Hernandez (Golden Empire)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwx9yaad",
+   "name": "Jubal",
+   "division": "International Class",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "julia-terry-raiders",
+   "name": "Julia Terry (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "justin-ohler-blue-stars",
+   "name": "Justin Ohler (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "justin-page-pacific-crest",
+   "name": "Justin Page (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "kaden-goldstein-raiders",
+   "name": "Kaden Goldstein (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "kaleb-hascill-troopers",
+   "name": "Kaleb Hascill (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "kasey-eubanks-madison-scouts",
+   "name": "Kasey Eubanks (Madison Scouts)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "katharine-may-santa-clara-vanguard",
+   "name": "Katharine May (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "katherine-beasley-raiders",
+   "name": "Katherine Beasley (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "katie-ferdman-gold",
+   "name": "Katie Ferdman (Gold)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "katrina-zerbe-oregon-crusaders",
+   "name": "Katrina Zerbe (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "kayla-cavano-blue-devils",
+   "name": "Kayla Cavano (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "kazuki-harada-blue-stars",
+   "name": "Kazuki Harada (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "keegan-watts-shadow",
+   "name": "Keegan Watts (Shadow)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "kendra-mendoza-spartans",
+   "name": "Kendra Mendoza (Spartans)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "kenya-shigeta-troopers",
+   "name": "Kenya Shigeta (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "kevin-burton-raiders",
+   "name": "Kevin Burton (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "kevin-huynh-pioneer",
+   "name": "Kevin Huynh (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "kevin-manning-spartans",
+   "name": "Kevin Manning (Spartans)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "kevin-nicholson-pioneer",
+   "name": "Kevin Nicholson (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "kieran-jenkins-7th-regiment",
+   "name": "Kieran Jenkins (7th Regiment)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "kiichi-kobayashi-blue-devils-b",
+   "name": "Kiichi Kobayashi (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "kilties",
+   "name": "Kilties",
+   "division": "All Age Class",
+   "seasons": 4,
+   "last_season": "2016"
+  },
+  {
+   "key": "kimberly-liptak-legends",
+   "name": "Kimberly Liptak (Legends)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "kimsey-stewart-southwind",
+   "name": "Kimsey Stewart (Southwind)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "kodi-mink-pioneer",
+   "name": "Kodi Mink (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "kody-bartel-troopers",
+   "name": "Kody Bartel (Troopers)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "kyle-lang-seattle-cascades",
+   "name": "Kyle Lang (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "kyle-popovec-blue-stars",
+   "name": "Kyle Popovec (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "lauren-antoniolli-music-city",
+   "name": "Lauren Antoniolli (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "lauren-antoniolli-pioneer",
+   "name": "Lauren Antoniolli (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "lauren-walega-pioneer",
+   "name": "Lauren Walega (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "lavenders-brothers-river-city-rhythm",
+   "name": "Lavenders Brothers (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000iwxa0aal",
+   "name": "Legends",
+   "division": "Open Class",
+   "seasons": 8,
+   "last_season": "2022"
+  },
+  {
+   "key": "legends-cymbal-ensemble-legends",
+   "name": "Legends Cymbal Ensemble (Legends)",
+   "division": "Individual",
+   "seasons": 3,
+   "last_season": "2019"
+  },
+  {
+   "key": "legends-percussion-ensemble-legends",
+   "name": "Legends Percussion Ensemble (Legends)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "legends-trumpet-ensemble-legends",
+   "name": "Legends Trumpet Ensemble (Legends)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "leo-garcia-santa-clara-vanguard",
+   "name": "Leo Garcia (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "leobardo-garcia-santa-clara-vanguard",
+   "name": "Leobardo Garcia (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwxa1aal",
+   "name": "Les Stentors",
+   "division": "Open Class",
+   "seasons": 11,
+   "last_season": "2026"
+  },
+  {
+   "key": "lewis-renegar-shadow",
+   "name": "Lewis Renegar (Shadow)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "lexi-millwood-southwind",
+   "name": "Lexi Millwood (Southwind)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "liam-casey-river-city-rhythm",
+   "name": "Liam Casey (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "liana-wopschall-gold",
+   "name": "Liana Wopschall (Gold)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "liliana-oleston-shadow",
+   "name": "Liliana Oleston (Shadow)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "lissa-van-de-cloot-jubal",
+   "name": "Lissa Van De Cloot (Jubal)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "lizz-alonzo-pacific-crest",
+   "name": "Lizz Alonzo (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "logan-gammill-mandarins",
+   "name": "Logan Gammill (Mandarins)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "logan-willis-7th-regiment",
+   "name": "Logan Willis (7th Regiment)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "los-estrellas-louisiana-stars-flag-ensemble-louisiana-stars",
+   "name": "Los Estrellas (Louisiana Stars Flag Ensemble) (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwxa2aal",
+   "name": "Louisiana Stars",
+   "division": "Open Class",
+   "seasons": 7,
+   "last_season": "2022"
+  },
+  {
+   "key": "louisiana-stars-woodwinds-duet-louisiana-stars",
+   "name": "Louisiana Stars Woodwinds Duet (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "low-brass-madison-scouts",
+   "name": "Low Brass (Madison Scouts)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "lucas-ryley-spartans",
+   "name": "Lucas Ryley (Spartans)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "luis-cervantes-oregon-crusaders",
+   "name": "Luis Cervantes (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "luis-garcia-pacific-crest",
+   "name": "Luis Garcia (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "luis-varona-troopers",
+   "name": "Luis Varona (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "luke-pacetti-louisiana-stars",
+   "name": "Luke Pacetti  (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "madcyms-madison-scouts",
+   "name": "MadCyms (Madison Scouts)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "madeleine-poulin-raiders",
+   "name": "Madeleine Poulin (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "madelynn-hotchkiss-river-city-rhythm",
+   "name": "Madelynn Hotchkiss (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "madison-chang-mandarins",
+   "name": "Madison Chang (Mandarins)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "madison-cheng-blue-devils-b",
+   "name": "Madison Cheng (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000i6lenaa3",
+   "name": "Madison Scouts",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "madison-scouts-keyboard-duet-madison-scouts",
+   "name": "Madison Scouts Keyboard Duet (Madison Scouts)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "madison-scouts-trumpet-ensemble-and-friend-madison-scouts",
+   "name": "Madison Scouts Trumpet Ensemble and Friend (Madison Scouts)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000iwxa3aal",
+   "name": "Mandarins",
+   "division": "World Class",
+   "seasons": 11,
+   "last_season": "2025"
+  },
+  {
+   "key": "mandarins-front-ensemble-mandarins",
+   "name": "Mandarins Front Ensemble (Mandarins)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "masato-kobayashi-blue-devils",
+   "name": "Masato Kobayashi (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "matt-avenson-river-city-rhythm",
+   "name": "Matt Avenson (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "matt-hauser-oregon-crusaders",
+   "name": "Matt Hauser (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "matt-pantanella-spartans",
+   "name": "Matt Pantanella (Spartans)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "matthew-audley-blue-devils",
+   "name": "Matthew Audley (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "matthew-distante-pacific-crest",
+   "name": "Matthew Distante (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "matthew-shippey-blue-devils",
+   "name": "Matthew Shippey (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "matthew-shippey-oregon-crusaders",
+   "name": "Matthew Shippey (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "matthew-uhrich-blue-devils-b",
+   "name": "Matthew Uhrich (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "mattsen-bradbury-koster-spartans",
+   "name": "Mattsen Bradbury Koster (Spartans)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "max-ellison-river-city-rhythm",
+   "name": "Max Ellison (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "maxwell-osborn-pacific-crest",
+   "name": "Maxwell Osborn (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "maxwell-osborne-santa-clara-vanguard",
+   "name": "Maxwell Osborne (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "megan-weaver-pioneer",
+   "name": "Megan Weaver (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "0015b00002byuh0aap",
+   "name": "Memphis Blues",
+   "division": "SoundSport",
+   "seasons": 3,
+   "last_season": "2026"
+  },
+  {
+   "key": "mia-laping-spirit-of-atlanta",
+   "name": "Mia Laping (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "michael-dy-blue-devils-b",
+   "name": "Michael Dy (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "michael-dy-blue-devils",
+   "name": "Michael Dy (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "michael-kern-blue-stars",
+   "name": "Michael Kern (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "michael-matthews-blue-stars",
+   "name": "Michael Matthews (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "michael-smith-santa-clara-vanguard",
+   "name": "Michael Smith (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "michael-vargas-river-city-rhythm",
+   "name": "Michael Vargas (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "miles-kenobbie-blue-devils",
+   "name": "Miles Kenobbie (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000iwxa4aal",
+   "name": "Minnesota Brass",
+   "division": "SoundSport",
+   "seasons": 8,
+   "last_season": "2026"
+  },
+  {
+   "key": "mira-swartzlander-pacific-crest",
+   "name": "Mira Swartzlander (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "miso-brassy-santa-clara-vanguard",
+   "name": "Miso Brassy (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "molly-neal-blue-devils",
+   "name": "Molly Neal (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "morgan-boyers-pioneer",
+   "name": "Morgan Boyers (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "morris-gelbart-raiders",
+   "name": "Morris Gelbart (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwxa5aal",
+   "name": "Music City",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "music-city-brass-ensemble-music-city",
+   "name": "Music City Brass Ensemble (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "music-city-dance-music-city",
+   "name": "Music City Dance (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "music-city-mixed-company-music-city",
+   "name": "Music City Mixed Company (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "music-city-trumpets-music-city",
+   "name": "Music City Trumpets (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "music-city-tubas-music-city",
+   "name": "Music City Tubas (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "mykal-mcgrew-santa-clara-vanguard",
+   "name": "Mykal McGrew (Santa Clara Vanguard )",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "nathan-abadilla-impulse",
+   "name": "Nathan Abadilla (Impulse)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "nathan-atkinson-pioneer",
+   "name": "Nathan Atkinson (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "nathan-mclaughlin-blue-stars",
+   "name": "Nathan McLaughlin (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "nathan-roscoe-troopers",
+   "name": "Nathan Roscoe (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "nathaniel-abadilla-golden-empire",
+   "name": "Nathaniel Abadilla (Golden Empire)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "0015b00002e2gtpaa3",
+   "name": "New York Skyliners",
+   "division": "All-Age - A Class",
+   "seasons": 1,
+   "last_season": "2024"
+  },
+  {
+   "key": "nicholas-soden-blue-devils",
+   "name": "Nicholas Soden (Blue Devils)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "nick-arnaud-santa-clara-vanguard",
+   "name": "Nick Arnaud (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "nicole-marek-legends",
+   "name": "Nicole Marek (Legends)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "nicole-thompson-spirit-of-atlanta",
+   "name": "Nicole Thompson (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "noah-aguillon-troopers",
+   "name": "Noah Aguillon (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "noemi-glaesner-blue-stars",
+   "name": "Noemi Glaesner (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "northern-lights-drum-bugle-corps",
+   "name": "Northern Lights Drum & Bugle Corps",
+   "division": "SoundSport",
+   "seasons": 2,
+   "last_season": "2026"
+  },
+  {
+   "key": "oc-bass-drum-ensemble-oregon-crusaders",
+   "name": "OC Bass Drum Ensemble (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwxa6aal",
+   "name": "Oregon Crusaders",
+   "division": "World Class",
+   "seasons": 6,
+   "last_season": "2018"
+  },
+  {
+   "key": "oregon-crusaders-marimba-duet-oregon-crusaders",
+   "name": "Oregon Crusaders Marimba Duet (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwxa7aal",
+   "name": "Pacific Crest",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "pacific-crest-jazz-ensemble-pacific-crest",
+   "name": "Pacific Crest Jazz Ensemble (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "pacific-crest-low-brass-ensemble-pacific-crest",
+   "name": "Pacific Crest Low Brass Ensemble (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "pacific-crest-vocal-ensemble-pacific-crest",
+   "name": "Pacific Crest Vocal Ensemble (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "patria",
+   "name": "Patria",
+   "division": "International Class",
+   "seasons": 1,
+   "last_season": "2014"
+  },
+  {
+   "key": "payton-conkright-pioneer",
+   "name": "Payton Conkright (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "peyton-grover-oregon-crusaders",
+   "name": "Peyton Grover (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "peyton-grunzke-river-city-rhythm",
+   "name": "Peyton Grunzke (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000h3xrnaav",
+   "name": "Phantom Regiment",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000iwxa8aal",
+   "name": "Pioneer",
+   "division": "World Class",
+   "seasons": 6,
+   "last_season": "2018"
+  },
+  {
+   "key": "pioneer-auxiliary-ensemble-1-pioneer",
+   "name": "Pioneer Auxiliary Ensemble #1 (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "pioneer-auxiliary-ensemble-2-pioneer",
+   "name": "Pioneer Auxiliary Ensemble #2 (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "pioneer-brass-quintet-pioneer",
+   "name": "Pioneer Brass Quintet (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "pioneer-vocal-duet-pioneer",
+   "name": "Pioneer Vocal Duet (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "pioneer-vocal-ensemble-pioneer",
+   "name": "Pioneer Vocal Ensemble (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "rcr-brass-ensemble-river-city-rhythm",
+   "name": "RCR Brass Ensemble (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "rcr-flag-2-river-city-rhythm",
+   "name": "RCR Flag 2 (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "rachel-chong-pioneer",
+   "name": "Rachel Chong (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "rachel-elliott-pioneer",
+   "name": "Rachel Elliott (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "racine-scouts",
+   "name": "Racine Scouts",
+   "division": "Open Class",
+   "seasons": 3,
+   "last_season": "2015"
+  },
+  {
+   "key": "raikwon-green-louisiana-stars",
+   "name": "RaiKwon Green (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "001j000000iwxaaaa1",
+   "name": "Raiders",
+   "division": "Open Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "raiders-2018-beast-line-raiders",
+   "name": "Raiders 2018 Beast Line (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "golden-empire-sax-quartet-golden-empire",
+   "name": "Raiders Dance Ensemble (Raiders)",
+   "division": "Individual",
+   "seasons": 3,
+   "last_season": "2019"
+  },
+  {
+   "key": "0010a00001e2pfhaam",
+   "name": "Reading Buccaneers",
+   "division": "All-Age - World Class",
+   "seasons": 5,
+   "last_season": "2026"
+  },
+  {
+   "key": "reagan-kimsey-raiders",
+   "name": "Reagan Kimsey (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "rebekah-eden-river-city-rhythm",
+   "name": "Rebekah Eden (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "remy-thomas-santa-clara-vanguard",
+   "name": "Remy Thomas (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "ricki-lee-korba-golden-empire",
+   "name": "Ricki Lee Korba (Golden Empire)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "ricky-gil-de-montes-blue-devils",
+   "name": "Ricky Gil de Montes (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "riley-berens-shadow",
+   "name": "Riley Berens (Shadow)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000qzs1qaaf",
+   "name": "River City Rhythm",
+   "division": "Open Class",
+   "seasons": 10,
+   "last_season": "2026"
+  },
+  {
+   "key": "river-city-rhythm-bass-river-city-rhythm",
+   "name": "River City Rhythm Bass (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "river-city-rhythm-brass-quintet-river-city-rhythm",
+   "name": "River City Rhythm Brass Quintet (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "river-city-rhythm-mixed-vocal-ensemble-river-city-rhythm",
+   "name": "River City Rhythm Mixed Vocal Ensemble (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "robert-muz-pacific-crest",
+   "name": "Robert Muz (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "robert-zellinger-impulse",
+   "name": "Robert Zellinger (Impulse)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "rocky-road-spirit-of-atlanta",
+   "name": "Rocky Road (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "rodrigo-alvarez-golden-empire",
+   "name": "Rodrigo Alvarez (Golden Empire)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "roger-wen-pacific-crest",
+   "name": "Roger Wen (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000cap31aaa",
+   "name": "Rogues Hollow Regiment",
+   "division": "All Age Class",
+   "seasons": 4,
+   "last_season": "2025"
+  },
+  {
+   "key": "ryan-ellis-blue-devils",
+   "name": "Ryan Ellis (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "ryan-meyaard-legends",
+   "name": "Ryan Meyaard (Legends)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "sabrina-thomas-pacific-crest",
+   "name": "Sabrina Thomas (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "samantha-huston-oregon-crusaders",
+   "name": "Samantha Huston (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000h3xwcaav",
+   "name": "Santa Clara Vanguard",
+   "division": "World Class",
+   "seasons": 11,
+   "last_season": "2026"
+  },
+  {
+   "key": "sara-elliott-troopers",
+   "name": "Sara Elliott (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "sarah-culbertson-santa-clara-vanguard",
+   "name": "Sarah Culbertson (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "scott-israel-spartans",
+   "name": "Scott Israel (Spartans)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "scott-scheunemann-troopers",
+   "name": "Scott Scheunemann (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "sean-holmes-the-diplomats",
+   "name": "Sean Holmes (The Diplomats)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "sean-mitchell-blue-devils-b",
+   "name": "Sean Mitchell (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwx93aad",
+   "name": "Seattle Cascades",
+   "division": "World Class",
+   "seasons": 11,
+   "last_season": "2026"
+  },
+  {
+   "key": "seattle-cascades-brass-ensemble-seattle-cascades",
+   "name": "Seattle Cascades Brass Ensemble (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "seattle-cascades-trumpet-ensemble-seattle-cascades",
+   "name": "Seattle Cascades Trumpet Ensemble (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "seattle-cascades-tuba-ensemble-seattle-cascades",
+   "name": "Seattle Cascades Tuba Ensemble (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j0000012tpxmaa2",
+   "name": "Shadow",
+   "division": "Open Class",
+   "seasons": 4,
+   "last_season": "2019"
+  },
+  {
+   "key": "shani-lyubomirsky-blue-devils-b",
+   "name": "Shani Lyubomirsky (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "shawn-fogerty-music-city",
+   "name": "Shawn Fogerty (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "shawn-lark-oregon-crusaders",
+   "name": "Shawn Lark (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "shawn-lee-pioneer",
+   "name": "Shawn Lee (Pioneer)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "shawn-lee-river-city-rhythm",
+   "name": "Shawn Lee (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "shelby-plaugher-blue-devils",
+   "name": "Shelby Plaugher (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "sho-ozaki-spirit-of-atlanta",
+   "name": "Sho Ozaki (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "skyler-mackinnon-santa-clara-vanguard",
+   "name": "Skyler MacKinnon (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "socal-dream",
+   "name": "SoCal Dream",
+   "division": "All Age Class",
+   "seasons": 1,
+   "last_season": "2013"
+  },
+  {
+   "key": "sonus-brass-theater",
+   "name": "Sonus Brass Theater",
+   "division": "SoundSport",
+   "seasons": 1,
+   "last_season": "2022"
+  },
+  {
+   "key": "sophie-corcoran-the-company",
+   "name": "Sophie Corcoran (The Company)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "sops-hit-the-city-santa-clara-vanguard",
+   "name": "Sops Hit the City (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "0010a00001bpafnaar",
+   "name": "Sound of Sun Prairie",
+   "division": "SoundSport",
+   "seasons": 3,
+   "last_season": "2026"
+  },
+  {
+   "key": "southern-knights",
+   "name": "Southern Knights",
+   "division": "All Age Class",
+   "seasons": 4,
+   "last_season": "2019"
+  },
+  {
+   "key": "001j000000iwxabaa1",
+   "name": "Southwind",
+   "division": "Open Class",
+   "seasons": 7,
+   "last_season": "2023"
+  },
+  {
+   "key": "sparta-ignite",
+   "name": "Sparta Ignite",
+   "division": "SoundSport",
+   "seasons": 1,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000iwxacaa1",
+   "name": "Spartans",
+   "division": "Open Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "spartans-front-ensemble-1-spartans",
+   "name": "Spartans Front Ensemble #1 (Spartans)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "spartans-quintet-spartans",
+   "name": "Spartans Quintet (Spartans)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "spencer-perrine-blue-devils",
+   "name": "Spencer Perrine (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "spirit-baritone-quartet-spirit-of-atlanta",
+   "name": "Spirit Baritone Quartet (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "spirit-cymbal-quartet-spirit-of-atlanta",
+   "name": "Spirit Cymbal Quartet (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "spirit-euphonium-quartet-spirit-of-atlanta",
+   "name": "Spirit Euphonium Quartet (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "spirit-low-brass-ensemble-spirit-of-atlanta",
+   "name": "Spirit Low Brass Ensemble (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "spirit-trumpet-quintet-spirit-of-atlanta",
+   "name": "Spirit Trumpet Quintet (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "001j000000iwxadaa1",
+   "name": "Spirit of Atlanta",
+   "division": "World Class",
+   "seasons": 11,
+   "last_season": "2026"
+  },
+  {
+   "key": "spirit-of-atlanta-logan-bussel",
+   "name": "Spirit of Atlanta (Logan Bussel)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "spirit-of-atlanta-auxiliary-ensemble-spirit-of-atlanta",
+   "name": "Spirit of Atlanta Auxiliary Ensemble (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000u5nhqaaj",
+   "name": "Spirit of Sunnyvale",
+   "division": "SoundSport Medalist Division",
+   "seasons": 2,
+   "last_season": "2023"
+  },
+  {
+   "key": "stellan-campbell-spartans",
+   "name": "Stellan Campbell (Spartans)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "stephanie-plautz-shadow",
+   "name": "Stephanie Plautz (Shadow)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "stephen-mattson-blue-stars",
+   "name": "Stephen Mattson (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "stuart-andrade-seattle-cascades",
+   "name": "Stuart Andrade (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "sudha-schultz-colts",
+   "name": "Sudha Schultz (Colts)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "sudha-schultz-river-city-rhythm",
+   "name": "Sudha Schultz (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "0010a00001iqmzuaah",
+   "name": "Sunrisers",
+   "division": "All-Age - A Class",
+   "seasons": 3,
+   "last_season": "2026"
+  },
+  {
+   "key": "sydney-vanderlaan-spirit-of-atlanta",
+   "name": "Sydney Vanderlaan (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "taipei-yuehfu",
+   "name": "Taipei Yuehfu",
+   "division": "International Class",
+   "seasons": 1,
+   "last_season": "2013"
+  },
+  {
+   "key": "tanner-catalogna-pioneer",
+   "name": "Tanner Catalogna (Pioneer)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "tanner-effinger-raiders",
+   "name": "Tanner Effinger (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "taylor-greene-spirit-of-atlanta",
+   "name": "Taylor Greene (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "terence-lloyd-seattle-cascades",
+   "name": "Terence Lloyd (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "teresa-anderson-pacific-crest",
+   "name": "Teresa Anderson (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "001j000000iwxaeaa1",
+   "name": "The Academy",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j0000012y6bqaac",
+   "name": "The Battalion",
+   "division": "Open Class",
+   "seasons": 9,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j000000i6kfgaan",
+   "name": "The Cadets",
+   "division": "World Class",
+   "seasons": 9,
+   "last_season": "2023"
+  },
+  {
+   "key": "001j000000iwxafaa1",
+   "name": "The Cavaliers",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "001j0000012sixfaaa",
+   "name": "The Company",
+   "division": "International Class",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "concord-blue-notes-blue-devils",
+   "name": "The Concord Blue Notes (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "concord-voices-blue-devils",
+   "name": "The Concord Voices (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "crashcades-seattle-cascades",
+   "name": "The Crashcades (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwxagaa1",
+   "name": "The Muchachos",
+   "division": "Exhibition Class",
+   "seasons": 3,
+   "last_season": "2015"
+  },
+  {
+   "key": "pacific-crest-tuba-quintet-pacific-crest",
+   "name": "The Pacific Crest Tuba Quintet (Pacific Crest)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "rcr-marimba-duo-river-city-rhythm",
+   "name": "The RCR Marimba Duo (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "raiders-low-brass-babes-raiders",
+   "name": "The Raiders Low Brass Babes (Raiders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "southwind-4-southwind",
+   "name": "The Southwind 4 (Southwind)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "thomas-mclaughlin-river-city-rhythm",
+   "name": "Thomas McLaughlin (River City Rhythm)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "thomas-pendergrass-music-city",
+   "name": "Thomas Pendergrass (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "001j000000iwxaiaa1",
+   "name": "Thunder",
+   "division": "Open Class",
+   "seasons": 3,
+   "last_season": "2016"
+  },
+  {
+   "key": "tim-marquess-louisiana-stars",
+   "name": "Tim Marquess (Louisiana Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "tommy-oshita-mandarins",
+   "name": "Tommy Oshita (Mandarins)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "tonal-menergy-madison-scouts",
+   "name": "Tonal MENergy (Madison Scouts)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "trenton-verkuilen-blue-devils-b",
+   "name": "Trenton VerKuilen (Blue Devils B)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "trevor-stovanovich-blue-devils",
+   "name": "Trevor Stovanovich (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "troovoices-troopers",
+   "name": "TrooVoices (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "001j000000iwxajaa1",
+   "name": "Troopers",
+   "division": "World Class",
+   "seasons": 12,
+   "last_season": "2026"
+  },
+  {
+   "key": "troopers-brass-ensemble-troopers",
+   "name": "Troopers Brass Ensemble (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "troopers-low-brass-ensemble-troopers",
+   "name": "Troopers Low Brass Ensemble (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "troopers-vocal-ensemble-troopers",
+   "name": "Troopers Vocal Ensemble (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "truett-ide-blue-stars",
+   "name": "Truett Ide (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "tyler-hecks-spirit-of-atlanta",
+   "name": "Tyler Hecks (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "tyler-hudson-seattle-cascades",
+   "name": "Tyler Hudson (Seattle Cascades)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "tyler-winningham-music-city",
+   "name": "Tyler Winningham (Music City)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "tyler-winningham-spirit-of-atlanta",
+   "name": "Tyler Winningham (Spirit of Atlanta)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "vanguard-brass-santa-clara-vanguard",
+   "name": "Vanguard Brass (Santa Clara Vanguard)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "001j000000iwxakaa1",
+   "name": "Vanguard Cadets",
+   "division": "Open Class",
+   "seasons": 8,
+   "last_season": "2022"
+  },
+  {
+   "key": "vanguard-trumpet-sextet",
+   "name": "Vanguard Trumpet Sextet",
+   "division": "Brass - Brass Ensemble",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "001j000000iwx95aad",
+   "name": "Vessel",
+   "division": "Open Class",
+   "seasons": 4,
+   "last_season": "2024"
+  },
+  {
+   "key": "001j000000f17bwaaa",
+   "name": "Watchmen",
+   "division": "Open Class",
+   "seasons": 6,
+   "last_season": "2019"
+  },
+  {
+   "key": "webb-sheely-troopers",
+   "name": "Webb Sheely (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "wesley-gordon-golden-empire",
+   "name": "Wesley Gordon (Golden Empire)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2019"
+  },
+  {
+   "key": "001jw00000d0zlniaj",
+   "name": "White Sabers",
+   "division": "All-Age - Open Class",
+   "seasons": 3,
+   "last_season": "2026"
+  },
+  {
+   "key": "william-fisher-impulse",
+   "name": "William Fisher (Impulse)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "william-leguizamon-gold",
+   "name": "William Leguizamon (Gold)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "william-mitsuk-blue-devils",
+   "name": "William Mitsuk (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "zach-desjarlais-oregon-crusaders",
+   "name": "Zach Desjarlais (Oregon Crusaders)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "zach-hudson-blue-devils",
+   "name": "Zach Hudson (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "zach-miranda-spartans",
+   "name": "Zach Miranda (Spartans)",
+   "division": "Individual",
+   "seasons": 2,
+   "last_season": "2018"
+  },
+  {
+   "key": "zach-peychaq-blue-stars",
+   "name": "Zach Peychaq (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "zachary-dreelin-madison-scouts",
+   "name": "Zachary Dreelin (Madison Scouts)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "zachary-howard-troopers",
+   "name": "Zachary Howard (Troopers)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2019"
+  },
+  {
+   "key": "zachary-hudson-blue-devils",
+   "name": "Zachary Hudson (Blue Devils)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2018"
+  },
+  {
+   "key": "zachary-novack-blue-stars",
+   "name": "Zachary Novack (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "zachary-wilson-blue-stars",
+   "name": "Zachary Wilson (Blue Stars)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  },
+  {
+   "key": "zephyrus-drum-bugle-corps",
+   "name": "Zephyrus",
+   "division": "SoundSport",
+   "seasons": 4,
+   "last_season": "2026"
+  },
+  {
+   "key": "zoelan-palmer-impulse",
+   "name": "Zoelan Palmer (Impulse)",
+   "division": "Individual",
+   "seasons": 1,
+   "last_season": "2017"
+  }
+ ],
+ "aliases": {
+  "Hurricanes": "Connecticut Hurricanes",
+  "CT Hurricanes": "Connecticut Hurricanes",
+  "Northern Lights": "Northern Lights Drum & Bugle Corps",
+  "MBI": "Minnesota Brass",
+  "Minnesota Brass Inc": "Minnesota Brass",
+  "Arsenal Drum & Bugle Corps": "Arsenal",
+  "Arsenal Drum and Bugle Corps": "Arsenal",
+  "Arsenal DBC": "Arsenal",
+  "Bushwackers Drum Corps": "Bushwackers",
+  "Oregan Crusaders": "Oregon Crusaders",
+  "Oregon Crusaders Drum & Bugle Corps": "Oregon Crusaders",
+  "Oregon Crusaders Drum and Bugle Corps": "Oregon Crusaders",
+  "Cadets 2 Drum & Bugle Corps": "Cadets 2",
+  "Cadets 2 Drum and Bugle Corps": "Cadets 2",
+  "Pioneer DBC": "Pioneer",
+  "Pioneer Drum & Bugle Corps": "Pioneer",
+  "Pioneer Drum and Bugle Corps": "Pioneer",
+  "Santa Clara Vanguard Cadets": "Vanguard Cadets",
+  "SCV Cadets": "Vanguard Cadets",
+  "Vanguard Cadets Drum & Bugle Corps": "Vanguard Cadets",
+  "Vanguard Cadets Drum and Bugle Corps": "Vanguard Cadets",
+  "Cadets2": "Cadets 2",
+  "Pioneer Drum Corps": "Pioneer",
+  "Vanguard Cadets": "Vanguard Cadets",
+  "Jubal Drum & Bugle Corps": "Jubal",
+  "Jubal Drum and Bugle Corps": "Jubal",
+  "The Company Performance Ensemble": "The Company",
+  "THE COMPANY": "The Company",
+  "The CO": "The Company",
+  "Incognito Drum & Bugle Corps": "Incognito",
+  "Incognito DBC": "Incognito",
+  "Encorps Marching Music": "Encorps",
+  "Encorps Drum & Bugle Corps": "Encorps",
+  "Eruption Drum & Bugle Corps": "Eruption",
+  "City Sound Drum & Bugle Corps": "City Sound",
+  "City Sound Drum and Bugle Corps": "City Sound",
+  "Shadow Drum & Bugle Corps": "Shadow",
+  "Shadow DBC": "Shadow",
+  "Racine Scouts Drum & Bugle Corps": "Racine Scouts",
+  "Racine Scouts Drum and Bugle Corps": "Racine Scouts",
+  "Thunder Drum & Bugle Corps": "Thunder",
+  "Thunder Drum and Bugle Corps": "Thunder",
+  "Spokane Thunder": "Thunder",
+  "Calgary Stetson Show Band": "Calgary Stampede Showband",
+  "Calgary Stampede Showband": "Calgary Stampede Showband",
+  "Calgary Round-Up Band": "Calgary Stampede Showband",
+  "Latrobe Music Center": "Apogee",
+  "Latrobe Apogee": "Apogee",
+  "Apogee Music Center": "Apogee",
+  "Green Beret": "Green Beret Marching Band",
+  "Alisal Union School District Marching Band": "Alisal Union School District",
+  "Alisal Union School District All-Star Academy": "Alisal Union School District",
+  "The Blue Way Summer Arts Camp": "The Blue Way",
+  "The Blue Way Middle School Honor Band": "The Blue Way",
+  "Alisal CAN Marching Band & Drum Corps": "Alisal Union School District",
+  "Alisal USD All-Star Drum Corps": "Alisal Union School District",
+  "Alisal Community Arts Network Marching Band": "Alisal Union School District",
+  "Skyliners": "New York Skyliners",
+  "Bluecoats Rhythm IN BLUE": "Bluecoats"
+ }
+}
