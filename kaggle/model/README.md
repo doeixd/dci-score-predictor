@@ -14,10 +14,36 @@ env-var only (see below).
 | Latest version | **5** — v10.5 identity-agnostic 8-seed field-pace ensemble + division recal |
 | URL | https://www.kaggle.com/models/patrickwglenn/dci-score-predictor/TfJs/default/5 |
 | Uncompressed size | ~33.7 MB |
+| Visibility | **Public** (`is_private: false`) |
+| Page metadata | **Filled** — title, subtitle, full markdown description, and instance overview/usage/inputs/outputs/changelog |
 
 v10.5 is a **new version of the existing `TfJs/default` instance** (not a new
 instance). Held-out accuracy: bias −0.35, MAE 0.78 (per-tier in
 `docs/TIER_ACCURACY.md`).
+
+## Page metadata + public status (filled 2026-07-21)
+
+The model page is fully populated and **public**. Metadata was applied with the
+CLI from a staging dir kept **outside the repo** (`/tmp`, never committed):
+
+- **Model level** (`kaggle models update`): title "DCI Score Predictor (v10.5)",
+  subtitle, `isPrivate: false`, and a thorough markdown description (summary,
+  architecture, training data, evaluation-results table, links, provenance,
+  MIT license). Sourced only from `docs/MODEL_CARD.md`, `docs/TIER_ACCURACY.md`,
+  `docs/BENCHMARKS.md`, and `README.md` — no invented numbers.
+- **Instance level** (`kaggle models instances update`, `TfJs/default`):
+  overview + usage markdown (Model Format / Training Data / Inputs / Outputs /
+  Usage with the SDK 10-liner + raw-tfjs custom-layer caveat / Fine-tuning /
+  Changelog), `licenseName: MIT`, `fineTunable: false`,
+  `trainingData: ["Public DCI recap scores 2013–2025 (cleaned)"]`.
+- **License choice:** **MIT** (accepted by Kaggle's model license list; matches
+  the GitHub/SDK license).
+
+Two CLI quirks worth noting for future edits: `kaggle models update` rejects a
+non-empty `provenanceSources` (server FieldMask bug on the `_`), so leave it
+empty and put provenance in the description; and `kaggle models instances update`
+returns an empty HTTP 200 body that makes the CLI raise a JSON-decode error even
+though the update **succeeds** (verify with `kaggle models get`).
 
 ## Package layout (staged in a temp dir, then uploaded)
 

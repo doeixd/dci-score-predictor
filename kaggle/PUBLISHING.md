@@ -61,12 +61,17 @@ The kernel keeps `enable_internet: false` (it only reads the mounted dataset). I
 starts private (`is_private: "true"`); make it public in the UI, or set
 `"is_private": "false"` before pushing.
 
-## 3. Publish the model to Kaggle Models — DONE (v10.5 = version 5)
+## 3. Publish the model to Kaggle Models — DONE (v10.5 = version 5, PUBLIC)
 
 **Status:** the v10.5 ensemble is live as **version 5** of the existing
-`TfJs/default` instance:
+`TfJs/default` instance, and the model page is now **fully filled and public**
+(`is_private: false`):
 https://www.kaggle.com/models/patrickwglenn/dci-score-predictor/TfJs/default/5
-(~33.7 MB uncompressed). Full details + regeneration steps in
+(~33.7 MB uncompressed). Model- and instance-level metadata (title, subtitle,
+markdown description, instance overview/usage/inputs/outputs/changelog,
+`licenseName: MIT`, `fineTunable: false`) were set 2026-07-21 via
+`kaggle models update` / `kaggle models instances update` from an out-of-repo
+`/tmp` staging dir. Full details + regeneration steps in
 [`kaggle/model/README.md`](model/README.md). Auth for the modern `KGAT_` token is
 `export KAGGLE_API_TOKEN=KGAT_...` (env var only — never written into the repo);
 new versions go via `kaggle models instances versions create
