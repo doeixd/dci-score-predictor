@@ -61,7 +61,20 @@ The kernel keeps `enable_internet: false` (it only reads the mounted dataset). I
 starts private (`is_private: "true"`); make it public in the UI, or set
 `"is_private": "false"` before pushing.
 
-## 3. (Optional) Publish the model to Kaggle Models
+## 3. Publish the model to Kaggle Models — DONE (v10.5 = version 5)
+
+**Status:** the v10.5 ensemble is live as **version 5** of the existing
+`TfJs/default` instance:
+https://www.kaggle.com/models/patrickwglenn/dci-score-predictor/TfJs/default/5
+(~33.7 MB uncompressed). Full details + regeneration steps in
+[`kaggle/model/README.md`](model/README.md). Auth for the modern `KGAT_` token is
+`export KAGGLE_API_TOKEN=KGAT_...` (env var only — never written into the repo);
+new versions go via `kaggle models instances versions create
+patrickwglenn/dci-score-predictor/TfJs/default -p <dir> -n "..." -r tar`.
+
+The instance is `TfJs/default` (not the `tfjs-v10-5` slug the template below
+suggested); future retrains should **version that same instance**, not create a
+new one. The template below is retained for reference / first-time setup.
 
 The trained v10.5 ensemble ships as 8 tfjs seed folders under `assets/models/` in the
 SDK repo (each: `model.json` + `weights.bin` + `target-norm.json`), plus a
