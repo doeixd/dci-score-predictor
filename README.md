@@ -44,6 +44,41 @@ const out = await predict({
 for (const p of out.predictions) console.log(p.rank, p.corps, p.total.toFixed(3));
 ```
 
+## Quickstart with real 2026 data (no typing)
+
+Install the companion [`dci-score-predictor-data-2026`](./data-2026) package for
+the whole 2026 season-to-date as ready-made `SeasonData` — set a target and go:
+
+```js
+import { season2026 } from 'dci-score-predictor-data-2026';
+import { predict } from 'dci-score-predictor';
+
+const { seasonInfo, shows } = season2026();
+const result = await predict({ seasonInfo, history: shows,
+  target: { slug: 'dci-prelims', date: '2026-08-06',
+            lineup: [{ corpsKey: 'blue-devils', division: 'World Class' }] } });
+```
+
+### Batch & what-if
+
+```js
+import { predictMany, whatIf } from 'dci-score-predictor';
+
+const base = { seasonInfo, history: shows, target };
+// One ensemble load + one temporal replay shared across the batch:
+const [asIs, withBluecoats] = await predictMany([
+  base,
+  whatIf(base, { addCorps: [{ corpsKey: 'bluecoats', division: 'World Class' }] }),
+]);
+```
+
+### CLI
+
+```bash
+npx dci-predict season-2026.json --members 8   # ranked recap table + tiers + caveats
+npx dci-predict season-2026.json --json        # raw PredictedShowResult
+```
+
 ## Typed core API
 
 ```js

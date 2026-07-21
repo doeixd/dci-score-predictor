@@ -1,0 +1,35 @@
+{
+  "name": "dci-score-predictor-data-2026",
+  "version": "0.0.0",
+  "description": "The 2026 DCI season-to-date as ready-made SeasonData (shows + seasonInfo) for dci-score-predictor — no score sheets to type.",
+  "license": "MIT",
+  "author": "Patrick Glenn",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./data/season-2026.json": "./data/season-2026.json"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "data",
+    "README.md"
+  ],
+  "keywords": [
+    "dci",
+    "drum-corps",
+    "2026",
+    "season-data",
+    "dci-score-predictor"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doeixd/dci-score-predictor.git",
+    "directory": "data-2026"
+  }
+}
