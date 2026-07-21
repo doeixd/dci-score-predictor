@@ -66,6 +66,21 @@ while the dropout floor keeps agnostic serving in-distribution.
   Arm 1 shows only partial gains, a follow-up variable is the **Phase-C ramp
   target** (e.g. ramp to 0.5 instead of 1.0) — but that changes the agnostic
   finalization and needs the no-regression gate watched closely.
+- **2026-07-21 — Arm 1 JUDGED** (full results:
+  [V11_ARM1_RESULTS.md](V11_ARM1_RESULTS.md), harness `tools/backtest-v11.ts`):
+  8×v11-agnostic wins decisively on the 27-event window — overall MAE **2.079
+  vs 2.494** (−16.6%), better in every tier, bias −2.24 → −1.67; gain
+  concentrated in World Class (2.945 → 2.359), Open Class a wash.
+  No-regression gate PASSED. v11-full beats v10.4-full (2.146 vs 2.475) but
+  LOSES to v11-agnostic — the win is identity as *auxiliary training signal*,
+  not identity at serving. **Mixture hypothesis REJECTED**: MAE monotone in
+  v11 fraction; pure 8×v11 beats every mixed pool in both modes. Skepticism
+  pass: training-args diff = only `identityDropoutRate: 0.5`; one true
+  held-out event (mckinney 07-20) confirms direction (v11 better in both
+  modes; identity-full helps there — late-season WC regime); no degenerate
+  seeds. **Arm 2**: rate sweep (0.3 + 0.7 bracket); mixture-widening dead;
+  fold the winner into the August retrain; `backtestPredictionModes.ts` guard
+  before any prod flip.
 
 ## Heterogeneous expert ensembles (mixture hypothesis)
 
