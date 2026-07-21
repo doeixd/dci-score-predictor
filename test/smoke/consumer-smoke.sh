@@ -33,5 +33,12 @@ echo "== 5. Run consumer (public API only) =="
 ( cd "$TMP" && node consumer.mjs )
 STATUS=$?
 
+echo "== 5b. CLI: npx dci-predict (installed bin, --json) =="
+# --json path exercises the installed bin end-to-end; grep-free JSON check via node.
+( cd "$TMP" && npx --no-install dci-predict season-2026-2026-dci-kentucky.json --members 1 --json \
+    | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const r=JSON.parse(s);if(!Array.isArray(r.predictions)||!r.predictions.length){console.error("CLI FAIL: no predictions");process.exit(1)}console.log("  ok  - dci-predict --json emitted "+r.predictions.length+" predictions")})' )
+CLI_STATUS=$?
+[ "$STATUS" -eq 0 ] && STATUS=$CLI_STATUS
+
 echo "== 6. Cleanup =="
 exit $STATUS
