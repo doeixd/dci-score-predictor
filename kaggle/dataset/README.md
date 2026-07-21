@@ -129,6 +129,10 @@ dataset under Creative Commons Attribution-ShareAlike 4.0 - attribute the source
 keep derivatives of the cleaned data equally open. (Kaggle's dataset license list has
 no MIT option; the companion **code** is MIT, licensed separately in the SDK repo.)
 
+The npm data companion (`dci-score-predictor-data-2026`) bundles the same cleaned
+season data and carries the **same CC-BY-SA-4.0 data license** (its package code
+stays MIT), so the score data is consistently licensed wherever it is published.
+
 ## Disclaimer
 
 This is an **independent, unofficial** dataset. It is **not affiliated with, endorsed

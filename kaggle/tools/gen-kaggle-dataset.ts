@@ -55,7 +55,7 @@ const counts: Record<string, number> = {};
               e.percent_through
          FROM clean_reference_curve_entries e
          JOIN competitions c ON c.slug = e.competition_slug
-        ORDER BY e.season, c.date, e.division_name, e.computed_rank`
+        ORDER BY e.season, c.date, e.division_name, e.computed_rank, e.corps_key`
     )
     .all() as Record<string, unknown>[];
   counts['scores.csv'] = writeCsv(
@@ -80,7 +80,7 @@ const counts: Record<string, number> = {};
          FROM competitions c
          JOIN clean_reference_curve_entries e ON e.competition_slug = c.slug
         GROUP BY c.slug
-        ORDER BY c.season, c.date`
+        ORDER BY c.season, c.date, c.slug`
     )
     .all() as Record<string, unknown>[];
   counts['events.csv'] = writeCsv(
@@ -101,7 +101,7 @@ const counts: Record<string, number> = {};
               COUNT(*) AS n_performances
          FROM clean_reference_curve_entries e
         GROUP BY e.corps_key
-        ORDER BY corps_name`
+        ORDER BY corps_name, e.corps_key`
     )
     .all() as Record<string, unknown>[];
 

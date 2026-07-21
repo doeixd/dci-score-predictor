@@ -1,7 +1,7 @@
 {
   "name": "dci-score-predictor-data-2026",
   "version": "0.0.0",
-  "description": "The 2026 DCI season-to-date as ready-made SeasonData (shows + seasonInfo) for dci-score-predictor — no score sheets to type.",
+  "description": "The 2026 DCI season-to-date as ready-made SeasonData (shows + seasonInfo) for dci-score-predictor — no score sheets to type. Package code is MIT; the bundled season JSON data is CC-BY-SA-4.0 (same as the doeixd/dci-scores Kaggle dataset). See README.md.",
   "license": "MIT",
   "author": "Patrick Glenn",
   "type": "module",
@@ -18,7 +18,8 @@
     "index.js",
     "index.d.ts",
     "data",
-    "README.md"
+    "README.md",
+    "LICENSE-DATA"
   ],
   "keywords": [
     "dci",
