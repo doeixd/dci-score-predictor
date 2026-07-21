@@ -17,13 +17,28 @@ import process from 'node:process';
 const args = process.argv.slice(2);
 const file = args.find((a) => !a.startsWith('--'));
 const USAGE = 'usage: dci-predict <season-data.json> [--members N] [--explain] [--strict] [--json]';
-if (!file || args.includes('--help') || args.includes('-h')) {
+// --help/-h is a success path: print usage to stdout and exit 0, regardless of
+// whether a file was supplied.
+if (args.includes('--help') || args.includes('-h')) {
+  console.log(USAGE);
+  process.exit(0);
+}
+if (!file) {
   console.error(USAGE);
-  process.exit(file ? 0 : 2);
+  process.exit(2);
 }
 const flag = (name) => args.includes(`--${name}`);
 const membersArg = args.indexOf('--members');
-const members = membersArg >= 0 ? Number(args[membersArg + 1]) : undefined;
+let members;
+if (membersArg >= 0) {
+  const raw = args[membersArg + 1];
+  members = Number(raw);
+  // --members must be a positive integer (0 and non-numeric are invalid).
+  if (raw === undefined || !Number.isInteger(members) || members <= 0) {
+    console.error(`Invalid --members value "${raw ?? ''}": expected a positive integer.`);
+    process.exit(2);
+  }
+}
 const asJson = flag('json');
 const options = { explain: flag('explain'), strict: flag('strict'), ...(members ? { members } : {}) };
 
