@@ -16,6 +16,7 @@ import type {
   TargetEventInput,
 } from './features/types.js';
 import { loadEnsemble, loadBiasCalibration } from './model/loader.js';
+import type { Backend, BackendResult } from './model/backend.js';
 import type { EnsembleMember } from './model/inference.js';
 import { servePrediction, type ServedPrediction } from './model/serve.js';
 import {
@@ -59,6 +60,13 @@ export interface PredictOptions {
   /** Override shipped bias calibration (keyed `${division}|${bucket}`). */
   biasCalibration?: Record<string, number>;
   recalConfig?: RecalConfig;
+  /**
+   * tfjs backend for inference: `'cpu'` (default, pure-JS, zero extra deps) or
+   * `'wasm'` (XNNPACK SIMD via the optional `@tensorflow/tfjs-backend-wasm` peer
+   * dependency). If wasm is requested but unavailable, it silently falls back to
+   * cpu and emits an `info` caveat. See docs/BENCHMARKS.md.
+   */
+  backend?: Backend;
 }
 
 export type ReadinessTier = 'established' | 'partial' | 'sparse' | 'cold_start';
@@ -187,14 +195,27 @@ const loadReferenceCurves = (): ReferenceCurvesArtifact =>
 
 // Ensemble load is ~2s / 8 models — cache the promise across predict() calls.
 const ensembleCache = new Map<string, Promise<EnsembleMember[]>>();
+// Backend selection result per cache key (for the fallback caveat).
+const backendResults = new Map<string, BackendResult>();
 const getEnsemble = (options: PredictOptions): Promise<EnsembleMember[]> => {
-  const key = `${options.provider ? 'custom' : 'default'}|${options.members ?? 'all'}`;
+  const backend: Backend = options.backend ?? 'cpu';
+  const key = `${options.provider ? 'custom' : 'default'}|${options.members ?? 'all'}|${backend}`;
   let cached = ensembleCache.get(key);
   if (!cached) {
-    cached = loadEnsemble({ provider: options.provider, members: options.members });
+    cached = loadEnsemble({
+      provider: options.provider,
+      members: options.members,
+      backend,
+      onBackend: (r) => backendResults.set(key, r),
+    });
     ensembleCache.set(key, cached);
   }
   return cached;
+};
+const backendResultFor = (options: PredictOptions): BackendResult | undefined => {
+  const backend: Backend = options.backend ?? 'cpu';
+  const key = `${options.provider ? 'custom' : 'default'}|${options.members ?? 'all'}|${backend}`;
+  return backendResults.get(key);
 };
 
 /** Test/embedder hook: drop cached ensembles (e.g. to reload a different dir). */
@@ -567,6 +588,13 @@ async function runPrediction(
     else if (audit.active && audit.thinTaper > 0 && audit.thinTaper < 1)
       caveats.push({ severity: 'info', message: `recal pool for ${audit.division} is thin (n=${audit.poolN}) — offset damped to ${Math.round(audit.thinTaper * 100)}%.` });
   }
+  // wasm backend fallback (§5): requested but unavailable → ran on cpu.
+  const backendResult = backendResultFor(options);
+  if (backendResult?.fellBack)
+    caveats.push({
+      severity: 'info',
+      message: `backend 'wasm' unavailable — ran on cpu instead${backendResult.error ? ` (${backendResult.error})` : ''}.`,
+    });
 
   // 9) Input audit.
   const corpsKeys = new Set<string>();

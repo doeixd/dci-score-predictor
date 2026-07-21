@@ -5,6 +5,7 @@
 // same code loads the ensemble in a browser. No node:* import here.
 import type * as tf from '@tensorflow/tfjs';
 import { loadEnsembleMember, type EnsembleMember, type MemberArtifacts } from './inference.js';
+import { ensureBackend, type Backend, type BackendResult } from './backend.js';
 import type { TargetStats } from './contract.js';
 import {
   getActiveProvider,
@@ -67,10 +68,17 @@ export interface LoadEnsembleOptions {
   provider?: AssetProvider;
   /** Number of seeds to load (accuracy vs load-time/memory). Default: all. */
   members?: number;
+  /** tfjs backend: 'cpu' (default, pure-JS) or 'wasm' (optional XNNPACK peer dep). */
+  backend?: Backend;
+  /** Reports the backend actually selected (incl. any wasm→cpu fallback). */
+  onBackend?: (result: BackendResult) => void;
 }
 
 export async function loadEnsemble(options: LoadEnsembleOptions = {}): Promise<EnsembleMember[]> {
   await ensureNodeProvider();
+  // Select the backend once, before any model loads (never throws — falls back to cpu).
+  const backendResult = await ensureBackend(options.backend ?? 'cpu');
+  options.onBackend?.(backendResult);
   const provider = options.provider ?? getActiveProvider();
   const seedNames = await listSeeds(provider);
   if (!seedNames.length) throw new Error('no model seed directories found');

@@ -18,19 +18,19 @@ const targets: Record<string, Options> = {
     ...shared,
     entry: { index: 'src/index.ts' },
     format: ['esm', 'cjs'],
-    external: ['@tensorflow/tfjs', 'effect'],
+    external: ['@tensorflow/tfjs', '@tensorflow/tfjs-backend-wasm', 'effect'],
   },
   simple: {
     ...shared,
     entry: { simple: 'src/simple/simple.ts' },
     format: ['esm', 'cjs'],
-    external: ['@tensorflow/tfjs', 'effect'],
+    external: ['@tensorflow/tfjs', '@tensorflow/tfjs-backend-wasm', 'effect'],
   },
   effect: {
     ...shared,
     entry: { effect: 'src/effect.ts' },
     format: ['esm', 'cjs'],
-    external: ['@tensorflow/tfjs', 'effect'],
+    external: ['@tensorflow/tfjs', '@tensorflow/tfjs-backend-wasm', 'effect'],
   },
   // Browser build. platform:'browser' makes esbuild ERROR on any leaked node:*
   // import — that's the guard that keeps the browser bundle pure.
@@ -39,7 +39,7 @@ const targets: Record<string, Options> = {
     entry: { browser: 'src/browser.ts' },
     format: ['esm'],
     platform: 'browser',
-    external: ['@tensorflow/tfjs'],
+    external: ['@tensorflow/tfjs', '@tensorflow/tfjs-backend-wasm'],
   },
 };
 

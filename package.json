@@ -85,10 +85,17 @@
     "@tensorflow/tfjs": "^4.22.0"
   },
   "peerDependencies": {
-    "effect": "^4.0.0-beta.99"
+    "effect": "^4.0.0-beta.99",
+    "@tensorflow/tfjs-backend-wasm": "^4.22.0"
+  },
+  "peerDependenciesMeta": {
+    "@tensorflow/tfjs-backend-wasm": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
+    "@tensorflow/tfjs-backend-wasm": "^4.22.0",
     "@types/node": "^26.1.1",
     "effect": "^4.0.0-beta.99",
     "tsup": "^8.5.1",

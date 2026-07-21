@@ -435,7 +435,10 @@ const embeddingInputDim = (model: tf.LayersModel, layerName: string) => {
 
 export async function loadEnsembleMember(artifacts: MemberArtifacts): Promise<EnsembleMember> {
   deserializationStats = artifacts.stats;
-  await tf.setBackend('cpu');
+  // Default to cpu when nothing has been selected yet; a prior ensureBackend()
+  // (e.g. a wasm request from loadEnsemble) is respected and not overridden.
+  if (!tf.getBackend()) await tf.setBackend('cpu');
+  await tf.ready();
   const model = await tf.loadLayersModel({
     load: async () => ({
       modelTopology: artifacts.modelTopology as {},
