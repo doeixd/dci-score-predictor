@@ -16,7 +16,7 @@ import process from 'node:process';
 
 const args = process.argv.slice(2);
 const file = args.find((a) => !a.startsWith('--'));
-const USAGE = 'usage: dci-predict <season-data.json> [--members N] [--explain] [--strict] [--json]';
+const USAGE = 'usage: dci-predict <season-data.json> [--members N] [--explain] [--strict] [--identity [full|corps,judges,show]] [--json]';
 // --help/-h is a success path: print usage to stdout and exit 0, regardless of
 // whether a file was supplied.
 if (args.includes('--help') || args.includes('-h')) {
@@ -40,7 +40,29 @@ if (membersArg >= 0) {
   }
 }
 const asJson = flag('json');
-const options = { explain: flag('explain'), strict: flag('strict'), ...(members ? { members } : {}) };
+// --identity [mode]: bare flag or "full"/"agnostic" ⇒ that mode; a comma list of
+// parts (e.g. "corps,judges") ⇒ per-part enable. Requires target.judges for judges.
+let identity;
+const identityArg = args.indexOf('--identity');
+if (identityArg >= 0) {
+  const raw = args[identityArg + 1];
+  const val = raw && !raw.startsWith('--') ? raw : 'full';
+  if (val === 'full' || val === 'agnostic') identity = val;
+  else {
+    const parts = val.split(',').map((p) => p.trim());
+    identity = {
+      corps: parts.includes('corps'),
+      judges: parts.includes('judges'),
+      show: parts.includes('show'),
+    };
+  }
+}
+const options = {
+  explain: flag('explain'),
+  strict: flag('strict'),
+  ...(members ? { members } : {}),
+  ...(identity ? { identity } : {}),
+};
 
 let payload;
 try {

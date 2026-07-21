@@ -12,6 +12,8 @@ import {
   RECAP_OFFSET,
   CAPTION_STRIDE,
   RANK_BASELINE_START,
+  JUDGE_ELO_START,
+  JUDGE_ELO_END,
   captionDerivedTotal,
   historyBucket,
   maskJudgeContext,
@@ -21,6 +23,7 @@ import {
   type HistoryBucket,
 } from './contract.js';
 import type { EnsembleMember } from './inference.js';
+import type { ServeIdentity } from './identity.js';
 
 export interface ServeOptions {
   /** Per-`${division}|${bucket}` additive total offset (shipped asset). */
@@ -28,6 +31,14 @@ export interface ServeOptions {
   /** Per-division additive recal offset (fit from the caller's resolved shows). */
   recalOffsets?: Record<string, number>;
   division: string;
+  /**
+   * Opt-in identity feed. When ABSENT (default), serving is identity-agnostic:
+   * judge-Elo block 101–112 masked, all embeddings + scales zeroed — byte-for-byte
+   * the shipped production behavior. When present, the supplied embeddings/scales
+   * replace the zeros and (if `judgeEloBlock` is set) 101–112 is populated instead
+   * of masked.
+   */
+  identity?: ServeIdentity;
 }
 
 export interface ServedPrediction {
@@ -74,7 +85,16 @@ export const servePrediction = (
     return last.length >= 2 ? (last.at(-1)! - last[0]!) / (last.length - 1) / 0.1 : 0;
   });
   const staticFeatures = [...staticRaw, ...trendSlopes];
-  maskJudgeContext(staticFeatures);
+  // Identity-agnostic default: mask the judge-Elo block (101–112). With judges
+  // enabled, write the resolved per-panel Elo block into 101–112 instead (the
+  // model saw this un-masked, in-distribution state during training).
+  const identity = options.identity;
+  if (identity?.judgeEloBlock) {
+    for (let i = JUDGE_ELO_START; i <= JUDGE_ELO_END; i++)
+      staticFeatures[i] = identity.judgeEloBlock[i - JUDGE_ELO_START] ?? 0;
+  } else {
+    maskJudgeContext(staticFeatures);
+  }
 
   // Baseline: the corps' last-observed recap; curve-anchor fallback (rank-baseline
   // block) only when that is all-zero (first-ever appearance).
@@ -95,13 +115,13 @@ export const servePrediction = (
       sequence,
       sequenceMask: mask,
       staticFeatures,
-      judgeIndices: new Array<number>(8).fill(0),
-      corpsId: 0,
-      agnosticShowId: 0,
+      judgeIndices: identity?.judgeIndices ?? new Array<number>(8).fill(0),
+      corpsId: identity?.corpsId ?? 0,
+      agnosticShowId: identity?.agnosticShowId ?? 0,
       baselineRecap: baseline,
       historyLen,
-      judgeBiasScale: 0,
-      corpsScale: 0,
+      judgeBiasScale: identity?.judgeBiasScale ?? 0,
+      corpsScale: identity?.corpsScale ?? 0,
     })
   );
   const avgAt = (cap: Caption, q: 'p10' | 'p50' | 'p90') =>

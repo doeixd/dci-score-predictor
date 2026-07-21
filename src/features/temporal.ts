@@ -198,6 +198,16 @@ export class TemporalState {
   }
 
   /**
+   * Per-season judge Elo for one (season, division, judge_id, caption), as
+   * accumulated by the caller's history replay. Neutral 1500 when the judge has
+   * no record. Powers the opt-in identity judge-Elo static block (101–112);
+   * unused on the default agnostic serving path.
+   */
+  judgeEloValue(season: number, division: string, judgeId: string, caption: Caption): number {
+    return this.getElo(this.judgeElo, this.eloKey(season, division, judgeId, caption)).elo;
+  }
+
+  /**
    * Replay all rows of one date: capture per-row features from prior state
    * (phase 1), then fold the date into the state (phase 2).
    */

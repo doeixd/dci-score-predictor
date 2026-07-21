@@ -146,6 +146,11 @@ export const PRELOAD_JSON = [
   'registries/featureContext.json',
   'curves/referenceCurvesV4.json',
   'calibration/biasCalibration.json',
+  // Optional identity knob (agnostic default never reads these; tolerated absent).
+  'registries/identity/corpsIndexMap.json',
+  'registries/identity/judgeIndexMap.json',
+  'registries/identity/showIndexMap.json',
+  'registries/identity/corpsAliasMap.json',
 ] as const;
 
 export interface InitOptions {
@@ -173,7 +178,12 @@ export async function init(options: InitOptions = {}): Promise<void> {
       try {
         primeJson(rel, await explicit.readJson(rel));
       } catch (err) {
-        if (rel !== 'calibration/biasCalibration.json') throw err;
+        // biasCalibration + the optional identity maps are tolerated absent
+        // (the agnostic default never reads identity; enabling the knob without
+        // them throws a clear getJsonSync error at use time).
+        const optional =
+          rel === 'calibration/biasCalibration.json' || rel.startsWith('registries/identity/');
+        if (!optional) throw err;
         primeJson(rel, {});
       }
     }

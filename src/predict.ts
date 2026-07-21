@@ -21,6 +21,17 @@ import type { Backend, BackendResult } from './model/backend.js';
 import type { EnsembleMember } from './model/inference.js';
 import { servePrediction, type ServedPrediction } from './model/serve.js';
 import {
+  resolveIdentityFlags,
+  anyIdentityEnabled,
+  corpsEmbeddingIndex,
+  showEmbeddingIndex,
+  resolveJudgePanel,
+  IDENTITY_ON_SCALE,
+  type IdentityMode,
+  type IdentityDiagnostics,
+  type ServeIdentity,
+} from './model/identity.js';
+import {
   fitRecalOffsets,
   PRODUCTION_RECAL_CONFIG,
   type RecalConfig,
@@ -68,6 +79,19 @@ export interface PredictOptions {
    * cpu and emits an `info` caveat. See docs/BENCHMARKS.md.
    */
   backend?: Backend;
+  /**
+   * Opt-in identity serving (default `'agnostic'` = exact production behavior).
+   * The v10.4 weights were trained WITH corps/judge/show embeddings + a judge-Elo
+   * static block, then dropped out heavily; production zeroes all of it. This knob
+   * re-enables it per part:
+   *   - `'agnostic'` (default): identity-agnostic — unchanged, parity-guaranteed.
+   *   - `'full'`: corps + judges + show all on.
+   *   - `{ corps?, judges?, show? }`: enable parts individually.
+   * `judges` requires `target.judges` (a per-caption panel). Unknown corps/judges/
+   * shows fall back to the model's `unknown` slot with an info caveat. See
+   * docs/IDENTITY_BASELINES.md — the default agnostic mode is recommended.
+   */
+  identity?: IdentityMode;
 }
 
 export type ReadinessTier = 'established' | 'partial' | 'sparse' | 'cold_start';
@@ -168,6 +192,8 @@ export interface PredictedShowResult {
   readiness: {
     corps: CorpsReadiness[];
     recal: DivisionRecalAudit[];
+    /** Present only when the identity knob is engaged (non-agnostic). */
+    identity?: IdentityDiagnostics;
   };
   inputAudit: InputAudit;
   caveats: Caveat[];
@@ -486,10 +512,16 @@ async function runPrediction(
   const { cleanShows, dropped, warnings, panelStats } = validation;
   const seasonData: SeasonData = { seasonInfo, shows: cleanShows, target };
 
-  // 2) Build features (reusing a shared temporal replay when supplied).
+  // 2) Build features (reusing a shared temporal replay when supplied). The
+  // identity judge-Elo block needs the history replay's TemporalState, so
+  // materialize it here when the knob is engaged and hand the SAME replay to the
+  // feature builder (no double replay). The agnostic default touches none of this.
+  const identityFlags = resolveIdentityFlags(options.identity);
+  const identityOn = anyIdentityEnabled(identityFlags);
   const context = loadFeatureContext();
   const curves = loadReferenceCurves();
-  const { rows, diagnostics } = buildFeatureRows(seasonData, context, curves, replay);
+  const effectiveReplay = replay ?? (identityOn ? replayTemporal(seasonData, context) : undefined);
+  const { rows, diagnostics } = buildFeatureRows(seasonData, context, curves, effectiveReplay);
   const diagByKey = new Map(diagnostics.map((d) => [d.corpsKey, d]));
   const nameByKey = new Map(target.lineup.map((e) => [e.corpsKey, e.corpsName ?? e.corpsKey]));
 
@@ -524,12 +556,54 @@ async function runPrediction(
       recalAudit.push({ division, offset: 0, poolN: 0, thinTaper: 0, active: false });
   }
 
-  // 5) Serve each row.
+  // 5a) Identity precompute (only when engaged): show index (per target) + judge
+  // panels (per division, from the history replay's Elo). Diagnostics accumulate
+  // as rows are served.
+  const season = seasonInfo.year;
+  const showRes = identityFlags.show
+    ? showEmbeddingIndex(target.slug)
+    : { index: 0, matched: false };
+  const panelByDivision = new Map<string, ReturnType<typeof resolveJudgePanel>>();
+  if (identityFlags.judges && effectiveReplay) {
+    for (const division of divisions)
+      panelByDivision.set(
+        division,
+        resolveJudgePanel(effectiveReplay.temporal, season, division, target.judges)
+      );
+  }
+  const unmatchedCorps = new Set<string>();
+  let matchedCorpsCount = 0;
+  const rowIdentity = (division: string, corpsKey: string): ServeIdentity | undefined => {
+    if (!identityOn) return undefined;
+    let corpsIndex = 0;
+    if (identityFlags.corps) {
+      const c = corpsEmbeddingIndex(corpsKey);
+      corpsIndex = c.index;
+      if (c.matched) matchedCorpsCount++;
+      else unmatchedCorps.add(corpsKey);
+    }
+    const panel = identityFlags.judges ? panelByDivision.get(division) : undefined;
+    return {
+      corpsId: corpsIndex,
+      agnosticShowId: identityFlags.show ? showRes.index : 0,
+      judgeIndices: panel?.judgeIndices ?? new Array<number>(8).fill(0),
+      corpsScale: identityFlags.corps ? IDENTITY_ON_SCALE : 0,
+      judgeBiasScale: identityFlags.judges ? IDENTITY_ON_SCALE : 0,
+      judgeEloBlock: panel?.eloBlock,
+    };
+  };
+
+  // 5b) Serve each row.
   const served = rows.map((row) => {
     const prediction = servePrediction(
       members,
       { sequence: row.sequence, staticFeatures: row.staticFeatures },
-      { division: row.division, biasCalibration, recalOffsets }
+      {
+        division: row.division,
+        biasCalibration,
+        recalOffsets,
+        identity: rowIdentity(row.division, row.corpsKey),
+      }
     );
     return { row, prediction };
   });
@@ -571,6 +645,33 @@ async function runPrediction(
     };
   });
 
+  // 7b) Identity diagnostics (only when engaged).
+  let identityDiag: IdentityDiagnostics | undefined;
+  if (identityOn) {
+    const unmatchedJudges = new Set<string>();
+    let matchedJudges = 0;
+    let eloCovered = 0;
+    let eloTotal = 0;
+    for (const panel of panelByDivision.values()) {
+      matchedJudges += panel.matchedJudges;
+      eloCovered += panel.eloCovered;
+      eloTotal += panel.eloTotal;
+      for (const j of panel.unmatchedJudges) unmatchedJudges.add(j);
+    }
+    const allOn = identityFlags.corps && identityFlags.judges && identityFlags.show;
+    identityDiag = {
+      mode: allOn ? 'full' : 'partial',
+      enabled: identityFlags,
+      corps: { matched: matchedCorpsCount, unmatched: [...unmatchedCorps] },
+      judges: { matched: matchedJudges, unmatched: [...unmatchedJudges] },
+      show: {
+        matched: identityFlags.show ? showRes.matched : false,
+        slug: identityFlags.show ? target.slug : null,
+      },
+      eloCoverage: eloTotal ? eloCovered / eloTotal : 0,
+    };
+  }
+
   // 8) Caveats (ordered: warns before infos within each source; dropped rows first).
   const caveats: Caveat[] = [...warnings];
   if (dropped.length) {
@@ -596,6 +697,32 @@ async function runPrediction(
     else if (audit.active && audit.thinTaper > 0 && audit.thinTaper < 1)
       caveats.push({ severity: 'info', message: `recal pool for ${audit.division} is thin (n=${audit.poolN}) — offset damped to ${Math.round(audit.thinTaper * 100)}%.` });
   }
+  // Identity caveats (info-level): unmatched identities fall back to the model's
+  // `unknown` slot; enabling judges without a target panel is a no-op.
+  if (identityDiag) {
+    if (identityFlags.judges && !target.judges)
+      caveats.push({
+        severity: 'info',
+        message:
+          "identity judges enabled but no target.judges panel supplied — judge identity is neutral (unknown slot, Elo 1500 → 0).",
+      });
+    if (identityDiag.corps.unmatched.length)
+      caveats.push({
+        severity: 'info',
+        message: `identity corps: ${identityDiag.corps.unmatched.length} corps not in the registry (${identityDiag.corps.unmatched.slice(0, 5).join(', ')}${identityDiag.corps.unmatched.length > 5 ? ', …' : ''}) — using the unknown-corps embedding.`,
+      });
+    if (identityDiag.judges.unmatched.length)
+      caveats.push({
+        severity: 'info',
+        message: `identity judges: ${identityDiag.judges.unmatched.length} judge${identityDiag.judges.unmatched.length === 1 ? '' : 's'} not in the registry (${[...new Set(identityDiag.judges.unmatched)].slice(0, 5).join(', ')}${identityDiag.judges.unmatched.length > 5 ? ', …' : ''}) — using the unknown-judge embedding.`,
+      });
+    if (identityFlags.show && !identityDiag.show.matched)
+      caveats.push({
+        severity: 'info',
+        message: `identity show: target slug "${target.slug}" not in the registry — using the unknown-show embedding.`,
+      });
+  }
+
   // wasm backend fallback (§5): requested but unavailable → ran on cpu.
   const backendResult = backendResultFor(options);
   if (backendResult?.fellBack)
@@ -620,7 +747,7 @@ async function runPrediction(
 
   const result: PredictedShowResult = {
     predictions,
-    readiness: { corps: readinessCorps, recal: recalAudit },
+    readiness: { corps: readinessCorps, recal: recalAudit, ...(identityDiag ? { identity: identityDiag } : {}) },
     inputAudit,
     caveats,
     model_metadata: {

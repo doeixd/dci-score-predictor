@@ -42,12 +42,16 @@ export interface LooseShow {
   show: string;
   date: string;
   scores: LooseScoreRow[];
+  /** Optional judge panel (caption → judge names/ids); powers the identity knob. */
+  judges?: Record<string, string[]>;
 }
 
 export interface LooseTarget {
   show: string;
   date: string;
   lineup: string[];
+  /** Optional judge panel (caption → judge names/ids); required for identity judges. */
+  judges?: Record<string, string[]>;
 }
 
 export interface LooseInput {
@@ -159,7 +163,12 @@ export async function predict(loose: LooseInput, options: PredictOptions = {}): 
       };
       return perf;
     });
-    return { slug: slugify(show.show, si), date: show.date, results };
+    return {
+      slug: slugify(show.show, si),
+      date: show.date,
+      results,
+      ...(show.judges ? { judges: normalizeJudgePanel(show.judges) } : {}),
+    };
   });
 
   // Target lineup.
@@ -167,7 +176,12 @@ export async function predict(loose: LooseInput, options: PredictOptions = {}): 
     const resolved = resolveCorps(name, undefined, normalizations);
     return { corpsKey: resolved.corps.key, corpsName: resolved.corps.name, division: resolved.division };
   });
-  const target: TargetEventInput = { slug: slugify(loose.target.show, 999), date: loose.target.date, lineup };
+  const target: TargetEventInput = {
+    slug: slugify(loose.target.show, 999),
+    date: loose.target.date,
+    lineup,
+    ...(loose.target.judges ? { judges: normalizeJudgePanel(loose.target.judges) } : {}),
+  };
 
   const result = await corePredict(
     { seasonInfo: { year, startDate, endDate }, history, target },
@@ -183,6 +197,19 @@ export async function predict(loose: LooseInput, options: PredictOptions = {}): 
   });
   return result;
 }
+
+/** Normalize a loose judge panel's caption keys (labels/aliases → canonical). */
+const normalizeJudgePanel = (
+  raw: Record<string, string[]>
+): Partial<Record<Caption, string[]>> => {
+  const out: Partial<Record<Caption, string[]>> = {};
+  for (const [rawKey, names] of Object.entries(raw)) {
+    const cap = matchCaption(rawKey);
+    if (!cap || !Array.isArray(names)) continue;
+    (out[cap] ??= []).push(...names);
+  }
+  return out;
+};
 
 const slugify = (name: string, index: number): string =>
   name
