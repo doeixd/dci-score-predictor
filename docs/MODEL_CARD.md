@@ -35,8 +35,8 @@ embeddings + a judge-Elo static block (then dropped out ~95–100% of the time, 
 the agnostic state is the dominant in-distribution mode). `PredictOptions.identity`
 (`'agnostic'` default | `'full'` | `{ corps?, judges?, show? }`) re-enables them
 per part, keyed by the shipped `assets/registries/identity/` maps.
-**Measured:** identity-full is a statistical tie overall (MAE 3.201 vs 3.227 on
-197 resolved-2026 obs) — it helps established World Class (T0 3.193 → 3.112) but
+**Measured:** identity-full is a statistical tie overall (MAE 2.475 vs 2.494 on
+197 resolved-2026 obs) — it helps established World Class (T0 2.439 → 2.379) but
 hurts Open Class/thin-history, so **the default stays `agnostic`**. Full table +
 guidance: [IDENTITY_BASELINES.md](./IDENTITY_BASELINES.md).
 

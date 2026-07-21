@@ -24,61 +24,66 @@ panel that actually judged the target is known. Corps use the registry
 
 ## Results (n | MAE | bias)
 
+The harness builds the SAME full-fidelity inputs as `backtest-tiers.ts`
+(including subcaption sheets and performance order). Validation anchor: the
+agnostic mode reproduces the tier backtest's no-recal overall MAE (2.494 ≈
+2.49) exactly.
+
 ```
 --- agnostic (default) ---
-  T0 established    105 |  3.193 | -3.094
-  T1 partial         13 |  1.352 | -0.924
-  T2 sparse          57 |  2.847 | -2.413
+  T0 established    105 |  2.439 | -2.319
+  T1 partial         13 |  0.851 | -0.371
+  T2 sparse          57 |  1.817 | -1.416
   T3 cold_start      22 |  5.482 | -5.071
-  overall           197 |  3.227 | -2.974
-    World Class     142 |  3.807 | -3.807
-    Open Class       55 |  1.730 | -0.825
+  overall           197 |  2.494 | -2.237
+    World Class     142 |  2.945 | -2.944
+    Open Class       55 |  1.329 | -0.411
 
 --- identity-full ---
-  T0 established    105 |  3.112 | -2.965
-  T1 partial         13 |  1.617 | -1.395
-  T2 sparse          57 |  2.881 | -2.482
+  T0 established    105 |  2.379 | -2.215
+  T1 partial         13 |  0.973 | -0.753
+  T2 sparse          57 |  1.870 | -1.503
   T3 cold_start      22 |  5.389 | -4.902
-  overall           197 |  3.201 | -2.938
-    World Class     142 |  3.723 | -3.722
-    Open Class       55 |  1.852 | -0.914
+  overall           197 |  2.475 | -2.213
+    World Class     142 |  2.880 | -2.876
+    Open Class       55 |  1.431 | -0.499
 
 --- identity corps-only ---
-  T0 established    105 |  3.199 | -3.083
-  T1 partial         13 |  1.347 | -0.850
-  T2 sparse          57 |  2.856 | -2.396
+  T0 established    105 |  2.444 | -2.308
+  T1 partial         13 |  0.913 | -0.297
+  T2 sparse          57 |  1.848 | -1.399
   T3 cold_start      22 |  5.457 | -5.060
-  overall           197 |  3.229 | -2.957
-    World Class     142 |  3.822 | -3.822
-    Open Class       55 |  1.700 | -0.725
+  overall           197 |  2.507 | -2.220
+    World Class     142 |  2.960 | -2.959
+    Open Class       55 |  1.338 | -0.311
 ```
 
 ### Overall summary
 
 | mode | overall MAE | Δ vs agnostic | overall bias |
 |------|-------------|---------------|--------------|
-| agnostic (default) | **3.227** | — | −2.974 |
-| identity-full | **3.201** | **−0.026 (−0.8%)** | −2.938 |
-| identity corps-only | **3.229** | +0.002 (wash) | −2.957 |
+| agnostic (default) | **2.494** | — | −2.237 |
+| identity-full | **2.475** | **−0.019 (−0.8%)** | −2.213 |
+| identity corps-only | **2.507** | +0.013 (wash) | −2.220 |
 
-> The large shared negative bias (~−2.97) is the early-season no-recal
-> systematic offset (predictions run low in early July), **not** an identity
-> effect — it dominates the MAE and is corrected by the recal pass in
-> `backtest-tiers.ts`. It moves in lock-step across modes, so the identity
-> comparison is still clean.
+> The shared negative bias (~−2.2) is the early-season no-recal systematic
+> offset (predictions run low in early July), **not** an identity effect — it
+> is corrected by the recal pass in `backtest-tiers.ts` (overall MAE 1.64 with
+> recal). It moves in lock-step across modes, so the identity comparison is
+> clean.
 
 ## Recommendation: keep the default `agnostic`
 
-Identity-full is a **statistical tie** overall (−0.026 MAE on 197 obs, well
+Identity-full is a **statistical tie** overall (−0.019 MAE on 197 obs, well
 inside noise) and identity corps-only is a wash. Re-enabling identity does **not**
 justify changing the default. Concretely:
 
 - **Where identity helps:** established, rich-history **World Class** corps —
-  `T0 established` MAE 3.193 → **3.112** and World Class overall 3.807 →
-  **3.723** under identity-full. These are corps/panels with strong in-vocab
+  `T0 established` MAE 2.439 → **2.379** and World Class overall 2.945 →
+  **2.880** under identity-full. These are corps/panels with strong in-vocab
   embeddings and same-season judge-Elo signal.
-- **Where identity hurts:** thin-history regimes — `T1 partial` (1.352 → 1.617),
-  `T2 sparse` (2.847 → 2.881), and **Open Class** overall (1.730 → **1.852**).
+- **Where identity hurts:** thin-history regimes — `T1 partial` (0.851 → 0.973),
+  `T2 sparse` (1.817 → 1.870), and **Open Class** overall (1.329 → **1.431**).
   The embeddings add variance where there's little identity evidence, and the
   net Open-Class regression roughly cancels the World-Class gain.
 - **corps-only** captures neither the upside nor the downside — essentially

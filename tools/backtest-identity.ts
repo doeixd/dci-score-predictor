@@ -64,7 +64,102 @@ const toPerf = (row: any): PerformanceInput => ({
   division: row.division_name as DivisionName,
   total: Number(row.total_score),
   captions: Object.fromEntries(CAPTIONS.map((c) => [c, Number(row[c])])) as Partial<Record<Caption, number>>,
+  subcaptions: subByShowCorps.get(`${row.slug}|${row.corps_key}`),
+  performanceOrder: orderByShowCorps.get(`${row.slug}|${row.corps_key}`),
 });
+
+// Subcaptions + performance order — SAME construction as backtest-tiers.ts.
+// Omitting them degrades static 137–168 and sequence dims 17–20 and inflates
+// MAE (~3.2 vs the true ~2.5 baseline on this window).
+const CAPTION_MAP: Record<string, Caption> = {
+  'General Effect 1': 'GE1', 'General Effect 2': 'GE2',
+  'Visual Proficiency': 'VP', 'Visual - Proficiency': 'VP',
+  'Visual Analysis': 'VA', 'Visual - Analysis': 'VA',
+  'Color Guard': 'CG',
+  'Music - Brass': 'MB', 'Music Brass': 'MB', Brass: 'MB',
+  'Music - Analysis': 'MA', 'Music Analysis': 'MA',
+  'Music - Percussion': 'MP', 'Music Percussion': 'MP', Percussion: 'MP',
+};
+const CONTENT_VARIANTS = [
+  'content', 'repertoire', 'composition', 'rep', 'comp', 'design',
+  'repertoire/composition', 'design development', 'composition development',
+  'repertoire effect', 'design effect',
+];
+const ACHIEVEMENT_VARIANTS = [
+  'achievement', 'performance', 'execution', 'perf', 'excellence',
+  'clarity & excellence', 'performer excellence', 'performance/showmanship',
+  'performer effect', 'accuracy', 'technique', 'intonation', 'tone', 'expression',
+];
+const subCategory = (name: string): 'Content' | 'Achievement' | 'Other' => {
+  const n = name.toLowerCase().trim();
+  if (CONTENT_VARIANTS.some((v) => n.includes(v))) return 'Content';
+  if (ACHIEVEMENT_VARIANTS.some((v) => n.includes(v))) return 'Achievement';
+  return 'Other';
+};
+const subRows = q(DB, `
+  SELECT competition_slug AS slug, corps_key, caption_name, subcaption_name, score
+  FROM subcaption_scores
+  WHERE competition_slug IN (SELECT DISTINCT competition_slug FROM clean_reference_curve_entries WHERE season=2026)
+`);
+const subByShowCorps = new Map<string, Partial<Record<Caption, { content: number; achievement: number }>>>();
+for (const row of subRows) {
+  const caption = CAPTION_MAP[String(row.caption_name)];
+  if (!caption) continue;
+  const category = subCategory(String(row.subcaption_name));
+  if (category === 'Other') continue;
+  const key = `${row.slug}|${row.corps_key}`;
+  const byCaption = subByShowCorps.get(key) ?? {};
+  const entry = (byCaption[caption] ??= { content: 0, achievement: 0 });
+  if (category === 'Content') entry.content += Number(row.score);
+  else entry.achievement += Number(row.score);
+  subByShowCorps.set(key, byCaption);
+}
+const orderRows = q(DB, `
+  WITH scored_corps AS (
+    SELECT DISTINCT cs.competition_slug, cs.corps_key, cs.division_name, e.slug AS event_slug
+    FROM corps_scores cs
+    JOIN competitions c ON c.slug = cs.competition_slug
+    JOIN events e ON e.slug = c.slug
+    WHERE c.season = '2026'
+  ),
+  lineup_order AS (
+    SELECT sc.competition_slug, sc.corps_key, ele.performance_order,
+      ROW_NUMBER() OVER (PARTITION BY sc.event_slug ORDER BY ele.performance_order NULLS LAST, ele.entry_id) AS order_overall,
+      ROW_NUMBER() OVER (PARTITION BY sc.event_slug, sc.division_name ORDER BY ele.performance_order NULLS LAST, ele.entry_id) AS order_in_class,
+      COUNT(*) OVER (PARTITION BY sc.event_slug, sc.division_name) AS count_in_class,
+      COUNT(*) OVER (PARTITION BY sc.event_slug) AS count_overall
+    FROM scored_corps sc
+    LEFT JOIN event_lineup_entries ele ON ele.event_slug = sc.event_slug
+      AND LOWER(REPLACE(REPLACE(ele.unit_name,' ',''),'-','')) =
+          LOWER(REPLACE(REPLACE((SELECT name FROM corps WHERE corps_key = sc.corps_key LIMIT 1),' ',''),'-',''))
+  ),
+  participant_order AS (
+    SELECT sc.competition_slug, sc.corps_key, ep.performance_order,
+      ROW_NUMBER() OVER (PARTITION BY sc.event_slug ORDER BY ep.performance_order NULLS LAST, ep.participant_id) AS order_overall,
+      ROW_NUMBER() OVER (PARTITION BY sc.event_slug, sc.division_name ORDER BY ep.performance_order NULLS LAST, ep.participant_id) AS order_in_class,
+      COUNT(*) OVER (PARTITION BY sc.event_slug, sc.division_name) AS count_in_class,
+      COUNT(*) OVER (PARTITION BY sc.event_slug) AS count_overall
+    FROM scored_corps sc
+    LEFT JOIN event_participants ep ON ep.event_slug = sc.event_slug AND ep.corps_key = sc.corps_key
+  )
+  SELECT sc.competition_slug AS slug, sc.corps_key,
+    COALESCE(lo.performance_order, po.performance_order, lo.order_overall, po.order_overall) AS o_overall,
+    COALESCE(lo.performance_order, po.performance_order, lo.order_in_class, po.order_in_class) AS o_in_class,
+    COALESCE(lo.count_in_class, po.count_in_class) AS c_in_class,
+    COALESCE(lo.count_overall, po.count_overall) AS c_overall
+  FROM scored_corps sc
+  LEFT JOIN lineup_order lo ON lo.competition_slug = sc.competition_slug AND lo.corps_key = sc.corps_key
+  LEFT JOIN participant_order po ON po.competition_slug = sc.competition_slug AND po.corps_key = sc.corps_key
+`);
+const orderByShowCorps = new Map<string, PerformanceInput['performanceOrder']>();
+for (const row of orderRows) {
+  orderByShowCorps.set(`${row.slug}|${row.corps_key}`, {
+    inClass: row.o_in_class ?? undefined,
+    inClassCount: row.c_in_class ?? 0,
+    overall: row.o_overall ?? undefined,
+    overallCount: row.c_overall ?? 0,
+  });
+}
 
 const bySlug = new Map<string, any[]>();
 const slugDate = new Map<string, string>();
