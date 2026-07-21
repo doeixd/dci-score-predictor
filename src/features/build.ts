@@ -108,11 +108,25 @@ export interface BuildResult {
   diagnostics: FeatureBuildDiagnostics[];
 }
 
-export const buildFeatureRows = (
-  data: SeasonData,
-  context: FeatureContext,
-  referenceCurves: ReferenceCurvesArtifact
-): BuildResult => {
+/**
+ * Result of the history-only temporal replay. Depends solely on
+ * (seasonInfo, shows, target.date) — NOT on the target lineup — so it can be
+ * memoized and reused across many predictions that share the same history (see
+ * `predictMany`). `buildFeatureRows` accepts one to skip re-replaying.
+ */
+export interface TemporalReplay {
+  temporal: TemporalState;
+  temporalRows: TemporalPerformance[];
+  priorShows: SeasonData['shows'];
+}
+
+/**
+ * Replay a season's resolved shows (strictly before the target date) into a
+ * seeded {@link TemporalState}. Pure function of history + target date; the
+ * expensive part of feature building and the only step worth caching when
+ * scoring many targets over one history.
+ */
+export const replayTemporal = (data: SeasonData, context: FeatureContext): TemporalReplay => {
   const season = data.seasonInfo.year;
   const targetDate = data.target.date;
   // Leakage guard: only shows strictly before the target date participate.
@@ -162,6 +176,18 @@ export const buildFeatureRows = (
   }
   const temporal = TemporalState.seeded(context);
   temporal.replay(temporalRows);
+  return { temporal, temporalRows, priorShows };
+};
+
+export const buildFeatureRows = (
+  data: SeasonData,
+  context: FeatureContext,
+  referenceCurves: ReferenceCurvesArtifact,
+  replay?: TemporalReplay
+): BuildResult => {
+  const season = data.seasonInfo.year;
+  const targetDate = data.target.date;
+  const { temporal, temporalRows, priorShows } = replay ?? replayTemporal(data, context);
 
   const rows: BuiltFeatureRow[] = [];
   const diagnostics: FeatureBuildDiagnostics[] = [];

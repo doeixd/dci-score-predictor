@@ -66,9 +66,13 @@ export type {
 } from './features/types.js';
 export {
   predict,
+  predictMany,
+  whatIf,
   validateInput,
   DciValidationError,
   SDK_MODEL_DIR,
+  type WhatIfChanges,
+  type WhatIfAddCorps,
   type ValidationReport,
   type PredictInput,
   type PredictOptions,

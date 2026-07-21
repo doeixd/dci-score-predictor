@@ -5,8 +5,9 @@
 // layers on top of this later; here validation is hand-rolled per Appendix B.4.
 import { CAPTIONS, captionDerivedTotal, type Caption, type HistoryBucket } from './model/contract.js';
 import { getJsonSync, ensureNodeProvider, type AssetProvider } from './assets/provider.js';
-import { buildFeatureRows, type ReferenceCurvesArtifact } from './features/build.js';
+import { buildFeatureRows, replayTemporal, type ReferenceCurvesArtifact, type TemporalReplay } from './features/build.js';
 import type {
+  DivisionName,
   FeatureBuildDiagnostics,
   FeatureContext,
   SeasonData,
@@ -437,13 +438,29 @@ export async function predict(input: PredictInput, options: PredictOptions = {})
   const { seasonInfo, target } = input;
 
   // 1) Validate (B.4) → clean SeasonData for the builder.
-  const { cleanShows, dropped, warnings, panelStats } = validate(seasonInfo, shows, target, strict);
+  const validation = validate(seasonInfo, shows, target, strict);
+  return runPrediction(input, validation, options);
+}
+
+/**
+ * Post-validation prediction core, shared by {@link predict} and
+ * {@link predictMany}. `replay` lets a caller inject a memoized temporal replay
+ * (history-only) so a batch over one history replays just once.
+ */
+async function runPrediction(
+  input: PredictInput,
+  validation: ValidationResult,
+  options: PredictOptions,
+  replay?: TemporalReplay
+): Promise<PredictedShowResult> {
+  const { seasonInfo, target } = input;
+  const { cleanShows, dropped, warnings, panelStats } = validation;
   const seasonData: SeasonData = { seasonInfo, shows: cleanShows, target };
 
-  // 2) Build features.
+  // 2) Build features (reusing a shared temporal replay when supplied).
   const context = loadFeatureContext();
   const curves = loadReferenceCurves();
-  const { rows, diagnostics } = buildFeatureRows(seasonData, context, curves);
+  const { rows, diagnostics } = buildFeatureRows(seasonData, context, curves, replay);
   const diagByKey = new Map(diagnostics.map((d) => [d.corpsKey, d]));
   const nameByKey = new Map(target.lineup.map((e) => [e.corpsKey, e.corpsName ?? e.corpsKey]));
 
@@ -591,4 +608,121 @@ export async function predict(input: PredictInput, options: PredictOptions = {})
   }
 
   return result;
+}
+
+// ── Batch prediction + what-if (PLAN §5 streaming/what-if) ──
+
+/**
+ * Assign a stable id to a `shows` array by reference so batches that share one
+ * history object (the common what-if / lineup-sweep case) collapse to a single
+ * temporal replay. Different array references — even with identical content —
+ * get different ids and are replayed separately (cache-by-reference contract).
+ */
+const _replayShowsIds = new WeakMap<object, number>();
+let _replayNextId = 0;
+const replayKey = (input: PredictInput, strict: boolean): string => {
+  const shows = input.history ?? input.shows;
+  let id = -1;
+  if (shows) {
+    let got = _replayShowsIds.get(shows);
+    if (got === undefined) {
+      got = _replayNextId++;
+      _replayShowsIds.set(shows, got);
+    }
+    id = got;
+  }
+  const s = input.seasonInfo;
+  // The replay depends only on (shows, seasonInfo, target.date, strict).
+  return `${id}|${s.year}|${s.startDate}|${s.endDate}|${input.target.date}|${strict ? 1 : 0}`;
+};
+
+/**
+ * Predict many targets in one call. Shares a single (cached) tfjs ensemble load
+ * across every input, and replays each unique `(seasonInfo, shows, target.date)`
+ * history through the {@link TemporalState} machine exactly once — reusing it for
+ * all inputs that share that history (keyed by the `shows` array reference).
+ *
+ * The temporal replay + feature-context load is the bulk of per-call CPU, so a
+ * lineup sweep / what-if fan-out over one history (dozens of targets sharing the
+ * same `history` array) runs the replay a single time instead of N times, on top
+ * of the ensemble already being loaded once. Results preserve input order.
+ *
+ * ```ts
+ * const base = { seasonInfo, history, target };
+ * const scenarios = [base, whatIf(base, { addCorps: [{ corps: Corps.Bluecoats }] })];
+ * const [a, b] = await predictMany(scenarios);   // one ensemble load, one replay
+ * ```
+ */
+export async function predictMany(
+  inputs: PredictInput[],
+  options: PredictOptions = {}
+): Promise<PredictedShowResult[]> {
+  await ensureNodeProvider();
+  const strict = options.strict ?? false;
+  const context = loadFeatureContext();
+  const replayCache = new Map<string, TemporalReplay>();
+  const out: PredictedShowResult[] = [];
+  for (const input of inputs) {
+    const shows = input.history ?? input.shows ?? [];
+    const validation = validate(input.seasonInfo, shows, input.target, strict);
+    const key = replayKey(input, strict);
+    let replay = replayCache.get(key);
+    if (!replay) {
+      replay = replayTemporal(
+        { seasonInfo: input.seasonInfo, shows: validation.cleanShows, target: input.target },
+        context
+      );
+      replayCache.set(key, replay);
+    }
+    out.push(await runPrediction(input, validation, options, replay));
+  }
+  return out;
+}
+
+/** A corps to splice into the target lineup — a `Corps`-like object or a bare key. */
+export interface WhatIfAddCorps {
+  /** Explicit corps key (registry key or any consistent id). */
+  corpsKey?: string;
+  /** A `Corps`-like identity (e.g. `Corps.Bluecoats` or `Corps.make(...)`). */
+  corps?: { key: string; name?: string; division?: DivisionName };
+  corpsName?: string;
+  /** Required unless `corps.division` is set. */
+  division?: DivisionName;
+}
+
+export interface WhatIfChanges {
+  /** Corps to add to `target.lineup` (deduped by key). */
+  addCorps?: WhatIfAddCorps[];
+  /** Corps keys to remove from `target.lineup`. */
+  removeCorps?: string[];
+  /** Move the prediction to a different target date. */
+  date?: string;
+}
+
+/**
+ * Pure lineup-perturbation helper: returns a NEW {@link PredictInput} with the
+ * target lineup and/or date modified. Does not predict — feed the result to
+ * {@link predict} or {@link predictMany}. `seasonInfo`, `history`, and
+ * `recalObservations` are carried through by reference (so a batch of what-ifs
+ * shares one history → one replay in `predictMany`).
+ */
+export function whatIf(base: PredictInput, changes: WhatIfChanges): PredictInput {
+  const removed = new Set(changes.removeCorps ?? []);
+  let lineup = base.target.lineup.filter((entry) => !removed.has(entry.corpsKey));
+  for (const add of changes.addCorps ?? []) {
+    const key = add.corpsKey ?? add.corps?.key;
+    if (!key) throw new DciValidationError('whatIf.addCorps entry needs a corpsKey or corps');
+    const division = add.division ?? add.corps?.division;
+    if (!division) throw new DciValidationError(`whatIf.addCorps "${key}" needs a division`);
+    if (lineup.some((entry) => entry.corpsKey === key)) continue;
+    lineup = [...lineup, { corpsKey: key, corpsName: add.corpsName ?? add.corps?.name, division }];
+  }
+  return {
+    ...base,
+    target: {
+      ...base.target,
+      lineup,
+      ...(changes.date ? { date: changes.date } : {}),
+    },
+  };
 }
