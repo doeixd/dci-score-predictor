@@ -108,6 +108,7 @@ interface PredictOptions {
 | `recalOffsets` | `Record<string, number>` | — | Precomputed per-division additive offset; **overrides** `recalObservations`. |
 | `biasCalibration` | `Record<string, number>` | shipped asset | Override the `${division}|${bucket}` bias table. |
 | `recalConfig` | [`RecalConfig`](#recalconfig) | `PRODUCTION_RECAL_CONFIG` | Shrinkage/recency/trim/taper knobs for recal fitting. |
+| `backend` | `'cpu' \| 'wasm'` | `'cpu'` | tfjs inference backend. `'wasm'` uses the optional `@tensorflow/tfjs-backend-wasm` peer dep (XNNPACK SIMD, ~2× faster warm — see [BENCHMARKS.md](./BENCHMARKS.md)); if unavailable it falls back to cpu and emits an `info` caveat. |
 
 Precedence for the division offset: `recalOffsets` (explicit) > fit from
 `recalObservations` > inactive (`0`).
@@ -159,6 +160,60 @@ const result = await predict(
 for (const p of result.predictions) console.log(p.rank, p.corps, p.total.toFixed(3));
 for (const c of result.caveats) console.log(`[${c.severity}] ${c.message}`);
 ```
+
+### `predictMany(inputs, options?)`
+
+```ts
+function predictMany(inputs: PredictInput[], options?: PredictOptions): Promise<PredictedShowResult[]>
+```
+
+Predict many targets in one call. Shares a single cached tfjs ensemble load
+across every input, and replays each unique `(seasonInfo, shows, target.date)`
+history through the temporal machine **exactly once** — reusing it for all
+inputs whose `history` (or `shows`) array is the **same reference**. The temporal
+replay is the bulk of per-call CPU, so a lineup sweep / what-if fan-out over one
+history (dozens of targets sharing the same `history` array) replays once instead
+of N times. Results preserve input order and are byte-identical to calling
+[`predict`](#predictinput-options) once per input.
+
+```ts
+import { predictMany, whatIf } from 'dci-score-predictor';
+
+const base = { seasonInfo, history, target };
+const [asIs, plusCrown] = await predictMany([
+  base,
+  whatIf(base, { addCorps: [{ corpsKey: 'carolina-crown', division: 'World Class' }] }),
+]);   // one ensemble load, one temporal replay (shared history reference)
+```
+
+Different `history` array references — even with identical content — are replayed
+separately (cache-by-reference contract).
+
+### `whatIf(base, changes)`
+
+```ts
+function whatIf(base: PredictInput, changes: WhatIfChanges): PredictInput
+
+interface WhatIfChanges {
+  addCorps?: WhatIfAddCorps[];   // splice corps into target.lineup (deduped by key)
+  removeCorps?: string[];        // corps keys to remove from target.lineup
+  date?: string;                 // move to a different target date
+}
+interface WhatIfAddCorps {
+  corpsKey?: string;                                           // bare key, or…
+  corps?: { key: string; name?: string; division?: DivisionName };  // a Corps-like identity
+  corpsName?: string;
+  division?: DivisionName;       // required unless corps.division is set
+}
+```
+
+Pure lineup-perturbation helper: returns a **new** `PredictInput` with the target
+lineup and/or date modified. It does **not** predict — feed the result to
+[`predict`](#predictinput-options) or [`predictMany`](#predictmanyinputs-options).
+`seasonInfo`, `history`, and `recalObservations` are carried through **by
+reference**, so a batch of what-ifs shares one history → one replay in
+`predictMany`. Throws `DciValidationError` if an `addCorps` entry lacks a key or a
+division. The base input is never mutated.
 
 ### `validateInput(input, options?)`
 
@@ -816,3 +871,64 @@ class EnsembleMember { predictOne(input: PredictionInput): MemberPrediction }
 These are the raw per-seed contract; `servePrediction` pools `MemberPrediction`s
 across seeds. See [MODEL_CARD.md](./MODEL_CARD.md) for the tensor-level input
 spec.
+
+---
+
+## CLI — `npx dci-predict`
+
+A thin command-line wrapper over the package's own exports (shipped as the
+`dci-predict` bin), for running a prediction from a season-data JSON file.
+
+```bash
+npx dci-predict <season-data.json> [--members N] [--explain] [--strict] [--json]
+```
+
+| Flag | Effect |
+|---|---|
+| `--members N` | Load `N` ensemble seeds (1–8; fewer = faster/lighter). |
+| `--explain` | Attach per-corps attribution (visible with `--json`). |
+| `--strict` | Row-level validation failures throw instead of drop-and-warn. |
+| `--json` | Emit the raw `PredictedShowResult` as JSON instead of the table. |
+
+The payload shape is auto-detected: a `target.lineup` of **name strings** routes
+through `dci-score-predictor/simple`; a lineup of `{ corpsKey, division }` objects
+routes through the core `dci-score-predictor`. Without `--json` it prints a ranked
+recap table (total + GE/Visual/Music), per-corps readiness tiers, the per-division
+recal audit, and severity-tagged caveats. Exit codes: `2` bad args / load failure,
+`1` validation or prediction failure, `0` success.
+
+```bash
+npx dci-predict season-2026.json --members 8       # ranked recap table
+npx dci-predict season-2026.json --json > out.json # raw result
+```
+
+---
+
+## Season data — `dci-score-predictor-data-2026`
+
+A standalone companion package (MIT) shipping the 2026 season-to-date as
+ready-made `SeasonData`, so the quickstart needs no hand-typed score sheets.
+
+```ts
+import { season2026 } from 'dci-score-predictor-data-2026';
+
+interface Season2026Data { seasonInfo: SeasonInfo; shows: ShowInput[] }
+function season2026(): Season2026Data;
+```
+
+`season2026()` returns `{ seasonInfo, shows }` — 31 shows / 212 performances with
+captions, subcaptions, judge panels, and performance order (~130 KB). There is
+**no `target`**: set your own event, then predict. The SDK's leakage guard keeps
+only shows strictly before `target.date`.
+
+```ts
+import { season2026 } from 'dci-score-predictor-data-2026';
+import { predict } from 'dci-score-predictor';
+
+const { seasonInfo, shows } = season2026();
+const result = await predict({
+  seasonInfo, history: shows,
+  target: { slug: 'dci-prelims', date: '2026-08-06',
+            lineup: [{ corpsKey: 'blue-devils', division: 'World Class' }] },
+});
+```
