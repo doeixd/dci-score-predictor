@@ -25,6 +25,18 @@ scale with field size and ensemble members; single-corps predicts see less
 benefit. Numbers are indicative — re-run `npx tsx tools/bench-backends.ts` on
 your hardware.
 
+### Numerical parity caveat (important)
+
+The repo's byte-for-byte reproducibility guarantee applies to the **cpu**
+backend only. The wasm (XNNPACK) backend may reorder/fuse floating-point
+operations (SIMD kernels, different accumulation order), so its outputs are not
+guaranteed to be bit-identical to cpu — they are verified only to a **tested
+tolerance**. On the shipped `kentucky` fixture cpu and wasm totals currently
+match to full float precision (observed max diff = 0), and `test/backend.test.ts`
+pins them equal to 3 decimals. If a tfjs/XNNPACK upgrade makes them diverge,
+loosen that assertion to a documented tolerance and treat cpu as the reference
+for any parity/regression claim. Do not rely on wasm for byte-parity.
+
 ### Notes / caveats
 
 - wasm is opt-in: it is an **optional** peer dependency, so cpu users never pull

@@ -16,6 +16,7 @@ import type {
   TargetEventInput,
 } from './features/types.js';
 import { loadEnsemble, loadBiasCalibration } from './model/loader.js';
+import { ensureBackend } from './model/backend.js';
 import type { Backend, BackendResult } from './model/backend.js';
 import type { EnsembleMember } from './model/inference.js';
 import { servePrediction, type ServedPrediction } from './model/serve.js';
@@ -197,7 +198,7 @@ const loadReferenceCurves = (): ReferenceCurvesArtifact =>
 const ensembleCache = new Map<string, Promise<EnsembleMember[]>>();
 // Backend selection result per cache key (for the fallback caveat).
 const backendResults = new Map<string, BackendResult>();
-const getEnsemble = (options: PredictOptions): Promise<EnsembleMember[]> => {
+const getEnsemble = async (options: PredictOptions): Promise<EnsembleMember[]> => {
   const backend: Backend = options.backend ?? 'cpu';
   const key = `${options.provider ? 'custom' : 'default'}|${options.members ?? 'all'}|${backend}`;
   let cached = ensembleCache.get(key);
@@ -210,7 +211,14 @@ const getEnsemble = (options: PredictOptions): Promise<EnsembleMember[]> => {
     });
     ensembleCache.set(key, cached);
   }
-  return cached;
+  const members = await cached;
+  // tfjs backends are a PROCESS-GLOBAL singleton: a prior wasm (or cpu) run
+  // leaves that backend active. A cached-ensemble hit would otherwise skip
+  // ensureBackend and silently run inference on whatever backend the last call
+  // selected. Re-assert the REQUESTED backend before every run so a default/cpu
+  // call is guaranteed to run on cpu (and a wasm call on wasm).
+  backendResults.set(key, await ensureBackend(backend));
+  return members;
 };
 const backendResultFor = (options: PredictOptions): BackendResult | undefined => {
   const backend: Backend = options.backend ?? 'cpu';

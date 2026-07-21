@@ -42,4 +42,27 @@ describe('predict with backend option', () => {
     _clearEnsembleCache();
     await ensureBackend('cpu');
   }, 120_000);
+
+  // Byte-parity is guaranteed only for cpu (see docs/BENCHMARKS.md). wasm
+  // (XNNPACK) may reorder float ops, so this pins the observed divergence: on
+  // the kentucky fixture cpu and wasm totals match EXACTLY. If a tfjs/XNNPACK
+  // upgrade ever makes them diverge, loosen this tolerance AND strengthen the
+  // BENCHMARKS.md caveat — never silently widen it.
+  it('cpu and wasm agree on the kentucky fixture (to the documented tolerance)', async () => {
+    _clearEnsembleCache();
+    const cpu = await predict(input, { members: 2 });
+    const wasm = await predict(input, { backend: 'wasm', members: 2 });
+    _clearEnsembleCache();
+    await ensureBackend('cpu');
+
+    expect(wasm.predictions.length).toBe(cpu.predictions.length);
+    // Tolerance is 3 decimals per the published parity claim; the fixture in
+    // fact matches to full float precision (observed maxDiff = 0).
+    for (let i = 0; i < cpu.predictions.length; i++) {
+      const c = cpu.predictions[i]!;
+      const w = wasm.predictions[i]!;
+      expect(w.corpsKey).toBe(c.corpsKey);
+      expect(w.total).toBeCloseTo(c.total, 3);
+    }
+  }, 120_000);
 });
