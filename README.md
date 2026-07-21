@@ -47,7 +47,11 @@ for (const p of out.predictions) console.log(p.rank, p.corps, p.total.toFixed(3)
 ## Typed core API
 
 ```js
-import { predict, validateInput } from 'dci-score-predictor';
+import { predict, validateInput, Corps } from 'dci-score-predictor';
+
+// The typed DCI.Corps namespace: autocompleted known corps, plus lookup/make/Unknown.
+const bd = Corps.BlueDevils;                          // frozen { key, name, division }
+const startup = Corps.make('Phoenix Rising', { division: 'Open Class' });  // new/unknown corps
 
 const report = validateInput({ seasonInfo, history, target });   // no model load
 if (!report.ok) console.warn(report.droppedRows);
@@ -55,7 +59,13 @@ if (!report.ok) console.warn(report.droppedRows);
 const result = await predict(
   { seasonInfo: { year: 2026, startDate: '2026-06-26', endDate: '2026-08-08' },
     history: shows,               // ShowInput[] with keyed corps + 8 captions
-    target },                     // { slug, date, lineup: [{ corpsKey, division }] }
+    target: {                     // { slug, date, lineup: [{ corpsKey, division }] }
+      slug: 'prelims', date: '2026-08-06',
+      lineup: [
+        { corpsKey: bd.key, corpsName: bd.name, division: bd.division },
+        { corpsKey: startup.key, corpsName: startup.name, division: startup.division },
+      ],
+    } },
   { members: 8, explain: true, strict: false, recalOffsets: { 'World Class': 0.2 } },
 );
 ```
@@ -131,6 +141,26 @@ when they cost nothing (judge masking).
 | `cold_start` | T3 | 0 prior shows (debut) | curve-anchored, widest error |
 
 Full accuracy figures and limitations: [docs/MODEL_CARD.md](docs/MODEL_CARD.md).
+
+## Documentation
+
+Full docs live in [`docs/`](docs/):
+
+- [**API.md**](docs/API.md) — complete public API reference for all four entries
+  (core, `/simple`, `/effect`, `/browser`): signatures, real TS types,
+  param/field tables, runnable examples, and error behavior.
+- [**TYPES.md**](docs/TYPES.md) — guided type tour: annotated input graph, a
+  real `PredictedShowResult` sample, and every readiness tier, caveat, audit, and
+  domain type the SDK can emit.
+- [**RECIPES.md**](docs/RECIPES.md) — task recipes: recal from your own resolved
+  shows, what-if lineups with `Corps.make`/`Unknown`, the `members:1` speed tier,
+  browser end-to-end, Effect integration, and reading diagnostics to decide trust.
+- [**ARCHITECTURE.md**](docs/ARCHITECTURE.md) — the prediction pipeline, layer
+  map, shipped assets, and the parity-test story.
+- [**MODEL_CARD.md**](docs/MODEL_CARD.md) — model lineage, input contract,
+  training data/provenance, accuracy, and limitations.
+- [**TIER_ACCURACY.md**](docs/TIER_ACCURACY.md) — measured 2026 per-tier and
+  per-division accuracy with methodology.
 
 ## Agent skills
 
