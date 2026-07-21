@@ -51,6 +51,60 @@ while the dropout floor keeps agnostic serving in-distribution.
 - Consider a small embedding-L2 on corps/show embeddings to bound variance for
   thin corps.
 
+### Campaign log
+
+- **2026-07-21**: Arm 1 (A/B rate 0.5, seeds 42–49) launched on the mini-PC via
+  the `--identity-dropout-rate` CLI knob (branch `v11-identity-dropout`,
+  default 0.95 = v10 unchanged). Logs confirm the rate drives actual ~0.5
+  dropout in phases A/B.
+- **Phase-C observation (from live logs):** the curriculum ramps identity
+  dropout to **1.0** in Phase C regardless of the new knob — final convergence
+  is always fully agnostic. So the knob controls A/B exposure only; v11
+  embeddings are *trained-then-frozen* (learned in A/B, held while Phase C
+  tunes the network around agnostic serving). v10.4's embeddings were both
+  under-trained (5% exposure) AND frozen; v11's are trained-then-frozen. If
+  Arm 1 shows only partial gains, a follow-up variable is the **Phase-C ramp
+  target** (e.g. ramp to 0.5 instead of 1.0) — but that changes the agnostic
+  finalization and needs the no-regression gate watched closely.
+
+## Heterogeneous expert ensembles (mixture hypothesis)
+
+Since the model is an 8-member ensemble, a stronger use of identity than "one
+best dropout rate" may be **members trained with different identity exposure**
+("expert families"). Rationale:
+
+1. Current members differ only by init seed — same data, same curriculum.
+   Diversifying the *training regime* across members is a stronger source of
+   ensemble decorrelation than seed alone; individually-mediocre members can
+   pool better if their errors decorrelate.
+2. It matches the measured serving structure: identity helps established World
+   Class and hurts thin-history/Open Class. A mixed pool creates a serving
+   lever — per-mode pool weights, or **per-readiness-tier routing**
+   (identity-heavy experts for T0/WC targets, agnostic experts for
+   debuts/Open Class): a serving-layer mixture-of-experts, measurable with the
+   existing backtest harness.
+3. Honest caveat: Phase C finalizes every member agnostic, so families differ
+   mainly in embedding quality and in how the network organized around identity
+   during A/B — real diversity, not fully independent specialists.
+
+### The free experiment (no new training)
+
+Arm 1 + the shipped v10.4 seeds = 16 members from two families
+(A/B-rate 0.95 and 0.5). The judging step evaluates, at zero training cost:
+
+- pure pools: 8×v10.4 vs 8×v11, both serving modes (the original A/B);
+- **mixed pools**: 4+4, 6+2, 2+6, all-16 — the mixture hypothesis;
+- mode-aware pooling: agnostic serving → v10.4-heavy pool; identity-full →
+  v11-heavy pool;
+- optional tier-routed weighting (readiness tier → member weights).
+
+Pooling stays a plain mean at first (per-seed target-norms already make members
+mean-compatible); learned weights only if plain mixtures show signal.
+
+**Decision rule:** if mixtures win, Arm 2's purpose changes — train at 0.3 (or
+with a lowered Phase-C target) to *widen the expert family pool*, not to find a
+single best rate.
+
 ### Judging the result (all gates must pass)
 
 1. **Both serving modes, same backtest.** Rerun `tools/backtest-identity.ts`
