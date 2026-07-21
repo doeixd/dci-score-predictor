@@ -25,10 +25,20 @@ diagnostics.
   (`n/(n+8)`), thin-pool-tapered (`× min(1, n/20)`), and clamped to ±1.5.
   With sparse history it tapers to 0.
 
-**Identity-agnostic:** corps-identity embeddings and judge-Elo context are
-masked (zeroed) at serving (`maskV9JudgeContext`), so every live feature derives
-from score history + schedule + reference curves — no private database is needed
-to reproduce production predictions.
+**Identity-agnostic (default):** corps-identity embeddings and judge-Elo context
+are masked (zeroed) at serving (`maskV9JudgeContext`), so every live feature
+derives from score history + schedule + reference curves — no private database is
+needed to reproduce production predictions.
+
+**Opt-in identity knob:** the v10.4 weights were trained *with* corps/judge/show
+embeddings + a judge-Elo static block (then dropped out ~95–100% of the time, so
+the agnostic state is the dominant in-distribution mode). `PredictOptions.identity`
+(`'agnostic'` default | `'full'` | `{ corps?, judges?, show? }`) re-enables them
+per part, keyed by the shipped `assets/registries/identity/` maps.
+**Measured:** identity-full is a statistical tie overall (MAE 3.201 vs 3.227 on
+197 resolved-2026 obs) — it helps established World Class (T0 3.193 → 3.112) but
+hurts Open Class/thin-history, so **the default stays `agnostic`**. Full table +
+guidance: [IDENTITY_BASELINES.md](./IDENTITY_BASELINES.md).
 
 ## Training data
 

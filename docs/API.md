@@ -96,6 +96,14 @@ interface PredictOptions {
   /** Override shipped bias calibration (keyed `${division}|${bucket}`). */
   biasCalibration?: Record<string, number>;
   recalConfig?: RecalConfig;
+  backend?: 'cpu' | 'wasm';
+  /**
+   * Opt-in identity serving. Default `'agnostic'` = exact production behavior
+   * (embeddings/scale zeroed, judge-Elo block masked). `'full'` or
+   * `{ corps?, judges?, show? }` re-enable the trained identity inputs per part.
+   * `judges` requires `target.judges`. See IDENTITY_BASELINES.md.
+   */
+  identity?: 'agnostic' | 'full' | { corps?: boolean; judges?: boolean; show?: boolean };
 }
 ```
 
@@ -109,6 +117,7 @@ interface PredictOptions {
 | `biasCalibration` | `Record<string, number>` | shipped asset | Override the `${division}|${bucket}` bias table. |
 | `recalConfig` | [`RecalConfig`](#recalconfig) | `PRODUCTION_RECAL_CONFIG` | Shrinkage/recency/trim/taper knobs for recal fitting. |
 | `backend` | `'cpu' \| 'wasm'` | `'cpu'` | tfjs inference backend. `'wasm'` uses the optional `@tensorflow/tfjs-backend-wasm` peer dep (XNNPACK SIMD, ~2× faster warm — see [BENCHMARKS.md](./BENCHMARKS.md)); if unavailable it falls back to cpu and emits an `info` caveat. |
+| `identity` | `'agnostic' \| 'full' \| { corps?, judges?, show? }` | `'agnostic'` | Opt-in identity serving. Default is the exact identity-agnostic production path. `'full'`/per-part re-enables trained corps/judge/show embeddings (`judges` needs `target.judges`); unknown identities fall back to the `unknown` slot with an `info` caveat, and `readiness.identity` reports match/coverage. **Measured a tie overall** — keep the default; see [IDENTITY_BASELINES.md](./IDENTITY_BASELINES.md). |
 
 Precedence for the division offset: `recalOffsets` (explicit) > fit from
 `recalObservations` > inactive (`0`).
