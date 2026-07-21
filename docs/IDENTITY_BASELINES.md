@@ -103,3 +103,7 @@ npx tsx tools/backtest-identity.ts   # writes tools/backtest-identity.out.json
 ```
 Env: `DCI_DB` (prod relational, read-only), `CONTRACT_DB`, `BT_START`/`BT_END`,
 `BT_MEMBERS`.
+
+## Future direction
+
+A v11 experiment — retraining with identity dropout lowered from 0.95 to ~0.3–0.5 so the embeddings actually learn — is written up in [V11_IDENTITY_NOTES.md](V11_IDENTITY_NOTES.md).
