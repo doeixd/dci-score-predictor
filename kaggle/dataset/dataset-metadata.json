@@ -1,0 +1,98 @@
+{
+  "title": "DCI Drum Corps Scores (2013-2026, cleaned)",
+  "subtitle": "Cleaned World & Open Class recap scores, captions, judges (2013-2026)",
+  "description": "Cleaned Drum Corps International (DCI) recap scores for World Class and Open Class, seasons 2013-2026. Wide per-performance totals + 8 caption sub-scores, plus event, corps, per-caption, and judge-assignment tables. Every file is derived from a name-normalized, division-filtered, caption-to-total reconciled domain view - the cleaning pipeline is the point. See README.md for the full data card (provenance, column dictionary, caveats, license, non-affiliation disclaimer). Companion open-source SDK + model: https://github.com/doeixd/dci-score-predictor",
+  "id": "doeixd/dci-scores",
+  "licenses": [{ "name": "CC-BY-SA-4.0" }],
+  "keywords": ["music", "sports", "time series"],
+  "expectedUpdateFrequency": "annually",
+  "userSpecifiedSources": "Publicly posted DCI competition recaps, cleaned via the dci-score-predictor domain pipeline",
+  "resources": [
+    {
+      "path": "scores.csv",
+      "description": "One row per corps performance at a show: total + 8 caption scores, rank, and season progress. Primary table.",
+      "schema": {
+        "fields": [
+          { "name": "season", "description": "Competition year (YYYY)", "type": "number" },
+          { "name": "event_slug", "description": "Event identifier; joins to events.slug and subcaptions/judges.event_slug", "type": "string" },
+          { "name": "event_name", "description": "Human-readable show name", "type": "string" },
+          { "name": "date", "description": "Show date, ISO 8601 (UTC)", "type": "datetime" },
+          { "name": "location", "description": "Show city/state, if known", "type": "string" },
+          { "name": "division", "description": "World Class or Open Class", "type": "string" },
+          { "name": "corps_key", "description": "Stable corps identifier; joins to corps.corps_key", "type": "string" },
+          { "name": "corps_name", "description": "Canonical corps name", "type": "string" },
+          { "name": "rank", "description": "Placement within division at this show (computed from total)", "type": "number" },
+          { "name": "total", "description": "Total recap score (0-100)", "type": "number" },
+          { "name": "GE1", "description": "General Effect 1 caption score (0-20)", "type": "number" },
+          { "name": "GE2", "description": "General Effect 2 caption score (0-20)", "type": "number" },
+          { "name": "VP", "description": "Visual Proficiency caption score (0-20)", "type": "number" },
+          { "name": "VA", "description": "Visual Analysis caption score (0-20)", "type": "number" },
+          { "name": "CG", "description": "Color Guard caption score (0-20)", "type": "number" },
+          { "name": "MB", "description": "Music Brass caption score (0-20)", "type": "number" },
+          { "name": "MA", "description": "Music Analysis caption score (0-20)", "type": "number" },
+          { "name": "MP", "description": "Music Percussion caption score (0-20)", "type": "number" },
+          { "name": "percent_through", "description": "Percent of the season elapsed at show date (0-100), a season-progress proxy", "type": "number" }
+        ]
+      }
+    },
+    {
+      "path": "events.csv",
+      "description": "One row per scored show that appears in scores.csv.",
+      "schema": {
+        "fields": [
+          { "name": "slug", "description": "Event identifier (primary key)", "type": "string" },
+          { "name": "name", "description": "Human-readable show name", "type": "string" },
+          { "name": "date", "description": "Show date, ISO 8601 (UTC)", "type": "datetime" },
+          { "name": "location", "description": "Show city/state, if known", "type": "string" },
+          { "name": "season", "description": "Competition year (YYYY)", "type": "number" },
+          { "name": "percent_through", "description": "Percent of the season elapsed at show date (0-100)", "type": "number" },
+          { "name": "n_performances", "description": "Number of cleaned corps performances at this show", "type": "number" }
+        ]
+      }
+    },
+    {
+      "path": "corps.csv",
+      "description": "One row per corps present in the cleaned scores.",
+      "schema": {
+        "fields": [
+          { "name": "corps_key", "description": "Stable corps identifier (primary key)", "type": "string" },
+          { "name": "corps_name", "description": "Canonical corps name", "type": "string" },
+          { "name": "division", "description": "World Class or Open Class", "type": "string" },
+          { "name": "seasons_active", "description": "Semicolon-separated list of seasons with scored performances", "type": "string" },
+          { "name": "n_performances", "description": "Total cleaned performances across all seasons", "type": "number" },
+          { "name": "aliases", "description": "Semicolon-separated known alternate names for this corps", "type": "string" }
+        ]
+      }
+    },
+    {
+      "path": "subcaptions.csv",
+      "description": "Long-form per-caption breakdown: one row per (performance, caption) with the judged caption rank. Tidy join of scores.csv's 8 caption columns.",
+      "schema": {
+        "fields": [
+          { "name": "season", "description": "Competition year (YYYY)", "type": "number" },
+          { "name": "event_slug", "description": "Event identifier; joins to events.slug", "type": "string" },
+          { "name": "corps_key", "description": "Corps identifier; joins to corps.corps_key", "type": "string" },
+          { "name": "corps_name", "description": "Canonical corps name", "type": "string" },
+          { "name": "caption_key", "description": "Caption code: GE1, GE2, VP, VA, CG, MB, MA, MP", "type": "string" },
+          { "name": "caption_name", "description": "Caption display name", "type": "string" },
+          { "name": "category", "description": "Caption category: GE, Visual, or Music", "type": "string" },
+          { "name": "score", "description": "Caption score (0-20)", "type": "number" },
+          { "name": "rank", "description": "Placement within division on this caption at this show", "type": "number" }
+        ]
+      }
+    },
+    {
+      "path": "judges.csv",
+      "description": "Which judge sat which caption at which show. Judge ids only - see the privacy note in README.md.",
+      "schema": {
+        "fields": [
+          { "name": "season", "description": "Competition year (YYYY)", "type": "number" },
+          { "name": "event_slug", "description": "Event identifier; joins to events.slug", "type": "string" },
+          { "name": "caption_key", "description": "Caption code the judge adjudicated: GE1, GE2, VP, VA, CG, MB, MA, MP", "type": "string" },
+          { "name": "judge_id", "description": "Public judge slug (first-initial + surname + disambiguator). No names/bios/contact fields.", "type": "string" },
+          { "name": "judge_number", "description": "Panel position for this caption at this show", "type": "number" }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "doeixd/dci-scores-eda",
+  "title": "DCI Scores: EDA & baseline",
+  "code_file": "dci-scores-eda.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "false",
+  "enable_internet": "false",
+  "dataset_sources": ["doeixd/dci-scores"],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
