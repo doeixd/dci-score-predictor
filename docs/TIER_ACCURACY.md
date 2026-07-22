@@ -3,6 +3,8 @@
 These are the backtested per-degradation-tier accuracy figures promised in
 PLAN §3.5 and referenced by the tier table in `MODEL_CARD.md`. They are produced
 by `tools/backtest-tiers.ts` and are reproducible against the private prod DB.
+Figures are for the shipped **v11** ensemble (re-measured 2026-07-22 after the
+v10.4→v11 asset swap; prior v10.4/v10.5 figures are kept inline for reference).
 
 ## Methodology
 
@@ -31,33 +33,42 @@ by `tools/backtest-tiers.ts` and are reproducible against the private prod DB.
 - **Metrics:** MAE and mean bias (predicted − actual, in recap points) with `n`
   per cell so thin tiers are visible.
 
-## Per-tier accuracy
+## Per-tier accuracy (v11 ensemble)
 
 | tier | code | n | MAE (no recal) | bias (no recal) | MAE (recal) | bias (recal) |
 |---|---|---|---|---|---|---|
-| established | T0 | 105 | 2.44 | −2.32 | **1.27** | −0.95 |
-| partial | T1 | 13 | 0.85 | −0.37 | **0.74** | +0.12 |
-| sparse | T2 | 57 | 1.82 | −1.42 | **1.27** | −0.65 |
-| cold_start | T3 | 22 | 5.48 | −5.07 | **4.89** | −4.43 |
-| **overall** | — | 197 | 2.49 | −2.24 | **1.64** | −1.18 |
+| established | T0 | 105 | 1.97 | −1.76 | **1.00** | −0.45 |
+| partial | T1 | 13 | 0.87 | +0.20 | **0.83** | +0.41 |
+| sparse | T2 | 57 | 1.51 | −0.95 | **1.07** | −0.30 |
+| cold_start | T3 | 22 | 4.80 | −4.16 | **4.25** | −3.61 |
+| **overall** | — | 197 | 2.08 | −1.67 | **1.37** | −0.70 |
 
-## Per-division accuracy
+For reference, the previous **v10.4/v10.5** assets measured (same window, same
+harness): overall 2.49 no-recal / 1.64 recal (T0 2.44/1.27, T1 0.85/0.74,
+T2 1.82/1.27, T3 5.48/4.89). v11 is better in every tier except the thin-n T1
+wash, in both configs.
+
+## Per-division accuracy (v11 ensemble)
 
 | division | n | MAE (no recal) | bias (no recal) | MAE (recal) | bias (recal) |
 |---|---|---|---|---|---|
-| World Class | 142 | 2.95 | −2.94 | **1.75** | −1.60 |
-| Open Class | 55 | 1.33 | −0.41 | **1.35** | −0.09 |
+| World Class | 142 | 2.36 | −2.36 | **1.38** | −1.02 |
+| Open Class | 55 | 1.35 | +0.11 | **1.35** | +0.12 |
+
+(v10.4/v10.5 reference: World Class 2.95/1.75, Open Class 1.33/1.35 — the v11
+gain is concentrated in mid-season World Class; Open Class is a wash.)
 
 ## Reading the numbers
 
 - The tier **ordering** holds as designed: T1/T0 are tightest, T2 wider, **T3
-  (debut / cold start) is by far the weakest regime** (MAE ≈ 5 points, strongly
+  (debut / cold start) is by far the weakest regime** (MAE ≈ 4–5 points, strongly
   under-projecting) — this is the documented "predictions fall back to curve
   anchors" limitation, not a defect.
 - The **negative bias** across tiers is the known finals-approach /
-  early-in-tenure under-projection. The trailing-window recal is exactly what it
-  is for: it roughly halves overall MAE (2.49 → 1.64) and pulls World Class bias
-  from −2.94 toward −1.60. Callers who supply resolved observations get the recal
+  early-in-tenure under-projection (smaller under v11: overall −1.67 vs v10.4's
+  −2.24 no-recal). The trailing-window recal is exactly what it
+  is for: it cuts overall MAE by a third (2.08 → 1.37) and pulls World Class bias
+  from −2.36 to −1.02. Callers who supply resolved observations get the recal
   column; callers who don't get the no-recal column.
 - T1 has the smallest error but also the **smallest n (13)** — it is a narrow
   regime (≥3 prior shows but field-pace not yet confident), so read that cell as

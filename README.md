@@ -1,7 +1,9 @@
 # dci-score-predictor
 
-Type-safe DCI drum corps score prediction — the production **v10.5
-identity-agnostic ensemble model**, packaged self-contained. No database, no
+Type-safe DCI drum corps score prediction — the **v11
+identity-agnostic ensemble model** (v10.4 recipe + identity-dropout-0.5
+auxiliary training, −16.6% backtest MAE vs the previously shipped v10.5
+family), packaged self-contained. No database, no
 server, no Python: everything the model needs ships in the npm package, and it
 runs anywhere JavaScript runs (Node, Bun, Deno, browsers, edge workers).
 
@@ -10,7 +12,7 @@ It predicts an upcoming show's recap — per-corps caption scores
 supply. Because the model is identity-agnostic (corps identity and judge context
 are masked at serving), it needs only score history + schedule; new and unknown
 corps are first-class. The SDK is **prod-parity-tested**: it reproduces the
-production pipeline's totals byte-for-byte on frozen fixtures.
+serving pipeline's totals byte-for-byte on frozen fixtures.
 
 > Not affiliated with, or endorsed by, Drum Corps International. Trained on
 > publicly posted DCI recap scores. See [docs/MODEL_CARD.md](docs/MODEL_CARD.md).
@@ -170,7 +172,7 @@ when they cost nothing (judge masking).
 
 | tier | code | condition | expected accuracy |
 |---|---|---|---|
-| `established` | T0 | > 2 prior shows, confident field-pace | parity with production v10.5 |
+| `established` | T0 | > 2 prior shows, confident field-pace | tightest well-populated tier (backtest MAE 1.97 / 1.00 with recal) |
 | `partial` | T1 | ≥ 3 prior shows, thin field-pace | live, lower-confidence |
 | `sparse` | T2 | 1–2 prior shows | `sparse` bias bucket, wider error |
 | `cold_start` | T3 | 0 prior shows (debut) | curve-anchored, widest error |

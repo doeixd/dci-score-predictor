@@ -1,8 +1,8 @@
-# Model card — dci-score-predictor v10.5
+# Model card — dci-score-predictor v11
 
 ## Summary
 
-`dci-score-predictor` serves **v10.5**, the production DCI recap-score model,
+`dci-score-predictor` serves **v11**, the DCI recap-score model,
 packaged self-contained. Given a corps's same-season score history and the
 target show, it predicts the recap: eight caption scores
 (`GE1 GE2 VP VA CG MB MA MP`) and a total, with per-corps intervals and full
@@ -24,6 +24,18 @@ diagnostics.
   offset fit at predict time from user-supplied resolved shows, shrunk
   (`n/(n+8)`), thin-pool-tapered (`× min(1, n/20)`), and clamped to ±1.5.
   With sparse history it tapers to 0.
+- **v11** (shipped) = the **v10.4 recipe retrained with identity dropout 0.5**
+  in curriculum phases A/B (v10.4 used 0.95), agnostic-finalized in phase C —
+  verified from `training-args.json` diffs to be the ONLY substantive change
+  (same data, table, index maps, architecture, curriculum, loss,
+  hyperparameters). The identity embeddings acted as **auxiliary training
+  signal** that improved the shared network the agnostic serving path uses;
+  serving stays agnostic and the recal layer is unchanged. A/B judging:
+  [V11_ARM1_RESULTS.md](./V11_ARM1_RESULTS.md) (−16.6% MAE vs v10.4 on the
+  resolved-2026 backtest, better in every tier); memorization ruled out in
+  [V11_OVERFIT_AUDIT.md](./V11_OVERFIT_AUDIT.md) (edge persists post-cutoff;
+  2023-val/2024-finals seed-noise wash — the gain is regime-specific:
+  mid-season World Class improves strongly, championship week is a wash).
 
 **Identity-agnostic (default):** corps-identity embeddings and judge-Elo context
 are masked (zeroed) at serving (`maskV9JudgeContext`), so every live feature
@@ -78,12 +90,20 @@ seed enumeration (used by both the Node and browser loaders).
 
 ## Accuracy
 
-Measured on held-out 2026 events, identity-agnostic serving path:
+Measured with the SDK's own leakage-safe resolved-2026 backtest
+(`tools/backtest-tiers.ts`, 27 events / 197 corps observations,
+2026-07-01..19), identity-agnostic serving path:
 
-- **Bias:** −0.35 total (slight under-projection).
-- **MAE:** **0.78** total, versus the `final2` baseline — a **+23% recap
-  improvement** in aggregate.
-- Parity gate: the SDK reproduces the production clean-v10 pipeline totals to
+- **v11 vs the previously shipped v10.4/v10.5 assets:** overall MAE
+  **2.49 → 2.08** no-recal (−16.6%) and **1.64 → 1.37** with the shipped
+  self-recal; under-projection bias −2.24 → −1.67. Better in every tier
+  (thin-n T1 is a wash). The gain is **regime-specific**: mid-season World
+  Class (2.95 → 2.36 MAE); Open Class and championship week are washes
+  (see `V11_OVERFIT_AUDIT.md`).
+- Lineage reference: the v10.4/v10.5 family measured **+23% recap improvement**
+  (MAE 0.78, bias −0.35 total) vs the `final2` baseline on its held-out 2026
+  shadow evaluation; v11 improves on that family as above.
+- Parity gate: the SDK reproduces the serving pipeline's v11 totals to
   ≤ 1e-6 on frozen fixtures (see `test/predict-e2e.test.ts`,
   `test/feature-parity.test.ts`).
 
@@ -100,11 +120,11 @@ from a 14-day trailing pool of the SDK's own prior predictions).
 
 | tier | code | condition | n | MAE (no recal) | MAE (recal) | notes |
 |---|---|---|---|---|---|---|
-| `established` | T0 | > 2 prior shows, confident field-pace | 105 | 2.44 | 1.27 | recal removes the early/finals under-projection |
-| `partial` | T1 | ≥ 3 prior shows, thin field-pace | 13 | 0.85 | 0.74 | tightest tier, but thin n |
-| `sparse` | T2 | 1–2 prior shows | 57 | 1.82 | 1.27 | `sparse` bias bucket; most trajectory features at defaults |
-| `cold_start` | T3 | 0 prior shows (debut) | 22 | 5.48 | 4.89 | `debut` bias bucket; curve-anchored; widest error |
-| overall | — | — | 197 | 2.49 | 1.64 | recal roughly halves overall MAE |
+| `established` | T0 | > 2 prior shows, confident field-pace | 105 | 1.97 | 1.00 | recal removes the early/finals under-projection |
+| `partial` | T1 | ≥ 3 prior shows, thin field-pace | 13 | 0.87 | 0.83 | tightest tier, but thin n |
+| `sparse` | T2 | 1–2 prior shows | 57 | 1.51 | 1.07 | `sparse` bias bucket; most trajectory features at defaults |
+| `cold_start` | T3 | 0 prior shows (debut) | 22 | 4.80 | 4.25 | `debut` bias bucket; curve-anchored; widest error |
+| overall | — | — | 197 | 2.08 | 1.37 | recal cuts overall MAE by a third |
 
 ## Limitations
 
