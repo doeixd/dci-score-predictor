@@ -32,6 +32,16 @@ const targets: Record<string, Options> = {
     format: ['esm', 'cjs'],
     external: ['@tensorflow/tfjs', '@tensorflow/tfjs-backend-wasm', 'effect'],
   },
+  data: {
+    ...shared,
+    entry: { data: 'src/data.ts' },
+    format: ['esm', 'cjs'],
+    // esbuild leaves `import.meta.url` undefined in CJS output; `shims` injects a
+    // pathToFileURL(__filename) polyfill so the walk-up in seasonDir() resolves
+    // in both require() and import consumers of `dci-score-predictor/data`.
+    shims: true,
+    external: ['@tensorflow/tfjs', '@tensorflow/tfjs-backend-wasm', 'effect'],
+  },
   // Browser build. platform:'browser' makes esbuild ERROR on any leaked node:*
   // import — that's the guard that keeps the browser bundle pure.
   browser: {

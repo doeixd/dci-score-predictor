@@ -48,12 +48,12 @@ for (const p of out.predictions) console.log(p.rank, p.corps, p.total.toFixed(3)
 
 ## Quickstart with real data (no typing)
 
-Install the companion [`dci-season-data`](https://github.com/doeixd/dci-season-data)
-package for complete DCI seasons (**2013–2019, 2022–2026**) as ready-made
-`SeasonData` — set a target and go:
+Complete DCI seasons (**2013–2019, 2022–2026**) ship with the SDK as ready-made
+`SeasonData` — import them from the `dci-score-predictor/data` subpath, set a
+target, and go (no second install):
 
 ```js
-import { season } from 'dci-season-data';
+import { season } from 'dci-score-predictor/data';
 import { predict } from 'dci-score-predictor';
 
 const { seasonInfo, shows } = season(2026); // or any bundled season
@@ -62,8 +62,11 @@ const result = await predict({ seasonInfo, history: shows,
             lineup: [{ corpsKey: 'blue-devils', division: 'World Class' }] } });
 ```
 
-`dci-season-data` is also vendored here as the `data/` **git submodule**. npm
-consumers should `npm install dci-season-data` rather than rely on the submodule.
+`season(year)` (plus `seasons()` and a `season2026()` alias) works in ESM and
+`require()`. The seasons come from the [`dci-season-data`](https://github.com/doeixd/dci-season-data)
+package, vendored here as the `data/` **git submodule** and re-exported through
+this subpath. Data-only users (no model) can instead
+`npm install dci-season-data` and `import { season } from 'dci-season-data'`.
 If you clone this repo and want the data checked out, use `--recursive` (or run
 `git submodule update --init` after cloning):
 

@@ -48,6 +48,16 @@
         "default": "./dist/effect.cjs"
       }
     },
+    "./data": {
+      "import": {
+        "types": "./dist/data.d.ts",
+        "default": "./dist/data.js"
+      },
+      "require": {
+        "types": "./dist/data.d.cts",
+        "default": "./dist/data.cjs"
+      }
+    },
     "./browser": {
       "import": {
         "types": "./dist/browser.d.ts",
@@ -61,10 +71,13 @@
     "assets",
     "skills",
     "bin",
+    "data/index.js",
+    "data/index.d.ts",
+    "data/data",
     "README.md"
   ],
   "scripts": {
-    "build": "rm -rf dist && TSUP_TARGET=index tsup && TSUP_TARGET=simple tsup && TSUP_TARGET=effect tsup && TSUP_TARGET=browser tsup",
+    "build": "rm -rf dist && TSUP_TARGET=index tsup && TSUP_TARGET=simple tsup && TSUP_TARGET=effect tsup && TSUP_TARGET=data tsup && TSUP_TARGET=browser tsup",
     "smoke": "bash test/smoke/consumer-smoke.sh",
     "attw": "attw --pack . --profile node16 --ignore-rules no-resolution",
     "test": "vitest run",

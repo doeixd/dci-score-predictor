@@ -77,5 +77,22 @@ ok(typeof cjs.validateInput === 'function', 'require(): validateInput export pre
 const cjsSimple = require('dci-score-predictor/simple');
 ok(typeof cjsSimple.predict === 'function', 'require("…/simple"): predict export present');
 
+// ── (e) data subpath: seasons ship in the tarball & feed predict() ──────────
+console.log('e) data subpath — dci-score-predictor/data');
+const { season: dataSeason, seasons: dataSeasons } = await import('dci-score-predictor/data');
+ok(Array.isArray(dataSeasons()) && dataSeasons().includes(2018), 'data: seasons() lists 2018');
+const s2018 = dataSeason(2018);
+ok(s2018.shows.length > 0, `data: season(2018) has ${s2018.shows.length} shows`);
+const s2026 = dataSeason(2026);
+const dataReport = validateInput({
+  seasonInfo: s2026.seasonInfo,
+  history: s2026.shows,
+  target: { slug: 'dci-prelims', date: '2026-08-06', lineup: [{ corpsKey: 'blue-devils', division: 'World Class' }] },
+});
+ok(dataReport.showsAccepted > 0, `data: season(2026) feeds validateInput (${dataReport.showsAccepted} shows)`);
+const cjsData = require('dci-score-predictor/data');
+ok(typeof cjsData.season === 'function', 'require("…/data"): season export present');
+ok(cjsData.season(2018).shows.length > 0, 'require("…/data"): season(2018) loads from installed tarball');
+
 console.log(failures ? `\nSMOKE FAILED — ${failures} check(s) failed` : '\nSMOKE PASSED');
 process.exit(failures ? 1 : 0);
