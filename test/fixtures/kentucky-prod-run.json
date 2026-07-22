@@ -1,1 +1,393 @@
-{"generated_at":"2026-07-20T12:13:50.640Z","model_dir":"clean-v10-fieldpace-recal","event":{"slug":"2026-dci-kentucky","season":"2026","start_date":null},"competition":{"slug":"2026-dci-kentucky"},"readiness":{"mode":"clean_v10_inference","percent_through":0,"lineup_rows":7,"matched_corps_keys":7,"judge_assignments":0},"builder_version":"clean-v10-serve","predictions":[{"corps_key":"001j000000h3xrnaav","division":"World Class","total":88.307,"GE":35.289,"Visual":26.086,"Music":26.932,"template_source":"clean_v10_inference","intervals":{"GE1":{"low_offset":-1.516,"high_offset":1.11},"GE2":{"low_offset":-1.527,"high_offset":1.057},"VP":{"low_offset":-1.462,"high_offset":1.137},"VA":{"low_offset":-1.582,"high_offset":1.067},"CG":{"low_offset":-1.568,"high_offset":1.089},"MB":{"low_offset":-1.561,"high_offset":1.069},"MA":{"low_offset":-1.509,"high_offset":1.058},"MP":{"low_offset":-1.69,"high_offset":0.93}},"GE1":17.481,"GE2":17.808,"VP":17.461,"VA":17.539,"CG":17.172,"MB":18.005,"MA":17.685,"MP":18.174,"rank":1,"corps":"Phantom Regiment"},{"corps_key":"001j000000iwxafaa1","division":"World Class","total":86.364,"GE":34.521,"Visual":25.663,"Music":26.18,"template_source":"clean_v10_inference","intervals":{"GE1":{"low_offset":-1.546,"high_offset":1.011},"GE2":{"low_offset":-1.428,"high_offset":1.045},"VP":{"low_offset":-1.406,"high_offset":1.112},"VA":{"low_offset":-1.589,"high_offset":0.972},"CG":{"low_offset":-1.435,"high_offset":1.078},"MB":{"low_offset":-1.55,"high_offset":0.996},"MA":{"low_offset":-1.38,"high_offset":1.099},"MP":{"low_offset":-1.6,"high_offset":0.999}},"GE1":17.229,"GE2":17.292,"VP":17.253,"VA":17.539,"CG":16.533,"MB":17.295,"MA":17.085,"MP":17.98,"rank":2,"corps":"The Cavaliers"},{"corps_key":"001j000000iwwsqaal","division":"World Class","total":86.198,"GE":34.395,"Visual":25.802,"Music":26.002,"template_source":"clean_v10_inference","intervals":{"GE1":{"low_offset":-1.482,"high_offset":1.074},"GE2":{"low_offset":-1.44,"high_offset":1.051},"VP":{"low_offset":-1.391,"high_offset":1.113},"VA":{"low_offset":-1.625,"high_offset":0.969},"CG":{"low_offset":-1.511,"high_offset":1.047},"MB":{"low_offset":-1.495,"high_offset":1.03},"MA":{"low_offset":-1.5,"high_offset":0.984},"MP":{"low_offset":-1.617,"high_offset":0.935}},"GE1":17.195,"GE2":17.2,"VP":17.174,"VA":17.294,"CG":17.135,"MB":17.46,"MA":17.312,"MP":17.231,"rank":3,"corps":"Blue Stars"},{"corps_key":"001j000000iwwsoaal","division":"World Class","total":84.769,"GE":34.028,"Visual":25.173,"Music":25.569,"template_source":"clean_v10_inference","intervals":{"GE1":{"low_offset":-1.529,"high_offset":1.075},"GE2":{"low_offset":-1.457,"high_offset":1.044},"VP":{"low_offset":-1.458,"high_offset":1.117},"VA":{"low_offset":-1.56,"high_offset":1.01},"CG":{"low_offset":-1.484,"high_offset":1.051},"MB":{"low_offset":-1.506,"high_offset":1.054},"MA":{"low_offset":-1.444,"high_offset":1.056},"MP":{"low_offset":-1.589,"high_offset":0.997}},"GE1":17.025,"GE2":17.003,"VP":16.829,"VA":17.106,"CG":16.411,"MB":17.056,"MA":16.848,"MP":17.233,"rank":4,"corps":"Blue Knights"},{"corps_key":"001j000000iwxajaa1","division":"World Class","total":83.016,"GE":33.023,"Visual":24.492,"Music":25.501,"template_source":"clean_v10_inference","intervals":{"GE1":{"low_offset":-1.521,"high_offset":1.055},"GE2":{"low_offset":-1.481,"high_offset":1.023},"VP":{"low_offset":-1.465,"high_offset":1.081},"VA":{"low_offset":-1.546,"high_offset":0.996},"CG":{"low_offset":-1.473,"high_offset":1.039},"MB":{"low_offset":-1.471,"high_offset":1.076},"MA":{"low_offset":-1.42,"high_offset":1.06},"MP":{"low_offset":-1.616,"high_offset":0.925}},"GE1":16.443,"GE2":16.58,"VP":16.715,"VA":16.369,"CG":15.9,"MB":16.983,"MA":16.612,"MP":17.407,"rank":5,"corps":"Troopers"},{"corps_key":"001j000000iwxadaa1","division":"World Class","total":80.284,"GE":32.177,"Visual":23.86,"Music":24.247,"template_source":"clean_v10_inference","intervals":{"GE1":{"low_offset":-1.535,"high_offset":1.06},"GE2":{"low_offset":-1.454,"high_offset":1.109},"VP":{"low_offset":-1.492,"high_offset":1.097},"VA":{"low_offset":-1.549,"high_offset":1.029},"CG":{"low_offset":-1.577,"high_offset":1.032},"MB":{"low_offset":-1.506,"high_offset":1.066},"MA":{"low_offset":-1.45,"high_offset":1.049},"MP":{"low_offset":-1.632,"high_offset":0.966}},"GE1":16.22,"GE2":15.957,"VP":16.241,"VA":15.612,"CG":15.866,"MB":16.046,"MA":16.141,"MP":16.308,"rank":6,"corps":"Spirit of Atlanta"},{"corps_key":"001j000000iwxacaa1","division":"Open Class","total":75.741,"GE":30.491,"Visual":22.879,"Music":22.371,"template_source":"clean_v10_inference","intervals":{"GE1":{"low_offset":-1.552,"high_offset":1.148},"GE2":{"low_offset":-1.507,"high_offset":1.107},"VP":{"low_offset":-1.492,"high_offset":1.154},"VA":{"low_offset":-1.648,"high_offset":1.059},"CG":{"low_offset":-1.645,"high_offset":1.056},"MB":{"low_offset":-1.613,"high_offset":1.109},"MA":{"low_offset":-1.392,"high_offset":1.285},"MP":{"low_offset":-1.676,"high_offset":1.056}},"GE1":15.385,"GE2":15.106,"VP":14.836,"VA":15.307,"CG":15.615,"MB":14.843,"MA":15.165,"MP":14.734,"rank":7,"corps":"Spartans"}]}
+{
+  "generated_at": "2026-07-22T09:40:49.610Z",
+  "model_dir": "clean-v11-fieldpace-recal",
+  "event": {
+    "slug": "2026-dci-kentucky",
+    "season": "2026",
+    "start_date": null
+  },
+  "competition": {
+    "slug": "2026-dci-kentucky"
+  },
+  "readiness": {
+    "mode": "clean_v10_inference",
+    "percent_through": 0,
+    "lineup_rows": 7,
+    "matched_corps_keys": 7,
+    "judge_assignments": 0
+  },
+  "builder_version": "clean-v10-serve",
+  "predictions": [
+    {
+      "corps_key": "001j000000h3xrnaav",
+      "division": "World Class",
+      "total": 88.838,
+      "GE": 35.429,
+      "Visual": 26.287,
+      "Music": 27.123,
+      "template_source": "clean_v10_inference",
+      "intervals": {
+        "GE1": {
+          "low_offset": -1.573,
+          "high_offset": 1.002
+        },
+        "GE2": {
+          "low_offset": -1.712,
+          "high_offset": 0.959
+        },
+        "VP": {
+          "low_offset": -1.503,
+          "high_offset": 1.092
+        },
+        "VA": {
+          "low_offset": -1.669,
+          "high_offset": 0.983
+        },
+        "CG": {
+          "low_offset": -1.739,
+          "high_offset": 0.988
+        },
+        "MB": {
+          "low_offset": -1.474,
+          "high_offset": 1.133
+        },
+        "MA": {
+          "low_offset": -1.591,
+          "high_offset": 0.994
+        },
+        "MP": {
+          "low_offset": -1.663,
+          "high_offset": 0.971
+        }
+      },
+      "GE1": 17.42,
+      "GE2": 18.009,
+      "VP": 17.557,
+      "VA": 17.627,
+      "CG": 17.389,
+      "MB": 18.02,
+      "MA": 17.858,
+      "MP": 18.368,
+      "rank": 1,
+      "corps": "001j000000h3xrnaav"
+    },
+    {
+      "corps_key": "001j000000iwxafaa1",
+      "division": "World Class",
+      "total": 86.912,
+      "GE": 34.703,
+      "Visual": 25.91,
+      "Music": 26.299,
+      "template_source": "clean_v10_inference",
+      "intervals": {
+        "GE1": {
+          "low_offset": -1.511,
+          "high_offset": 1.05
+        },
+        "GE2": {
+          "low_offset": -1.593,
+          "high_offset": 0.977
+        },
+        "VP": {
+          "low_offset": -1.579,
+          "high_offset": 1.042
+        },
+        "VA": {
+          "low_offset": -1.734,
+          "high_offset": 0.936
+        },
+        "CG": {
+          "low_offset": -1.666,
+          "high_offset": 0.965
+        },
+        "MB": {
+          "low_offset": -1.436,
+          "high_offset": 1.132
+        },
+        "MA": {
+          "low_offset": -1.619,
+          "high_offset": 0.943
+        },
+        "MP": {
+          "low_offset": -1.568,
+          "high_offset": 0.986
+        }
+      },
+      "GE1": 17.33,
+      "GE2": 17.373,
+      "VP": 17.449,
+      "VA": 17.598,
+      "CG": 16.774,
+      "MB": 17.3,
+      "MA": 17.232,
+      "MP": 18.066,
+      "rank": 2,
+      "corps": "001j000000iwxafaa1"
+    },
+    {
+      "corps_key": "001j000000iwwsqaal",
+      "division": "World Class",
+      "total": 86.46,
+      "GE": 34.401,
+      "Visual": 25.923,
+      "Music": 26.136,
+      "template_source": "clean_v10_inference",
+      "intervals": {
+        "GE1": {
+          "low_offset": -1.511,
+          "high_offset": 1.02
+        },
+        "GE2": {
+          "low_offset": -1.611,
+          "high_offset": 0.962
+        },
+        "VP": {
+          "low_offset": -1.486,
+          "high_offset": 1.049
+        },
+        "VA": {
+          "low_offset": -1.653,
+          "high_offset": 0.947
+        },
+        "CG": {
+          "low_offset": -1.713,
+          "high_offset": 0.941
+        },
+        "MB": {
+          "low_offset": -1.45,
+          "high_offset": 1.092
+        },
+        "MA": {
+          "low_offset": -1.527,
+          "high_offset": 0.979
+        },
+        "MP": {
+          "low_offset": -1.642,
+          "high_offset": 0.928
+        }
+      },
+      "GE1": 17.088,
+      "GE2": 17.313,
+      "VP": 17.263,
+      "VA": 17.292,
+      "CG": 17.291,
+      "MB": 17.452,
+      "MA": 17.418,
+      "MP": 17.402,
+      "rank": 3,
+      "corps": "001j000000iwwsqaal"
+    },
+    {
+      "corps_key": "001j000000iwwsoaal",
+      "division": "World Class",
+      "total": 85.097,
+      "GE": 34.029,
+      "Visual": 25.327,
+      "Music": 25.741,
+      "template_source": "clean_v10_inference",
+      "intervals": {
+        "GE1": {
+          "low_offset": -1.544,
+          "high_offset": 1.062
+        },
+        "GE2": {
+          "low_offset": -1.648,
+          "high_offset": 1.007
+        },
+        "VP": {
+          "low_offset": -1.563,
+          "high_offset": 1.117
+        },
+        "VA": {
+          "low_offset": -1.713,
+          "high_offset": 1.016
+        },
+        "CG": {
+          "low_offset": -1.662,
+          "high_offset": 1.056
+        },
+        "MB": {
+          "low_offset": -1.491,
+          "high_offset": 1.157
+        },
+        "MA": {
+          "low_offset": -1.69,
+          "high_offset": 0.963
+        },
+        "MP": {
+          "low_offset": -1.627,
+          "high_offset": 1.03
+        }
+      },
+      "GE1": 16.958,
+      "GE2": 17.071,
+      "VP": 16.93,
+      "VA": 17.112,
+      "CG": 16.612,
+      "MB": 17.138,
+      "MA": 16.948,
+      "MP": 17.396,
+      "rank": 4,
+      "corps": "001j000000iwwsoaal"
+    },
+    {
+      "corps_key": "001j000000iwxajaa1",
+      "division": "World Class",
+      "total": 83.608,
+      "GE": 33.198,
+      "Visual": 24.675,
+      "Music": 25.736,
+      "template_source": "clean_v10_inference",
+      "intervals": {
+        "GE1": {
+          "low_offset": -1.554,
+          "high_offset": 1.015
+        },
+        "GE2": {
+          "low_offset": -1.547,
+          "high_offset": 1.044
+        },
+        "VP": {
+          "low_offset": -1.514,
+          "high_offset": 1.093
+        },
+        "VA": {
+          "low_offset": -1.691,
+          "high_offset": 0.966
+        },
+        "CG": {
+          "low_offset": -1.644,
+          "high_offset": 1.017
+        },
+        "MB": {
+          "low_offset": -1.471,
+          "high_offset": 1.143
+        },
+        "MA": {
+          "low_offset": -1.588,
+          "high_offset": 0.991
+        },
+        "MP": {
+          "low_offset": -1.642,
+          "high_offset": 1.004
+        }
+      },
+      "GE1": 16.488,
+      "GE2": 16.71,
+      "VP": 16.867,
+      "VA": 16.442,
+      "CG": 16.041,
+      "MB": 17.101,
+      "MA": 16.746,
+      "MP": 17.625,
+      "rank": 5,
+      "corps": "001j000000iwxajaa1"
+    },
+    {
+      "corps_key": "001j000000iwxadaa1",
+      "division": "World Class",
+      "total": 80.851,
+      "GE": 32.282,
+      "Visual": 24.041,
+      "Music": 24.529,
+      "template_source": "clean_v10_inference",
+      "intervals": {
+        "GE1": {
+          "low_offset": -1.588,
+          "high_offset": 1.012
+        },
+        "GE2": {
+          "low_offset": -1.568,
+          "high_offset": 1.055
+        },
+        "VP": {
+          "low_offset": -1.569,
+          "high_offset": 1.073
+        },
+        "VA": {
+          "low_offset": -1.704,
+          "high_offset": 0.99
+        },
+        "CG": {
+          "low_offset": -1.665,
+          "high_offset": 1.028
+        },
+        "MB": {
+          "low_offset": -1.461,
+          "high_offset": 1.16
+        },
+        "MA": {
+          "low_offset": -1.635,
+          "high_offset": 0.98
+        },
+        "MP": {
+          "low_offset": -1.643,
+          "high_offset": 1.021
+        }
+      },
+      "GE1": 16.187,
+      "GE2": 16.095,
+      "VP": 16.343,
+      "VA": 15.75,
+      "CG": 15.988,
+      "MB": 16.196,
+      "MA": 16.321,
+      "MP": 16.541,
+      "rank": 6,
+      "corps": "001j000000iwxadaa1"
+    },
+    {
+      "corps_key": "001j000000iwxacaa1",
+      "division": "Open Class",
+      "total": 76.076,
+      "GE": 30.645,
+      "Visual": 22.89,
+      "Music": 22.541,
+      "template_source": "clean_v10_inference",
+      "intervals": {
+        "GE1": {
+          "low_offset": -1.638,
+          "high_offset": 1.101
+        },
+        "GE2": {
+          "low_offset": -1.785,
+          "high_offset": 1.013
+        },
+        "VP": {
+          "low_offset": -1.651,
+          "high_offset": 1.13
+        },
+        "VA": {
+          "low_offset": -1.705,
+          "high_offset": 1.08
+        },
+        "CG": {
+          "low_offset": -1.773,
+          "high_offset": 1.081
+        },
+        "MB": {
+          "low_offset": -1.515,
+          "high_offset": 1.23
+        },
+        "MA": {
+          "low_offset": -1.746,
+          "high_offset": 1.015
+        },
+        "MP": {
+          "low_offset": -1.646,
+          "high_offset": 1.113
+        }
+      },
+      "GE1": 15.458,
+      "GE2": 15.187,
+      "VP": 15.029,
+      "VA": 15.248,
+      "CG": 15.503,
+      "MB": 14.857,
+      "MA": 15.288,
+      "MP": 14.937,
+      "rank": 7,
+      "corps": "001j000000iwxacaa1"
+    }
+  ]
+}
