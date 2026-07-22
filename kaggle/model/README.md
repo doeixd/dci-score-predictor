@@ -11,37 +11,43 @@ env-var only (see below).
 |-------|-------|
 | Model | `patrickwglenn/dci-score-predictor` |
 | Instance | `TfJs/default` (framework `MODEL_FRAMEWORK_TF_JS`) |
-| Latest version | **5** — v10.5 identity-agnostic 8-seed field-pace ensemble + division recal |
-| URL | https://www.kaggle.com/models/patrickwglenn/dci-score-predictor/TfJs/default/5 |
+| Latest version | **6** — v11 identity-dropout-0.5 8-seed field-pace ensemble + division recal |
+| URL | https://www.kaggle.com/models/patrickwglenn/dci-score-predictor/TfJs/default/6 |
 | Uncompressed size | ~33.7 MB |
 | Visibility | **Public** (`is_private: false`) |
-| Page metadata | **Filled** — title, subtitle, full markdown description, and instance overview/usage/inputs/outputs/changelog |
+| Page metadata | **Filled** — title, subtitle, full markdown description (v11 figures), and instance overview/usage/inputs/outputs/changelog |
 
-v10.5 is a **new version of the existing `TfJs/default` instance** (not a new
-instance). Held-out accuracy: bias −0.35, MAE 0.78 (per-tier in
-`docs/TIER_ACCURACY.md`).
+v11 is a **new version of the existing `TfJs/default` instance** (not a new
+instance). Accuracy: in-season tier backtest overall MAE 2.08 no-recal / 1.37
+recal; genuinely-held-out recent shows MAE 2.413 vs v10.4 2.874 (−16%). See
+`docs/TIER_ACCURACY.md`, `docs/V11_RECENT_SHOWDOWN.md`.
 
-## Version 6 (v11) — STAGED, upload pending the prod flip
+## Version 6 (v11) — UPLOADED 2026-07-22 (PUBLIC)
 
-The SDK repo's `assets/models/` now carry the **v11** ensemble (v10.4 recipe +
-identity-dropout 0.5 in phases A/B, agnostic-finalized — see
-`docs/V11_ARM1_RESULTS.md` / `docs/V11_OVERFIT_AUDIT.md`). Version 6 of
-`TfJs/default` ships those seeds with refreshed docs. **Do not upload until
-production has flipped to v11** (the Kaggle page mirrors what serves).
+The v11 ensemble (v10.4 recipe + identity-dropout 0.5 in phases A/B,
+agnostic-finalized — see `docs/V11_ARM1_RESULTS.md` / `docs/V11_OVERFIT_AUDIT.md`
+/ `docs/V11_RECENT_SHOWDOWN.md`) is live as **version 6** of `TfJs/default`
+(`versionNumber: 6`, `is_private: false`), uploaded after the production flip.
+The model-level description and the instance changelog were refreshed with the
+v11 figures.
 
-- Stage: `bash kaggle/tools/stage-model-v6.sh` → `/tmp/kaggle-model-upload-v6`
-  (same layout as v5: models/ inference/ training/ docs/; includes the v11
-  result docs; built-in scrub check for private paths/tokens).
-- Upload (ONE command, after the flip; env-var auth only):
-  `kaggle models instances versions create patrickwglenn/dci-score-predictor/TfJs/default -p /tmp/kaggle-model-upload-v6 -n "v11 identity-dropout-0.5 8-seed ensemble + division recal (-16.6% backtest MAE vs v10.5)" -r tar`
-- Version notes / page description updates: resolved-2026 backtest MAE
-  2.49 → 2.08 no-recal (1.64 → 1.37 with recal) vs v10.5, better in every
-  tier; gain is mid-season World Class (Open Class + championship week are
-  washes); serving contract unchanged (drop-in weights swap, agnostic default).
-  Update the model-page description figures from the refreshed
-  `docs/MODEL_CARD.md` + `docs/TIER_ACCURACY.md` when uploading.
-- Training recipe files are unchanged for v11 except `identityDropoutRate: 0.5`
-  — the staged training/ folder notes this.
+- Staged with `bash kaggle/tools/stage-model-v6.sh` → `/tmp/kaggle-model-upload-v6`
+  (models/ inference/ training/ docs/; built-in scrub check for private
+  paths/tokens). The four V11_* evidence docs (`V11_ARM1_RESULTS`,
+  `V11_OVERFIT_AUDIT`, `V11_RECENT_SHOWDOWN`, `V11_IDENTITY_NOTES`) were added to
+  the staged `docs/`; `V11_ARM1_RESULTS` / `V11_OVERFIT_AUDIT` were path-scrubbed
+  into the staged copy only (private `/root/...` and `/home/patrick/...` paths
+  redacted to `<training-repo>/...` / `<private-staging>/...`).
+- Uploaded (env-var auth only, `-r tar` required so subdirs survive):
+  `kaggle models instances versions create patrickwglenn/dci-score-predictor/TfJs/default -p /tmp/kaggle-model-upload-v6 -n "v11 identity-dropout-0.5 ..." -r tar`
+- Page description updated from `docs/MODEL_CARD.md`, `docs/TIER_ACCURACY.md`,
+  `docs/V11_RECENT_SHOWDOWN.md`: Evaluation Results (recent-shows MAE 2.413 vs
+  2.874; tier MAE 2.08/1.37 vs v10.5's 2.49/1.64; World Class 1.38 recal) with
+  the regime-specific honesty kept (mid-season World Class gain; Open Class +
+  championship week washes), lineage (v11 = v10.4 recipe + identity-dropout 0.5
+  phases A/B, agnostic-finalized), links + MIT license unchanged. Instance
+  changelog gained a **v11 (version 6)** entry.
+- Training recipe files are unchanged for v11 except `identityDropoutRate: 0.5`.
 
 ## Page metadata + public status (filled 2026-07-21)
 

@@ -61,21 +61,24 @@ The kernel keeps `enable_internet: false` (it only reads the mounted dataset). I
 starts private (`is_private: "true"`); make it public in the UI, or set
 `"is_private": "false"` before pushing.
 
-## 3. Publish the model to Kaggle Models — DONE (v10.5 = version 5, PUBLIC)
+## 3. Publish the model to Kaggle Models — DONE (v11 = version 6, PUBLIC)
 
-**Status:** the v10.5 ensemble is live as **version 5** of the existing
-`TfJs/default` instance, and the model page is now **fully filled and public**
-(`is_private: false`):
-https://www.kaggle.com/models/patrickwglenn/dci-score-predictor/TfJs/default/5
+**Status:** the **v11** ensemble is live as **version 6** of the existing
+`TfJs/default` instance (superseding v10.5 = version 5), and the model page is
+**fully filled and public** (`is_private: false`):
+https://www.kaggle.com/models/patrickwglenn/dci-score-predictor/TfJs/default/6
 (~33.7 MB uncompressed). Model- and instance-level metadata (title, subtitle,
-markdown description, instance overview/usage/inputs/outputs/changelog,
-`licenseName: MIT`, `fineTunable: false`) were set 2026-07-21 via
-`kaggle models update` / `kaggle models instances update` from an out-of-repo
-`/tmp` staging dir. Full details + regeneration steps in
+markdown description with v11 Evaluation Results + Lineage, instance
+overview/usage/inputs/outputs/changelog, `licenseName: MIT`,
+`fineTunable: false`) were refreshed 2026-07-22 via `kaggle models update` /
+`kaggle models instances update` from an out-of-repo `/tmp` staging dir (both
+raise a spurious JSONDecodeError on an empty-200 body — verify with
+`kaggle models get`, not the exit output). Full details + regeneration steps in
 [`kaggle/model/README.md`](model/README.md). Auth for the modern `KGAT_` token is
 `export KAGGLE_API_TOKEN=KGAT_...` (env var only — never written into the repo);
 new versions go via `kaggle models instances versions create
-patrickwglenn/dci-score-predictor/TfJs/default -p <dir> -n "..." -r tar`.
+patrickwglenn/dci-score-predictor/TfJs/default -p <dir> -n "..." -r tar`
+(`-r tar` is required — the default `skip` drops all subdirectories).
 
 The instance is `TfJs/default` (not the `tfjs-v10-5` slug the template below
 suggested); future retrains should **version that same instance**, not create a
