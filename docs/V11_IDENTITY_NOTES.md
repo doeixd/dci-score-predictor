@@ -147,3 +147,30 @@ single best rate.
   measured reason to exist beyond parity curiosity.
 - Update IDENTITY_BASELINES.md with the v11 three-mode table; revisit the
   default recommendation only on clear, tier-consistent evidence.
+
+## Campaign log — overfit / memorization audit (2026-07-22)
+
+Before treating the −16.6% agnostic win (V11_ARM1_RESULTS.md) as promotable, ran
+a three-check overfit audit. Full numbers: [V11_OVERFIT_AUDIT.md](V11_OVERFIT_AUDIT.md).
+
+- **Split backtest (in-sample vs post-cutoff vs true-held-out), agnostic, pure
+  pools.** New harness `tools/backtest-v11-split.ts`; true-held-out event
+  (`2026-dci-mckinney`, 07-20, 6 WC obs) injected live from the prod DB since the
+  contract snapshot stops at 07-19. v11's relative edge is **constant** across
+  buckets: in-sample 2.513→2.106 (−16.2%), post-cutoff 07-12..19 2.472→2.046
+  (−17.2%), true-held-out 3.760→3.280 (−12.8%). Memorization would have collapsed
+  the post-cutoff edge — it did not.
+- **Clean-season signal (mini-PC trainer logs).** 2023 validation and 2024-finals
+  test, both families n=8: a **wash** (val total 1.012→0.996, test total
+  0.822→0.831, all within seed spread). No off-2026 win — but no off-2026 *tell*
+  either; Check 1 supplies the on-2026-out-of-sample proof.
+- **Memorization histogram.** In-sample near-zero fraction (<0.5pt) is 13% for
+  v11 vs 12% for v10.4 — no spike. v11 shifts the whole error distribution down by
+  the same shape in-sample and post-cutoff. Not a lookup table.
+
+**Verdict: GENERALIZES (regime-specific).** The −16% is out-of-sample real,
+concentrated in mid-season WC under-projection / sparse-history; it fades toward
+zero on the finals regime (hence the 2024 wash). Overfit risk cleared →
+promotion may proceed on the existing August-retrain plan, but do not advertise a
+season-wide −16% for championship week, and keep the `backtestPredictionModes.ts`
+gate before any prod flip.
