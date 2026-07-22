@@ -21,6 +21,28 @@ v10.5 is a **new version of the existing `TfJs/default` instance** (not a new
 instance). Held-out accuracy: bias −0.35, MAE 0.78 (per-tier in
 `docs/TIER_ACCURACY.md`).
 
+## Version 6 (v11) — STAGED, upload pending the prod flip
+
+The SDK repo's `assets/models/` now carry the **v11** ensemble (v10.4 recipe +
+identity-dropout 0.5 in phases A/B, agnostic-finalized — see
+`docs/V11_ARM1_RESULTS.md` / `docs/V11_OVERFIT_AUDIT.md`). Version 6 of
+`TfJs/default` ships those seeds with refreshed docs. **Do not upload until
+production has flipped to v11** (the Kaggle page mirrors what serves).
+
+- Stage: `bash kaggle/tools/stage-model-v6.sh` → `/tmp/kaggle-model-upload-v6`
+  (same layout as v5: models/ inference/ training/ docs/; includes the v11
+  result docs; built-in scrub check for private paths/tokens).
+- Upload (ONE command, after the flip; env-var auth only):
+  `kaggle models instances versions create patrickwglenn/dci-score-predictor/TfJs/default -p /tmp/kaggle-model-upload-v6 -n "v11 identity-dropout-0.5 8-seed ensemble + division recal (-16.6% backtest MAE vs v10.5)" -r tar`
+- Version notes / page description updates: resolved-2026 backtest MAE
+  2.49 → 2.08 no-recal (1.64 → 1.37 with recal) vs v10.5, better in every
+  tier; gain is mid-season World Class (Open Class + championship week are
+  washes); serving contract unchanged (drop-in weights swap, agnostic default).
+  Update the model-page description figures from the refreshed
+  `docs/MODEL_CARD.md` + `docs/TIER_ACCURACY.md` when uploading.
+- Training recipe files are unchanged for v11 except `identityDropoutRate: 0.5`
+  — the staged training/ folder notes this.
+
 ## Page metadata + public status (filled 2026-07-21)
 
 The model page is fully populated and **public**. Metadata was applied with the
