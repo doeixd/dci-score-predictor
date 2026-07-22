@@ -323,7 +323,7 @@ async function runFamilyEvent(fam: string, slug: string, provider: AssetProvider
     if (actual == null) continue;
     const err = p.total - actual;
     add(cellIn(overall, fam), err);
-    add(divCell(fam, p.division), err);
+    add(divCell(fam, p.division as DivisionName), err);
     add(evtCell(slug, fam), err);
     evaluated++;
   }
