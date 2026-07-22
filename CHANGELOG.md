@@ -1,0 +1,43 @@
+# Changelog
+
+## 0.1.0 — v11 model upgrade (unreleased)
+
+Model upgrade **v10.5 → v11**. **No API change** — the serving contract is
+unchanged (identity-agnostic default, same 224-dim static / 15×101 sequence
+inputs, same architecture, same 8-seed ensemble + division recal). v11 is a
+drop-in weights swap: the v10.4 recipe retrained with identity dropout lowered
+0.95 → 0.5 in curriculum phases A/B (agnostic-finalized in phase C). See
+`docs/V11_ARM1_RESULTS.md` and `docs/V11_OVERFIT_AUDIT.md`.
+
+### Measured deltas (resolved-2026 backtest, 27 events / 197 obs, no recal)
+
+- Overall MAE **2.494 → 2.079** (−16.6%), better in every tier; systematic
+  under-projection bias −2.24 → −1.67.
+- The gain is regime-specific: mid-season World Class (2.945 → 2.359 MAE);
+  Open Class is a wash; championship-week (2024-finals test split) is a wash.
+- Training-time val (2023): 1.012 → 0.996 total MAE; test (2024 finals):
+  0.822 → 0.831 (within seed noise) — no memorization signature
+  (overfit audit: PASSED).
+- Re-measured with the shipped v11 assets (same harness/window):
+  - **Tier accuracy** (`TIER_ACCURACY.md`): with the shipped self-recal,
+    overall MAE **1.64 → 1.37** (T0 1.27 → 1.00, T2 1.27 → 1.07,
+    T3 4.89 → 4.25; T1 thin-n wash).
+  - **True held-out confirmation** (`V11_RECENT_SHOWDOWN.md`, post-cutoff
+    2026-07-17..21, 6 events / 57 obs): v11 MAE **2.413 vs 2.874** for v10.4,
+    winner or tie on 5/6 events.
+  - **Identity knob** (`IDENTITY_BASELINES.md`): agnostic default stays and
+    matters even less — identity-full is now mildly worse (2.146 vs 2.079;
+    under v10.4 it was a 2.475-vs-2.494 tie).
+  - **Benchmarks** (`BENCHMARKS.md`): unchanged within noise (same
+    architecture/byte size) — warm full-event predict ~1570 ms cpu /
+    ~770 ms wasm.
+
+### Changes
+
+- `assets/models/*`: 8 v10.4 seed dirs replaced with the 8 v11 seeds
+  (`v11_identity050_field_pace_seed42..49`); `MANIFEST.json` regenerated
+  (new sha256s). Bias calibration unchanged (empty).
+- Parity fixtures re-cut to pin v11 output (`kentucky-prod-run.json`);
+  feature-row and offsets fixtures unchanged (model-independent).
+- Docs refreshed with re-measured figures: `MODEL_CARD.md`, `TIER_ACCURACY.md`,
+  `IDENTITY_BASELINES.md`, `BENCHMARKS.md`, README.

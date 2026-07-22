@@ -1,7 +1,7 @@
 {
   "name": "dci-score-predictor",
-  "version": "0.0.0",
-  "description": "Type-safe DCI drum corps score prediction — the v10.5 identity-agnostic ensemble model, self-contained, runs anywhere JS runs.",
+  "version": "0.1.0",
+  "description": "Type-safe DCI drum corps score prediction — the v11 identity-agnostic ensemble model, self-contained, runs anywhere JS runs.",
   "license": "MIT",
   "author": "Patrick Glenn",
   "repository": {

@@ -42,15 +42,18 @@ are masked (zeroed) at serving (`maskV9JudgeContext`), so every live feature
 derives from score history + schedule + reference curves — no private database is
 needed to reproduce production predictions.
 
-**Opt-in identity knob:** the v10.4 weights were trained *with* corps/judge/show
-embeddings + a judge-Elo static block (then dropped out ~95–100% of the time, so
-the agnostic state is the dominant in-distribution mode). `PredictOptions.identity`
+**Opt-in identity knob:** the weights are trained *with* corps/judge/show
+embeddings + a judge-Elo static block (v11 drops them out 50% of the time in
+phases A/B, then finalizes agnostic — the agnostic state is the trained serving
+mode). `PredictOptions.identity`
 (`'agnostic'` default | `'full'` | `{ corps?, judges?, show? }`) re-enables them
 per part, keyed by the shipped `assets/registries/identity/` maps.
-**Measured:** identity-full is a statistical tie overall (MAE 2.475 vs 2.494 on
-197 resolved-2026 obs) — it helps established World Class (T0 2.439 → 2.379) but
-hurts Open Class/thin-history, so **the default stays `agnostic`**. Full table +
-guidance: [IDENTITY_BASELINES.md](./IDENTITY_BASELINES.md).
+**Measured (v11):** identity-full is mildly *worse* overall (MAE 2.146 vs 2.079
+on 197 resolved-2026 obs; corps-only 2.137) — the v11 win came from identity as
+auxiliary *training* signal, not serving-time embeddings — so **the default
+stays `agnostic`** and the knob matters even less than under v10.4 (where full
+was a tie at 2.475 vs 2.494). Full table + guidance:
+[IDENTITY_BASELINES.md](./IDENTITY_BASELINES.md).
 
 ## Training data
 

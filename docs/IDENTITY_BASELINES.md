@@ -1,7 +1,9 @@
 # Identity serving knob — measured baselines
 
 Does re-enabling the trained corps/judge/show identity inputs beat the shipped
-identity-**agnostic** serving? This is the head-to-head measurement.
+identity-**agnostic** serving? This is the head-to-head measurement, re-run
+against the shipped **v11** ensemble (2026-07-22; the prior v10.4 figures are
+kept below for reference).
 
 ## Method
 
@@ -22,79 +24,82 @@ Judge panels are the **real** per-show assignments from the prod DB
 panel that actually judged the target is known. Corps use the registry
 `corps_key`; shows use the year-stripped slug.
 
-## Results (n | MAE | bias)
+## Results — v11 ensemble (n | MAE | bias)
 
-The harness builds the SAME full-fidelity inputs as `backtest-tiers.ts`
-(including subcaption sheets and performance order). Validation anchor: the
-agnostic mode reproduces the tier backtest's no-recal overall MAE (2.494 ≈
-2.49) exactly.
+Validation anchor: the agnostic mode reproduces the tier backtest's no-recal
+overall MAE (2.079) exactly.
 
 ```
 --- agnostic (default) ---
-  T0 established    105 |  2.439 | -2.319
-  T1 partial         13 |  0.851 | -0.371
-  T2 sparse          57 |  1.817 | -1.416
-  T3 cold_start      22 |  5.482 | -5.071
-  overall           197 |  2.494 | -2.237
-    World Class     142 |  2.945 | -2.944
-    Open Class       55 |  1.329 | -0.411
+  T0 established    105 |  1.965 | -1.763
+  T1 partial         13 |  0.868 | +0.199
+  T2 sparse          57 |  1.512 | -0.951
+  T3 cold_start      22 |  4.803 | -4.155
+  overall           197 |  2.079 | -1.666
+    World Class     142 |  2.359 | -2.355
+    Open Class       55 |  1.353 | +0.114
 
 --- identity-full ---
-  T0 established    105 |  2.379 | -2.215
-  T1 partial         13 |  0.973 | -0.753
-  T2 sparse          57 |  1.870 | -1.503
-  T3 cold_start      22 |  5.389 | -4.902
-  overall           197 |  2.475 | -2.213
-    World Class     142 |  2.880 | -2.876
-    Open Class       55 |  1.431 | -0.499
+  T0 established    105 |  2.026 | -1.764
+  T1 partial         13 |  1.169 | -0.261
+  T2 sparse          57 |  1.598 | -1.080
+  T3 cold_start      22 |  4.714 | -3.904
+  overall           197 |  2.146 | -1.706
+    World Class     142 |  2.375 | -2.361
+    Open Class       55 |  1.555 | -0.014
 
 --- identity corps-only ---
-  T0 established    105 |  2.444 | -2.308
-  T1 partial         13 |  0.913 | -0.297
-  T2 sparse          57 |  1.848 | -1.399
-  T3 cold_start      22 |  5.457 | -5.060
-  overall           197 |  2.507 | -2.220
-    World Class     142 |  2.960 | -2.959
-    Open Class       55 |  1.338 | -0.311
+  T0 established    105 |  2.013 | -1.766
+  T1 partial         13 |  1.127 | +0.130
+  T2 sparse          57 |  1.571 | -0.920
+  T3 cold_start      22 |  4.794 | -4.073
+  overall           197 |  2.137 | -1.654
+    World Class     142 |  2.385 | -2.370
+    Open Class       55 |  1.496 | +0.196
 ```
 
 ### Overall summary
 
 | mode | overall MAE | Δ vs agnostic | overall bias |
 |------|-------------|---------------|--------------|
-| agnostic (default) | **2.494** | — | −2.237 |
-| identity-full | **2.475** | **−0.019 (−0.8%)** | −2.213 |
-| identity corps-only | **2.507** | +0.013 (wash) | −2.220 |
+| agnostic (default) | **2.079** | — | −1.666 |
+| identity-full | 2.146 | +0.067 (+3.2%) | −1.706 |
+| identity corps-only | 2.137 | +0.058 (+2.8%) | −1.654 |
 
-> The shared negative bias (~−2.2) is the early-season no-recal systematic
-> offset (predictions run low in early July), **not** an identity effect — it
-> is corrected by the recal pass in `backtest-tiers.ts` (overall MAE 1.64 with
-> recal). It moves in lock-step across modes, so the identity comparison is
-> clean.
+> The shared negative bias (~−1.7) is the early-season no-recal systematic
+> offset, **not** an identity effect — it is corrected by the recal pass in
+> `backtest-tiers.ts` (overall MAE 1.37 with recal). It moves in lock-step
+> across modes, so the identity comparison is clean.
 
-## Recommendation: keep the default `agnostic`
+### v10.4 reference (previous assets, same harness/window)
 
-Identity-full is a **statistical tie** overall (−0.019 MAE on 197 obs, well
-inside noise) and identity corps-only is a wash. Re-enabling identity does **not**
-justify changing the default. Concretely:
+| mode | overall MAE | Δ vs agnostic |
+|------|-------------|---------------|
+| agnostic | 2.494 | — |
+| identity-full | 2.475 | −0.019 (−0.8%, tie) |
+| identity corps-only | 2.507 | +0.013 (wash) |
 
-- **Where identity helps:** established, rich-history **World Class** corps —
-  `T0 established` MAE 2.439 → **2.379** and World Class overall 2.945 →
-  **2.880** under identity-full. These are corps/panels with strong in-vocab
-  embeddings and same-season judge-Elo signal.
-- **Where identity hurts:** thin-history regimes — `T1 partial` (0.851 → 0.973),
-  `T2 sparse` (1.817 → 1.870), and **Open Class** overall (1.329 → **1.431**).
-  The embeddings add variance where there's little identity evidence, and the
-  net Open-Class regression roughly cancels the World-Class gain.
-- **corps-only** captures neither the upside nor the downside — essentially
-  indistinguishable from agnostic.
+## Recommendation: keep the default `agnostic` — the knob matters even less now
 
-**Guidance:** leave `identity` at its default `'agnostic'`. Consider
-`identity: 'full'` only for **established World Class** targets with a **known
-real judge panel** and in-vocab corps, where a ~2% division-level MAE improvement
-is worth the added variance. Never enable it for cold-start/debut or Open-Class
-predictions. This mirrors the model's training regime (identity was dropped out
-~95–100% of the time; the agnostic state is the dominant in-distribution mode).
+Under v10.4 identity-full was a statistical tie; under v11 it is **mildly but
+consistently worse** (+0.067 overall, worse in T0/T1/T2 and both divisions;
+only the thin-n T3 cold-start cell improves, 4.803 → 4.714). This is exactly
+the expected consequence of the v11 training change: identity dropout 0.5 in
+phases A/B gave the embeddings real gradient as an **auxiliary training
+signal**, improving the shared network that the agnostic path uses — but
+phase C still finalizes agnostic, so serving-time embeddings add variance
+without signal. The same pattern held in the Arm-1 pool judging
+([V11_ARM1_RESULTS.md](V11_ARM1_RESULTS.md)): v11-full 2.146 loses to
+v11-agnostic 2.079.
+
+**Guidance:** leave `identity` at its default `'agnostic'`. The v10.4-era niche
+recommendation (identity-full for established World Class with a known real
+panel) no longer holds under v11 — T0 established now *worsens* under
+identity-full (1.965 → 2.026), and the World Class gain has vanished
+(2.359 → 2.375). One caveat kept honest: on the late-season WC under-projection
+regime the held-out event hinted identity-full can help
+([V11_OVERFIT_AUDIT.md](V11_OVERFIT_AUDIT.md)); re-examine after the August
+retrain rather than enabling it now.
 
 ## Reproduce
 
@@ -104,6 +109,10 @@ npx tsx tools/backtest-identity.ts   # writes tools/backtest-identity.out.json
 Env: `DCI_DB` (prod relational, read-only), `CONTRACT_DB`, `BT_START`/`BT_END`,
 `BT_MEMBERS`.
 
-## Future direction
+## Background
 
-A v11 experiment — retraining with identity dropout lowered from 0.95 to ~0.3–0.5 so the embeddings actually learn — is written up in [V11_IDENTITY_NOTES.md](V11_IDENTITY_NOTES.md).
+The v11 experiment this shipped from — retraining with identity dropout lowered
+0.95 → 0.5 so the embeddings actually learn — is written up in
+[V11_IDENTITY_NOTES.md](V11_IDENTITY_NOTES.md), judged in
+[V11_ARM1_RESULTS.md](V11_ARM1_RESULTS.md), and audited in
+[V11_OVERFIT_AUDIT.md](V11_OVERFIT_AUDIT.md).

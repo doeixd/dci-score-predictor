@@ -16,11 +16,15 @@ is the median of 5 subsequent predicts with the ensemble cached.
 
 | backend | load + first (ms) | warm predict (ms) | note |
 |---|---|---|---|
-| cpu | ~1950–2140 | ~1590–1850 | default, pure-JS |
-| wasm | ~1360–1400 | ~740–830 | XNNPACK SIMD (optional peer dep) |
+| cpu | ~2030 | ~1570 | default, pure-JS |
+| wasm | ~1650 | ~770 | XNNPACK SIMD (optional peer dep) |
+
+(Re-measured 2026-07-22 with the **v11** weights — same architecture and byte
+size as v10.4, so timings are unchanged within run-to-run noise; prior v10.4
+ranges were cpu ~1950–2140 / ~1590–1850, wasm ~1360–1400 / ~740–830.)
 
 On this machine (Node v24, 2 vCPU) the wasm backend runs a full-event predict
-roughly **2× faster** warm (~800 ms vs ~1700 ms) and also loads faster. Gains
+roughly **2× faster** warm (~770 ms vs ~1570 ms) and also loads faster. Gains
 scale with field size and ensemble members; single-corps predicts see less
 benefit. Numbers are indicative — re-run `npx tsx tools/bench-backends.ts` on
 your hardware.
