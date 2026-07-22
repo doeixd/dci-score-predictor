@@ -36,6 +36,22 @@ true-held-out evidence as new shows score — the strongest possible check.
 
 ## Phase 2 — Production promotion (mirrors the v10.5 rollout)
 
+> **STATUS: FLIPPED — 2026-07-22.** v11 (`clean-v11-fp-shadow`) is live on
+> drumcorps.app via the authoritative read-model path. Guard
+> (backtestPredictionModes, 2026-07-22 09:46) passed: target/ar MAE 3.65/3.90
+> beat persist 7.60. Coverage was complete (25/25 upcoming events with a
+> non-empty v10.5 run also had a non-empty v11 run; zero gaps). Serving filter
+> `PREDICTION_MODEL=v11` → `model_dir LIKE '%v11-fp-shadow%'` added to
+> corps-place (predictions.ts + event-prediction-api.ts, commit c24d1aa);
+> emit env + auto-ingest/cron publish-roles swapped (v10.5 now shadow,
+> PUBLISH=0; v11 now the published primary). v10.5 keeps writing shadow runs.
+> Live-verified via Chromium: Birmingham Blue Stars 83.754 (v11) vs 84.196
+> (old v10.5). Container `PREDICTION_MODEL` env in Coolify still `v10.5`
+> (user-gated) — the on-demand fallback serves v10.5 until the user flips it;
+> the read-model path (authoritative) already serves v11. Rollback: set
+> `PREDICTION_MODEL=v10.5` + re-emit; `git revert c24d1aa`.
+
+
 1. **Stage**: copy the 8 v11 seeds + target-norms into the prod serving checkout
    (cp-v10-serving/sdk/models/v11_identity050_field_pace/).
 2. **Guard**: run the standing prod backtest guard (backtestPredictionModes.ts)
