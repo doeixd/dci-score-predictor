@@ -46,19 +46,29 @@ const out = await predict({
 for (const p of out.predictions) console.log(p.rank, p.corps, p.total.toFixed(3));
 ```
 
-## Quickstart with real 2026 data (no typing)
+## Quickstart with real data (no typing)
 
-Install the companion [`dci-score-predictor-data-2026`](./data-2026) package for
-the whole 2026 season-to-date as ready-made `SeasonData` — set a target and go:
+Install the companion [`dci-season-data`](https://github.com/doeixd/dci-season-data)
+package for complete DCI seasons (**2013–2019, 2022–2026**) as ready-made
+`SeasonData` — set a target and go:
 
 ```js
-import { season2026 } from 'dci-score-predictor-data-2026';
+import { season } from 'dci-season-data';
 import { predict } from 'dci-score-predictor';
 
-const { seasonInfo, shows } = season2026();
+const { seasonInfo, shows } = season(2026); // or any bundled season
 const result = await predict({ seasonInfo, history: shows,
   target: { slug: 'dci-prelims', date: '2026-08-06',
             lineup: [{ corpsKey: 'blue-devils', division: 'World Class' }] } });
+```
+
+`dci-season-data` is also vendored here as the `data/` **git submodule**. npm
+consumers should `npm install dci-season-data` rather than rely on the submodule.
+If you clone this repo and want the data checked out, use `--recursive` (or run
+`git submodule update --init` after cloning):
+
+```sh
+git clone --recursive https://github.com/doeixd/dci-score-predictor
 ```
 
 ### Batch & what-if
