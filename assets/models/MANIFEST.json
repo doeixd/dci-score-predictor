@@ -1,12 +1,12 @@
 {
-  "model": "v10.4 field-pace ensemble + v10.5 division recal",
+  "model": "v11 field-pace ensemble (v10.4 recipe + identity-dropout 0.5, agnostic-finalized) + v10.5 division recal",
   "description": "Identity-agnostic DCI recap-score ensemble. 8 seeds, per-seed tfjs LayersModel. See docs/MODEL_CARD.md.",
   "captionScale": "0-20 recap captions; 224-dim static input; 15-step sequence.",
-  "generatedAt": "2026-07-20T21:42:42.797Z",
+  "generatedAt": "2026-07-22T00:15:07.900Z",
   "seedCount": 8,
   "seeds": [
     {
-      "name": "v10_4_field_pace_seed42_1784493371278",
+      "name": "v11_identity050_field_pace_seed42_1784653575966",
       "seed": 42,
       "format": "layers-model",
       "inputDims": {
@@ -15,7 +15,7 @@
         "sequenceFeat": 101
       },
       "weightsBytes": 4148828,
-      "weightsSha256": "ce5d22a28e118b7da6748f663dc5c558d01c4866da42864cf22cf144681a437d",
+      "weightsSha256": "25f3fab883f3165698b10deb2453f0dd802d3f9769dc961e9931e9425e4ff3e4",
       "targetNorm": {
         "totalMean": 74.31384859054668,
         "totalStd": 12.148296137238768,
@@ -42,7 +42,7 @@
       }
     },
     {
-      "name": "v10_4_field_pace_seed43_1784493386375",
+      "name": "v11_identity050_field_pace_seed43_1784653589850",
       "seed": 43,
       "format": "layers-model",
       "inputDims": {
@@ -51,7 +51,7 @@
         "sequenceFeat": 101
       },
       "weightsBytes": 4148828,
-      "weightsSha256": "cfdedc80a7ce938564e3a0b506c34cba4c7c7cbb02f98d90fdc8ae01527f5a81",
+      "weightsSha256": "5223038bf42120ca11843d9ac29782379f18e8a14f7784a0fb06299320981004",
       "targetNorm": {
         "totalMean": 74.31384859054668,
         "totalStd": 12.148296137238768,
@@ -78,7 +78,7 @@
       }
     },
     {
-      "name": "v10_4_field_pace_seed44_1784493401630",
+      "name": "v11_identity050_field_pace_seed44_1784653604784",
       "seed": 44,
       "format": "layers-model",
       "inputDims": {
@@ -87,7 +87,7 @@
         "sequenceFeat": 101
       },
       "weightsBytes": 4148828,
-      "weightsSha256": "9ab1f49f91750cfc07e91dd3f5afc4f1412e3493f19e9f5fde3472c9926dc037",
+      "weightsSha256": "037d3883e0aa3aad8bc49f1fb41c2a4d19b964b22abb5d47fe68ea1610ffc135",
       "targetNorm": {
         "totalMean": 74.31384859054668,
         "totalStd": 12.148296137238768,
@@ -114,7 +114,7 @@
       }
     },
     {
-      "name": "v10_4_field_pace_seed45_1784499327795",
+      "name": "v11_identity050_field_pace_seed45_1784660585474",
       "seed": 45,
       "format": "layers-model",
       "inputDims": {
@@ -123,7 +123,7 @@
         "sequenceFeat": 101
       },
       "weightsBytes": 4148828,
-      "weightsSha256": "f9c630024961afec443c50c9f1d57a1b4596893e28de7f735c145dca1827ea13",
+      "weightsSha256": "5bd6521044c6cb9ee77ab903a24dad916f184359e3ddb3a0c791a8312acff9dd",
       "targetNorm": {
         "totalMean": 74.31384859054668,
         "totalStd": 12.148296137238768,
@@ -150,7 +150,7 @@
       }
     },
     {
-      "name": "v10_4_field_pace_seed46_1784499342733",
+      "name": "v11_identity050_field_pace_seed46_1784660598304",
       "seed": 46,
       "format": "layers-model",
       "inputDims": {
@@ -159,7 +159,7 @@
         "sequenceFeat": 101
       },
       "weightsBytes": 4148828,
-      "weightsSha256": "def085f36d3d79539913a8ee4817fec2b9ad979d8a9e3da22a6c1c96f489f779",
+      "weightsSha256": "b1268c41b1a1a00404f1ae4ce71ecf7201ac986c65f15628bf45425124719d23",
       "targetNorm": {
         "totalMean": 74.31384859054668,
         "totalStd": 12.148296137238768,
@@ -186,7 +186,7 @@
       }
     },
     {
-      "name": "v10_4_field_pace_seed47_1784499357939",
+      "name": "v11_identity050_field_pace_seed47_1784660673686",
       "seed": 47,
       "format": "layers-model",
       "inputDims": {
@@ -195,7 +195,7 @@
         "sequenceFeat": 101
       },
       "weightsBytes": 4148828,
-      "weightsSha256": "b4a509070e353185cc315004f656a42e9520f330dd412bd382af03b58b3ac93d",
+      "weightsSha256": "edf60c4a725226bd453cd41556ef7b856c21085cea3152c08ffc68c17d3f48a5",
       "targetNorm": {
         "totalMean": 74.31384859054668,
         "totalStd": 12.148296137238768,
@@ -222,7 +222,7 @@
       }
     },
     {
-      "name": "v10_4_field_pace_seed48_1784505353092",
+      "name": "v11_identity050_field_pace_seed48_1784666961708",
       "seed": 48,
       "format": "layers-model",
       "inputDims": {
@@ -231,7 +231,7 @@
         "sequenceFeat": 101
       },
       "weightsBytes": 4148828,
-      "weightsSha256": "4f041b384a3b9012225688c0fbe3d391bda72078322f038b474219dcbda1c546",
+      "weightsSha256": "2f62d1628c56a65167a58246e7c1b223d7332b3a577f035e7dc367d789ec494c",
       "targetNorm": {
         "totalMean": 74.31384859054668,
         "totalStd": 12.148296137238768,
@@ -258,7 +258,7 @@
       }
     },
     {
-      "name": "v10_4_field_pace_seed49_1784505368347",
+      "name": "v11_identity050_field_pace_seed49_1784667005890",
       "seed": 49,
       "format": "layers-model",
       "inputDims": {
@@ -267,7 +267,7 @@
         "sequenceFeat": 101
       },
       "weightsBytes": 4148828,
-      "weightsSha256": "cb99646fba4b313d0f78144354f97be9d2e563503a97cb435d3d19baaebe5d0a",
+      "weightsSha256": "f0a34520db4834834154f678aab348a61fbc751f86d3bd73dbb7e69541bc4dfb",
       "targetNorm": {
         "totalMean": 74.31384859054668,
         "totalStd": 12.148296137238768,

@@ -58,7 +58,7 @@ const seeds = fs
   });
 
 const manifest = {
-  model: 'v10.4 field-pace ensemble + v10.5 division recal',
+  model: 'v11 field-pace ensemble (v10.4 recipe + identity-dropout 0.5, agnostic-finalized) + v10.5 division recal',
   description:
     'Identity-agnostic DCI recap-score ensemble. 8 seeds, per-seed tfjs LayersModel. See docs/MODEL_CARD.md.',
   captionScale: '0-20 recap captions; 224-dim static input; 15-step sequence.',
