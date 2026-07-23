@@ -25,11 +25,13 @@ missed it.**
 
 ## Phase 0 — Championships (this week; serving decisions)
 
-0.1 **Resolve the serving question with the blend verdict** (experiment
-    running): v11.1 = α·v11 + (1−α)·persistence, α fit leakage-safely.
+0.1 **RESOLVED 2026-07-23: rolled back to final2.** Fresh 07-22 shows confirmed
+    the gap (final2 1.07 vs v11 3.47 pooled; v11 won only the OC oddball).
+    The blend experiment was cancelled; the graded-production evidence
+    sufficed. v11 shadows on. (Original decision rule: v11.1 = α·v11 + (1−α)·persistence, α fit leakage-safely.
     Decision rule: v11.1 ≲ final2 (1.08) → ship blend layer; else → rollback
-    to final2 for championships (one-liner, rehearsed). Either way final2 and
-    v11 both keep writing runs (dual shadow).
+    to final2 for championships. Either way final2 and v11 both keep writing
+    runs — dual shadow.)
 0.2 **Recal saturation alarm**: alert when the division recal fit hits its
     clamp — a saturated corrector is a regime alarm. (Small script change +
     notify hook; do regardless of 0.1.)

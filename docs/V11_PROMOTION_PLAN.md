@@ -36,7 +36,14 @@ true-held-out evidence as new shows score — the strongest possible check.
 
 ## Phase 2 — Production promotion (mirrors the v10.5 rollout)
 
-> **STATUS: FLIPPED — 2026-07-22.** v11 (`clean-v11-fp-shadow`) is live on
+> **STATUS: ROLLED BACK TO final2 — 2026-07-23.** Nine graded shows (07-17..22)
+> showed final2 at ~1.07 MAE vs the v10/v11 family at 2.4–3.8 (late-season
+> score-inflation regime outside the family's 07-11 training support; see
+> MODEL_IMPROVEMENT_PLAN + V12_TRAINING_NOTES). v11 remains shadow-writing;
+> the emit env is final2; V12 (August) must beat final2 on a matched
+> late-season window to re-take serving. Original flip record follows.
+>
+> **(superseded) STATUS: FLIPPED — 2026-07-22.** v11 (`clean-v11-fp-shadow`) is live on
 > drumcorps.app via the authoritative read-model path. Guard
 > (backtestPredictionModes, 2026-07-22 09:46) passed: target/ar MAE 3.65/3.90
 > beat persist 7.60. Coverage was complete (25/25 upcoming events with a
