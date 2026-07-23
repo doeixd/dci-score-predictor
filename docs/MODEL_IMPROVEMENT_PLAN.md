@@ -23,6 +23,93 @@ its training distribution and loses badly outside it; the serving stack lost
 its structural anchor in the v10 port; evaluation compared within-family and
 missed it.**
 
+## Post-mortem: what final2 actually is, and why "build it into the model" failed
+
+*(Added 2026-07-23 after the rollback — the causal account behind every fix in
+this plan.)*
+
+### final2 is a model + an adaptive wrapper
+
+"final2" as served is a v9-era neural model wrapped in an **adaptive serving
+stack**: a persistence blend (model output ensembled with last-real-score
+projection) plus a gentle bias correction **recomputed nightly from recent
+shows' errors** (damped ×0.67, capped ±1.25). The net inside is static; the
+wrapper is a small online learner that tracks the season in real time. When
+the late-July scoring regime shifted, the wrapper read its own recent errors
+and adjusted. v11 serves nearly raw — its only adaptive part (division recal)
+was clamped at ±1.5 and silently saturated when true bias hit −3..−4.5. A
+thermostat versus a brick. The core-model quality difference (v11's core >
+v9's core in every within-family test) is worth tenths of a point; the
+adaptive wrapper is worth ~2 points in a regime shift.
+
+### Why the end-to-end thesis failed — representability vs learnability
+
+The v10 thesis ("bake the corrections into the model") was not wrong that
+learned corrections beat hand-tuned ones; it was wrong that a **static**
+learned function can replace a **dynamic** one across regime shifts:
+
+1. **The information was sufficient — the proof is that final2's wrapper
+   computes its correction from inputs v11 already has** (last score is in the
+   sequence; recent field-wide error is the field-pace feature). The
+   correcting function — "add the field's recent average miss" — is trivially
+   representable by the network. Representability was never the issue.
+2. **Gradient descent only learns the function where the data is.** Outside
+   the training support a net extrapolates *smoothness*, not *structure* — it
+   regresses toward average seen behavior. And the objective actively taught
+   attenuation: on 13 historical seasons, fully trusting a "+3 field signal"
+   would have overshot (such excursions mean-reverted), so the MSE-optimal
+   response was to damp it. The model didn't fail to learn the correction —
+   it correctly learned that in its world the correction was wrong. Its world
+   ended on the training cutoff (07-11).
+3. **The wrapper generalizes for one reason: a human-imposed structural
+   prior** ("errors are additive; recent errors predict imminent errors") that
+   is valid everywhere but demonstrated nowhere in the training data. That
+   knowledge lives in the wrapper's *form*, not in fitted parameters — which
+   is why it works in regimes nobody has sampled.
+
+### The correct conclusion (drives Phase 1 and Phase 4)
+
+Not "keep the apparatus around the model" — **move the apparatus's structural
+knowledge into the model's architecture, not its feature list**:
+- Predicting `next − last_real_score` (V12 target A) makes the persistence
+  anchor the **identity path** — the thing the model outputs when it has
+  nothing to say. Out-of-distribution failure then degrades to "predict the
+  anchor" (final2's behavior) instead of "predict the historical average"
+  (v11's behavior). Same principle as a ResNet skip connection: make the safe
+  behavior the parameterization's default and learn deviations from it.
+- Weekly fine-tuning (Phase 2) shrinks the no-data region so the default path
+  is needed less often.
+- Caveat that keeps Phase 4.1 permanent: "provide all the information" can
+  never fully substitute for "sample the regime" — a truly novel shock (rule
+  change, judging-philosophy shift) always favors structural priors over
+  fitted responses. A thin anchor blend stays in serving as cheap insurance
+  for regimes nobody has data on yet, even after V12.
+
+### How the mistake happened — five stacked process failures
+
+1. The original "v10 beats final2" evidence came from an early-July window —
+   a regime where the static model shines. A regime-conditional result was
+   treated as a general one.
+2. The correction layers were dropped based on a shadow finding *in that same
+   window* that they didn't help the new model — also regime-conditional.
+3. Every subsequent judging (v10.4 → v10.5 → v11, arms, mixtures) was
+   within-family; the incumbent never sat in the comparison table (now banned
+   by Phase 3).
+4. The warnings were each explained away individually — growing negative
+   bias, the saturating recal, the accuracy page's era table — when jointly
+   they were one signal (hence the saturation alarm and the bias-vs-clamp
+   blocking flag).
+5. Promotion moved ~24 h after training, when truly held-out evidence was one
+   event (hence the overfit-audit + matched-recent-window requirements).
+
+### Open decomposition experiment (cheap, shadow-only)
+
+Bolt final2's exact wrapper (persist blend + adaptive bias correction) onto
+v11's raw output and shadow it: *same corrections, swapped core* — isolates
+whether the v11 core beats the v9 core when both get the thermostat. Win →
+championship-week ship candidate and V12 design evidence; tie → the core was
+never the bottleneck and the target-space change matters even more.
+
 ## Phase 0 — Championships (this week; serving decisions)
 
 0.1 **RESOLVED 2026-07-23: rolled back to final2.** Fresh 07-22 shows confirmed
