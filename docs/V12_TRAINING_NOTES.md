@@ -121,3 +121,18 @@ and not fix held-out → not worth training.** (d) v12bw 1.299 ≈ v11w 1.245 �
 Decision: **do not promote arm B; do not train arm B′; keep final2 serving; Phase-4.1
 wrapper permanent.** August lever is cadence (Phase 2 weekly fine-tune) + growth-head
 de-attenuation, NOT target-space climate reparametrization.
+
+## Campaign log
+
+- **2026-07-25 — v12t (co-tuned wrapper):** tested whether the v12a gap is
+  wrapper-calibration, not core. Co-tuned the wrapper params FOR the v12a core in one
+  leakage-safe pass (grid over H∈5..30, β∈0..1, bias d∈0.3..1, cap∈1.25..3; honest
+  self-referential bias from each candidate's own pre-correction residuals). Tuned on
+  07-17..21, froze, evaluated on untouched 07-22..24. Tuner chose **H=25 (vs final2's
+  14 — longer persistence), β=0.45, d=0.5, cap=1.25**. Result: co-tuning helped
+  out-of-sample (v12aw 1.001 → **v12t 0.953**) but **did NOT reach final2 (0.813),
+  gap +0.140**. v12t carries a −0.443 validation bias (under-predicts the inflating
+  championship week) vs final2's +0.108. **Verdict: residual gap is STRUCTURAL, not
+  wrapper calibration → arm C** (per-corps curveΔ / craft). Constants were tuned on 5
+  days of one regime; any future promotion must re-validate over full championships
+  week. Tool `tools/backtest-v12t.ts`; full writeup [V12_COTUNED_RESULTS.md].
