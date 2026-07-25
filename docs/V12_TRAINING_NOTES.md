@@ -81,3 +81,13 @@ anchor↔model *blend* (curveΔ + horizon persist), which arm A does not reprodu
 No degenerate seeds. Decision: **run arm B (field-level-relative, explicit unshrunk
 climate term); keep the Phase-4.1 wrapper permanent; final2 stays serving.** Cheap
 next probe: shadow `v12aw` (v12a core + final2 wrapper) on the same window.
+
+### 2026-07-25 — v12aw probe (arm-A core + final2 wrapper). VERDICT: core interchangeable.
+`tools/backtest-v12aw.ts` bolts final2's exact wrapper onto v12a raw (bias from
+v12a's own pre-show residuals), same 9-show window; reproduces final2/v11w/v12a-raw
+exactly. **Held-out (n=24): v12aw 1.227 vs v11w 1.268 — 0.041 edge, within tenths**
+(in-sample 0.849 vs 0.871). Wrapper collapses v12a's blocking −1.906 held-out bias
+to −0.361 and does ~1.86 pts of MAE work (3.089→1.227); the v11→v12a core swap under
+the wrapper is worth ~0.04. Confirms the decomposition thesis on a 2nd core: wrapper
+carries the win, core swap worth tenths; arm A earns no wrapper-complementarity
+promotion. Table appended to [V12_ARM_A_RESULTS](V12_ARM_A_RESULTS.md) §v12aw probe.

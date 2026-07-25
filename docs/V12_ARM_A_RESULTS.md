@@ -151,6 +151,62 @@ reproduce.
    current held-out is only 1–2 days past cutoff and 4 events; the verdict is
    directionally strong (4× gap, blocking bias) but the window is thin.
 
+## v12aw probe — arm-A core + final2's exact wrapper (swapped-core decomposition)
+
+Written 2026-07-25. Executes recommendation §3 above and the
+[V11W_DECOMPOSITION](V11W_DECOMPOSITION.md) experiment with the core swapped:
+bolt final2's **exact** adaptive wrapper (persistence/curve blend + damped-capped
+bias correction, verbatim from `tools/backtest-v11w.ts`) onto v12a's raw per-event
+predictions. **Same corrections, swapped core.** The wrapper's bias term sources
+each model's OWN pre-show raw residuals (final2's design), so v12aw uses v12a's
+residuals just as v11w uses v11's. Leakage-safe exactly as before. Harness
+`tools/backtest-v12aw.ts`; it re-reproduces the published final2 / v11w / v12a-raw
+numbers exactly (below), so the v12aw column is trustworthy.
+
+| event | date | n | H | final2 (served) | v11w | v12a raw | **v12aw** |
+|---|---|--:|:--:|--:|--:|--:|--:|
+| dci-houston | 07-17 | 10 | in | 0.561 | 0.457 | 0.908 | **0.415** |
+| dci-southwestern-championship | 07-18 | 22 | in | 1.099 | 1.100 | 1.493 | **1.089** |
+| the-buccaneer-classic | 07-18 | 2 | in | 2.493 | 0.570 | 0.910 | **0.615** |
+| dci-dallas | 07-19 | 10 | in | 1.247 | 0.763 | 1.814 | **0.740** |
+| dci-mckinney | 07-20 | 6 | in | 0.628 | 1.001 | 1.298 | **0.956** |
+| **dci-st-louis** | 07-21 | 7 | **HO** | 0.577 | 1.383 | 3.047 | **1.317** |
+| **dci-southern-mississippi** | 07-22 | 6 | **HO** | 0.423 | 0.833 | 3.232 | **0.809** |
+| **drums-on-the-ohio** | 07-22 | 8 | **HO** | 0.540 | 0.936 | 3.367 | **0.942** |
+| **march-on** | 07-22 | 3 | **HO** | 2.764 | 2.755 | 2.162 | **2.613** |
+| **POOLED — HELD-OUT** | | **24** | | **0.800** | **1.268** | **3.089** | **1.227** |
+| POOLED — in-sample-for-v12a *(reported separately)* | | 50 | | 1.020 | 0.871 | 1.393 | **0.849** |
+
+**Pooled bias (points).** Held-out: v12aw **−0.361** (v11w −0.301 · final2 +0.239 ·
+v12a raw −1.906). In-sample: v12aw −0.427 (v11w −0.447). The wrapper collapses
+v12a's blocking −1.906 held-out bias to −0.361 — well inside the ±1.25 clamp — the
+same rescue it performs for v11 raw.
+
+### Verdict — the core is essentially interchangeable under the wrapper
+
+**v12aw held-out 1.227 vs v11w 1.268 — a 0.041 (3%) edge for the arm-A core, i.e.
+within tenths on n=24.** The arm-A core is **not** meaningfully better complemented
+by the wrapper than v11's core is; both raw cores (v12a 3.089, v11 3.151) sit far
+above final2 and both are rescued to ~1.2–1.3 by the identical thermostat. This is
+the **"tie" branch again**, marginally on the v12a side: the wrapper does ~1.86
+points of work on v12a (3.089 → 1.227), while the v11→v12a core swap under the
+wrapper is worth ~0.04. In-sample the same holds (v12aw 0.849 vs v11w 0.871, +0.022).
+
+This directly confirms the decomposition thesis for a **second** core: the adaptive
+wrapper — not the fitted core — carries the win (~2 points), and the core swap is
+worth tenths at most. Neither v12aw nor v11w reaches final2's served 0.800 on the
+held-out window (final2 also benefits from prior-season comparable anchors and
+served-run recal not fully reproduced in the backtest wrapper), but both are
+final2-*class* and both are ~2.5× better than their own raw core. **Implication:**
+the arm-A core does not earn promotion on the strength of wrapper-complementarity;
+the decision remains arm B (explicit unshrunk climate term) vs cadence, with the
+Phase-4.1 wrapper permanent under whatever core ships.
+
+Reproduce: `DCI_DB=/root/corps-place/sdk/dci-relational.db
+CONTRACT_DB=/tmp/sdk-assets-contract-0725.db V12A_DIR=/home/patrick/v12a-seeds/models
+V11_050_DIR=/home/patrick/v11-seeds npx tsx tools/backtest-v12aw.ts` →
+`tools/backtest-v12aw.out.json`.
+
 ## Reproduce
 
 ```
