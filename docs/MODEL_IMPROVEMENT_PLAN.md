@@ -167,6 +167,9 @@ never the bottleneck and the target-space change matters even more.
 
 ## Phase 1 — August full-season retrain (now = V13; superseding the V12 arms)
 
+> **The standalone V13 plan — design, all learnings L1–L9, gates G1–G6,
+> timeline, and pre-registered failure modes — is [V13_PLAN.md](V13_PLAN.md).**
+
 **V13 definition (2026-07-25, from the completed decomposition — see
 FINAL2_RAW_DECOMPOSITION, V12_ARM_{A,B}_RESULTS, V12_COTUNED_RESULTS):**
 the deliberate synthesis of everything measured this week.
