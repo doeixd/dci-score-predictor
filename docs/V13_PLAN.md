@@ -173,6 +173,16 @@ itself a health metric, wired to the existing saturation alarm.
 - **Now (championships freeze)**: arm C — currently launching on the mini-PC —
   is the V13 §3.1+§3.2 prototype at reduced scope (pure-structural W, cutoff
   07-20). Its judging calibrates the design cheaply before August.
+- **Campaign status (updated 2026-07-25):** **G1 PASSED on iteration 1** —
+  the standalone structural layer **W** (`src/structural/wLayer.ts`, no neural core,
+  co-tuned H=25/d=0.5/cap=1.25) scored **0.781 MAE** on the held-out window
+  2026-07-21..24 (n=50) vs **final2-served 0.780** (gap **+0.002**, bar ±0.2), beating
+  v12t (0.915), final2-raw (1.854) and persistence (1.664), held-out bias −0.161 (inside
+  ±1.25 capacity). W is also better than final2 in-sample (0.782 vs 1.020). No iteration
+  needed; the wrapper-carries-the-win thesis is confirmed with W *being* the wrapper.
+  Full table + component comparison + module API: [V13_G1_RESULTS](V13_G1_RESULTS.md).
+  Harness `tools/backtest-w.ts` → `tools/backtest-w.out.json`. **Next: G2** (residual
+  targets `actual − W` + rolling-residual features via the same module).
 - **August (post-finals)**: full V13 campaign on complete 2026 data — W layer
   hardened (add comparables/fingerprints), loss re-sweep, 8-seed ensemble,
   gates G1–G6. Single campaign, ~1–2 mini-PC days of compute.
@@ -199,6 +209,6 @@ itself a health metric, wired to the existing saturation alarm.
 [V11_RECENT_SHOWDOWN](V11_RECENT_SHOWDOWN.md) · [V11W_DECOMPOSITION](V11W_DECOMPOSITION.md) ·
 [V12_TRAINING_NOTES](V12_TRAINING_NOTES.md) · [V12_ARM_A_RESULTS](V12_ARM_A_RESULTS.md) ·
 [V12_ARM_B_RESULTS](V12_ARM_B_RESULTS.md) · [V12_COTUNED_RESULTS](V12_COTUNED_RESULTS.md) ·
-[FINAL2_RAW_DECOMPOSITION](FINAL2_RAW_DECOMPOSITION.md) ·
+[FINAL2_RAW_DECOMPOSITION](FINAL2_RAW_DECOMPOSITION.md) · [V13_G1_RESULTS](V13_G1_RESULTS.md) ·
 [MODEL_IMPROVEMENT_PLAN](MODEL_IMPROVEMENT_PLAN.md) · [V12_TRAINING_NOTES](V12_TRAINING_NOTES.md) ·
 [TIER_ACCURACY](TIER_ACCURACY.md) · [V11_HISTORY_REGEN_PLAN](V11_HISTORY_REGEN_PLAN.md)
