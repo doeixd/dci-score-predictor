@@ -182,7 +182,23 @@ the Phase-3 protocol below:
       model to the last-real recap, so retargeting barely moves serving; the
       delta head stays attenuated. **Arm A alone does not internalize the
       wrapper. → proceed to arm B (explicit unshrunk climate term); Phase 4.1
-      wrapper stays permanent; final2 unchanged.** Arm B PENDING.
+      wrapper stays permanent; final2 unchanged.**
+    - **Arm B — JUDGED 2026-07-25, FAILS the hypothesis**
+      ([V12_ARM_B_RESULTS](V12_ARM_B_RESULTS.md)). Held-out 07-21..24 (n=50, now
+      incl. 4 championship-week 07-24 shows): served with the mandated add-back
+      (`served = model + 0.70·field_level_live`), v12b 3.054 vs final2 0.780 vs
+      v11w 1.245 — v12b ≈ v11/v12a raw (3.14), bias −2.021 > 1.25 (blocking). The
+      add-back mechanism is correct and self-consistent (in-sample it moves pooled
+      bias −3.379 → −0.315, MAE 3.461 → 1.439) but INSUFFICIENT: the division-wide
+      field level collapses to ≈0/negative in the late/championship regime, so the
+      explicit climate term adds nothing exactly where the model under-predicts.
+      The 0.70 factor is already near-optimal in-sample; **arm B′ (full-strength
+      1.0) would overshoot in-sample and not fix held-out → not worth training.**
+      v12bw 1.299 ≈ v11w 1.245 ≈ v12aw 1.227 — 3rd core, wrapper carries the win,
+      core interchangeable. **Both target-space arms fail; final2 unchanged;
+      Phase-4.1 wrapper permanent. Target-space climate reparametrization is a dead
+      end for the OOD regime — the August levers are cadence (Phase 2) + growth-head
+      de-attenuation (loss shaping / recency), NOT target space.** Phase 1.1 CLOSED.
 1.2 **Recency weighting sweep** (current-season rows ×{2,4,8}) and/or
     pretrain-all → fine-tune-current two-stage.
 1.3 **Keep v11's identity-dropout 0.5** (proven within-family win; identity as

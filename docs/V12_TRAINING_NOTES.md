@@ -91,3 +91,33 @@ to −0.361 and does ~1.86 pts of MAE work (3.089→1.227); the v11→v12a core 
 the wrapper is worth ~0.04. Confirms the decomposition thesis on a 2nd core: wrapper
 carries the win, core swap worth tenths; arm A earns no wrapper-complementarity
 promotion. Table appended to [V12_ARM_A_RESULTS](V12_ARM_A_RESULTS.md) §v12aw probe.
+
+### 2026-07-25 — arm B (field-level-relative + serving add-back) judged. VERDICT: does not promote; do not train arm B′.
+8 v12b seeds (42–49, `--climate-mode subtract`, baseline EMA, id-dropout 0.5,
+cutoff 07-20), pulled to `/home/patrick/v12b-seeds/`, all load/predict sanely, no
+degenerate seed (epochs 24–75, bestDeltaMae 0.355–0.371). Served correctly with the
+mandated add-back `served = model + 0.70·field_level_live` (field level =
+`TemporalState.fieldSnapshot(2026,div,D).level`, unshrunk, division-wide, computed
+on the fly, leakage-safe). Full Phase-3 table + hand-verified worked example in
+[V12_ARM_B_RESULTS](V12_ARM_B_RESULTS.md); harness `tools/backtest-v12b.ts`.
+Championship-week data ingested since arm A: 4 WC/OC shows scored 07-24 (birmingham,
+middle-tennessee, syracuse, drums-on-parade) → contract rebuilt (`…-0725b.db`, 40
+shows), held-out now **07-21..07-24, n=50**.
+
+Held-out (n=50): **v12b 3.054 · final2 0.780 · v11w 1.245 · v12bw 1.299 · v12a raw
+3.144 · persist 1.954**; v12b bias **−2.021 > 1.25 = BLOCKING**. In-sample (n=50,
+separate): v12b 1.439 · v12b-noAB 3.461 · final2 1.020 · v11w 0.871.
+
+Findings: (a) v12b does NOT beat final2 (~4×); (b) built-in climate term does NOT
+match the external wrapper (3.054 vs v11w 1.245) — an additive division-wide constant
+≠ the per-corps curve+persistence blend; (c) **add-back mechanism PROVEN in-sample**
+(pooled bias −3.379→−0.315, MAE 3.461→1.439, ΔMAE +2.022; houston worked example errs
+4.9/3.6/4.5→2.2/1.0/1.9), but held-out the field level **collapses** (WC 2.05→0.44→
+−0.56) so the add-back does nothing (ΔMAE −0.112) and the core reverts to attenuated
+v11-raw. The 0.70 factor is the self-consistent inverse and already lands in-sample
+bias near zero; **arm B′ (full-strength factor 1.0) would OVERSHOOT in-sample (+1.0)
+and not fix held-out → not worth training.** (d) v12bw 1.299 ≈ v11w 1.245 ≈ v12aw
+1.227 — **3rd core, same result: wrapper carries the win, core interchangeable.**
+Decision: **do not promote arm B; do not train arm B′; keep final2 serving; Phase-4.1
+wrapper permanent.** August lever is cadence (Phase 2 weekly fine-tune) + growth-head
+de-attenuation, NOT target-space climate reparametrization.
