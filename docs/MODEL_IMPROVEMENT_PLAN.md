@@ -165,7 +165,33 @@ never the bottleneck and the target-space change matters even more.
 0.4 Freeze non-essential model churn until finals; keep the daily accuracy
     page as the public scoreboard.
 
-## Phase 1 — August full-season retrain (= V12; the real fix)
+## Phase 1 — August full-season retrain (now = V13; superseding the V12 arms)
+
+**V13 definition (2026-07-25, from the completed decomposition — see
+FINAL2_RAW_DECOMPOSITION, V12_ARM_{A,B}_RESULTS, V12_COTUNED_RESULTS):**
+the deliberate synthesis of everything measured this week.
+
+1. **v9's division of labor, by design**: LEVEL from structure (live anchors:
+   persistence, curve growth, prior-season comparables), the network learns
+   only shape + residual. Measured value of this allocation: v9-raw 1.85 vs
+   new-cores-raw ~3.1 held-out — despite v9's far staler training data.
+2. **Modern core strengths kept**: clean-v10 contract, field-pace features,
+   identity-dropout 0.5 (the genuine +16.6% within-family win).
+3. **Online channel in-model**: rolling structural-residual features (arm C's
+   mechanism) — "my recent errors" as an input, not an external patch.
+4. **Wrapper retained regardless** (defense in depth; co-tuned constants) —
+   the anchor blend is cheap insurance for unsampled regimes.
+5. **Weekly in-season fine-tune** — demoted from primary fix to cheap hygiene
+   (v9 proved architecture beats data recency here), still worth having.
+6. **Data**: full 2026 through finals; loss re-shaped on inflation-era data.
+7. **Gate**: the Phase-3 protocol with a hard bar — beat final2's 0.780 on a
+   matched late-season window (raw+wrapper) before serving. Arm C (running)
+   is the V13 prototype; its judging calibrates the August design.
+
+Superseded original Phase-1 text (V12 target-space arms — both judged and
+FAILED; kept for the record):
+
+### (superseded) Phase 1 — August full-season retrain (= V12; the real fix)
 
 Per [V12_TRAINING_NOTES](V12_TRAINING_NOTES.md), one campaign, arms judged by
 the Phase-3 protocol below:
