@@ -67,6 +67,42 @@ learned function can replace a **dynamic** one across regime shifts:
    knowledge lives in the wrapper's *form*, not in fitted parameters — which
    is why it works in regimes nobody has sampled.
 
+### The anchor was already wired in — the residual didn't match it
+
+*(Added after the decomposition experiment; the sharpest form of the bug.)*
+
+v11's serving output is literally constructed as `fed baseline + predicted
+delta` (the RecapLayer combines them), and serving feeds the corps' **last real
+recap** as the baseline. So the persistence anchor was already in the plumbing.
+The failure was **semantic, not structural**:
+
+1. **Train/serve residual mismatch.** The delta head's TRAINING target was
+   `recap − EMA(prior recaps)` (α=0.3) — a moving-average residual — while
+   serving adds the predicted delta to the LAST-score baseline. In a flat
+   regime EMA ≈ last and nobody notices; in a rising regime EMA lags below the
+   last score, the two residual definitions diverge, and the miscalibration
+   grows exactly when scores accelerate.
+2. **Attenuated residual.** Independently, the delta head was MSE-trained on
+   13 seasons where hot streaks mean-reverted — so for a corps sprinting
+   upward it predicts a small/negative delta, the right answer in its data.
+3. Net effect: correct anchor + wrong-anchored + attenuated residual =
+   systematic under-prediction (the measured −3 late-July bias).
+
+**V12 arm A's one-line fix, restated in these terms**: make the trained
+residual and the served anchor the same object (`delta = next − last_real`),
+so the definitions can never diverge — and so that the model's zero-output
+default MEANS "predict the last score". Under v11's training, outputting the
+average learned delta ≠ persistence; under v12a it is. Persistence becomes the
+floor behavior that costs no data to get right; the network only earns its
+deviations. (First evidence: switching the target dropped in-distribution
+residual spread mad 0.97 → 0.72 — a better-posed problem before any
+regime-shift benefit.)
+
+Measured decomposition (V11W_DECOMPOSITION, 9 shows, n=74): final2 served
+0.949 · v11 raw 2.110 · v11+final2-wrapper **1.000** — the wrapper (mainly
+the persistence anchor) closes essentially the whole gap; the v9→v11 core
+swap is worth tenths. Corrections were the bottleneck, not the core.
+
 ### The correct conclusion (drives Phase 1 and Phase 4)
 
 Not "keep the apparatus around the model" — **move the apparatus's structural
