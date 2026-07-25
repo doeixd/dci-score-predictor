@@ -56,3 +56,28 @@ Add these columns to tools/backtest-recent.ts permanently.
   recency weighting, identity-dropout 0.5, judged per §5 + tier splits.
 - Short term (pre-championships): per V11_BLEND_EXPERIMENT verdict — either
   v11.1 blend layer or rollback to final2.
+
+## Campaign log
+
+### 2026-07-25 — arm A (persistence-residual) judged. VERDICT: does not promote.
+8 v12a seeds (42–49, `--baseline-mode last`, id-dropout 0.5, cutoff 07-20) trained
+on the mini-PC, pulled to `/home/patrick/v12a-seeds/`, all load/predict sanely
+(vocab 245/709/349). Full Phase-3 table in
+[V12_ARM_A_RESULTS](V12_ARM_A_RESULTS.md); harness `tools/backtest-v12a.ts`
+reproduces the published decomposition numbers exactly (final2 0.949 / v11w 1.000,
+n=74) → trustworthy.
+
+Held-out (07-21..22, n=24 — no WC/OC scored 07-23..25 yet): **v12a 3.089 · final2
+0.800 · v11 raw 3.151 · v11w 1.268 · persist 2.798**; v12a bias **−1.906 > 1.25
+clamp = BLOCKING**. In-sample-for-v12a (07-17..20, n=50, reported separately):
+v12a 1.393 · final2 1.020 · v11w 0.871.
+
+Findings: (a) v12a does NOT beat final2 (~4×); (b) does NOT reach v11w — the
+target-space change did **not** internalize the wrapper; v12a lands on top of v11
+raw. Root cause: `serve.ts` L99–105 already anchors EVERY model to the last-real
+recap, so arm A's retarget barely moves serving behavior, and the MSE-trained
+delta head stays attenuated (deltaMean 0.108 ≤ v11's 0.126). The win is the damped
+anchor↔model *blend* (curveΔ + horizon persist), which arm A does not reproduce.
+No degenerate seeds. Decision: **run arm B (field-level-relative, explicit unshrunk
+climate term); keep the Phase-4.1 wrapper permanent; final2 stays serving.** Cheap
+next probe: shadow `v12aw` (v12a core + final2 wrapper) on the same window.

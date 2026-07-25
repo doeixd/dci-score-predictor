@@ -175,6 +175,14 @@ the Phase-3 protocol below:
     (B) field-level-relative targets (climate is an explicit additive term).
     Hypothesis: A or B ≥ final2 in inflation regimes while keeping the
     within-family gains.
+    - **Arm A — JUDGED 2026-07-25, FAILS the hypothesis**
+      ([V12_ARM_A_RESULTS](V12_ARM_A_RESULTS.md)). Held-out 07-21..22 (n=24):
+      v12a 3.089 vs final2 0.800 vs v11w 1.268 — v12a ≈ v11 raw (3.151), bias
+      −1.906 > 1.25 clamp (blocking). Reason: `serve.ts` already anchors every
+      model to the last-real recap, so retargeting barely moves serving; the
+      delta head stays attenuated. **Arm A alone does not internalize the
+      wrapper. → proceed to arm B (explicit unshrunk climate term); Phase 4.1
+      wrapper stays permanent; final2 unchanged.** Arm B PENDING.
 1.2 **Recency weighting sweep** (current-season rows ×{2,4,8}) and/or
     pretrain-all → fine-tune-current two-stage.
 1.3 **Keep v11's identity-dropout 0.5** (proven within-family win; identity as
