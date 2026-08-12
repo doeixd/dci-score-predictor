@@ -164,9 +164,10 @@ itself a health metric, wired to the existing saturation alarm.
 | G1 | W-alone sanity | W ≈ final2-served ±0.2 on the held-out window |
 | G2 | Residual-target sanity | smoke: residual spread well below raw-target spread; targets small where W is good |
 | G3 | Full protocol judging | columns: V13, final2 served, final2 raw, persistence, best wrapped-new-core; matched recent window + full-season window; tier/division splits |
-| G4 | The promotion bar | V13 ≥ final2-served (0.78-class) on a matched LATE-SEASON window, with |bias| < corrector capacity |
+| G4a | Late-season bar | V13 ≥ final2-served (final season number: **1.03** matched Jul 26–Finals, 0.59 Finals night) on a matched late-season replay, with \|bias\| < corrector capacity |
+| G4b | **Early-season bar (the real prize — see §8)** | V13 beats final2's early-season replay MAE (~1.8-class, Jun 26–Jul 19) **by ≥0.2**, with the T3 cold-start tier improving, not just T0 |
 | G5 | Overfit audit | in/out-of-sample split + clean-season val (the v11 audit template) |
-| G6 | Live shadow | ≥1 week of genuine pre-show shadow runs graded before any flip; flip user-gated |
+| G6 | Live shadow | ≥1 week of genuine pre-show shadow runs graded before any flip; flip user-gated; graded against the external benchmark too (§8.4) |
 
 ## 5. Timeline & compute
 
@@ -211,4 +212,55 @@ itself a health metric, wired to the existing saturation alarm.
 [V12_ARM_B_RESULTS](V12_ARM_B_RESULTS.md) · [V12_COTUNED_RESULTS](V12_COTUNED_RESULTS.md) ·
 [FINAL2_RAW_DECOMPOSITION](FINAL2_RAW_DECOMPOSITION.md) · [V13_G1_RESULTS](V13_G1_RESULTS.md) ·
 [MODEL_IMPROVEMENT_PLAN](MODEL_IMPROVEMENT_PLAN.md) · [V12_TRAINING_NOTES](V12_TRAINING_NOTES.md) ·
+
+## 8. Post-season revision (2026-08-12) — what the finished season changes
+
+The 2026 season is now fully graded (public writeup: drumcorps.app/accuracy-report).
+Final numbers: season MAE 1.67 over 436 day-of predictions / 61 shows; final2
+served **1.03** on the matched championships stretch (Jul 26–Finals, n=120,
+bias −0.04) and **0.59** on Finals night, while the v10.5/v11 shadows stayed at
+~2.86/2.88 with −2.7 bias to the very end (rollback fully vindicated,
+~1.8 pts/prediction saved). Four plan changes follow:
+
+### 8.1 The target moves: early season is the open problem, not championships
+Late-season is essentially solved by structure — W alone already ties final2
+there, and final2 finished 1.03/0.59 with near-zero bias. Where the season was
+actually lost was **before Jul 20**: our served MAE ~1.8 vs the external
+benchmark's ~1.0 on matched dates, driven by cold starts (T3 tier 4.8 MAE) and
+early-season volatility; post-rollback we were at parity (1.09 vs 1.11) and won
+Finals night (0.59 vs 0.82). A V13 that only matches final2 late wins a tie.
+Hence gate **G4b**: a leakage-safe early-season replay (Jun 26–Jul 19) where
+V13 must beat final2's ~1.8-class number by ≥0.2, with the cold-start tier
+specifically improving.
+
+### 8.2 W cold-start hardening is promoted to the first workstream
+Since W is the floor and the early gap is a priors problem, the cheapest wins
+are structural, not learned: preseason priors (prior-year placement +
+reversion), comparables that work at 0–1 shows, a division-level early-pace
+estimate. Every point W gains early is a point the residual net doesn't have to
+learn from its thinnest data regime. This was an August footnote ("harden W");
+it is now the campaign's opening move, judged on the G4b window before the net
+trains.
+
+### 8.3 The paused G2 cutoff-0724 build is retired; full-season data + replay eval
+The `v13-training-cutoff0724.db` build (see [V13_G2_NOTES](V13_G2_NOTES.md))
+existed to create a mid-season holdout. With the season complete — including
+the championship inflation regime no prior model ever saw in training — G2
+folds into the August campaign on **full-season data**, and evaluation becomes
+**per-day replay** (predict each 2026 show using only what was known that day)
+instead of a date-split holdout. The replay doubles as the season-long
+hindcast curve (early/late regime split per L8) and matches how the public
+/accuracy page grades. The staged preprocessor, `--baseline-mode w` trainer
+wiring, and launch scripts all carry over unchanged; only the source DB and
+eval harness change.
+
+### 8.4 External benchmark added to the judging columns
+`external_benchmark_predictions` (Field Read day-of record, scraped nightly,
+465 graded rows for 2026) becomes a standing column in G3/G6 tables on matched
+(date, corps) sets. It is the comparison that matters publicly and it is
+strongest exactly in the regime G4b targets.
+
+Everything else — the W + residual-core architecture, rolling-residual
+features, the standing protocol (L7), shadow-before-flip — is unchanged; the
+season retrospective validated it.
 [TIER_ACCURACY](TIER_ACCURACY.md) · [V11_HISTORY_REGEN_PLAN](V11_HISTORY_REGEN_PLAN.md)
